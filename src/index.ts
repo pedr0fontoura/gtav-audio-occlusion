@@ -18,8 +18,9 @@ async function execute(): Promise<void> {
 
   const audioOcclusion = new AudioOcclusion({ interior, mapData });
 
-  // console.log('occlusionHash', audioOcclusion.occlusionHash);
-  // console.log('PortalInfoList', audioOcclusion.PortalInfoList);
+  console.log('occlusionHash', audioOcclusion.occlusionHash);
+  console.log('PortalInfoList', audioOcclusion.PortalInfoList);
+  console.log('PathNodeList', audioOcclusion.PathNodeList);
 }
 
 execute();
