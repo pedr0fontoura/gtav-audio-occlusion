@@ -3,7 +3,7 @@ import { MapData } from '../ymap';
 
 import { joaat, convertToInt32 } from '../utils';
 
-import { PortalEntity, PortalInfo } from './interfaces';
+import { PortalEntity, PortalInfo, PathNodeDirection, PathNodeChild, PathNode } from './interfaces';
 
 interface IAudioOcclusion {
   interior: Mlo;
@@ -17,13 +17,16 @@ export default class AudioOcclusion {
   public occlusionHash: number;
 
   public PortalInfoList: PortalInfo[];
-  
+  public PathNodeList: PathNode[];
+
   constructor({ interior, mapData }: IAudioOcclusion) {
     this.interior = interior;
     this.mapData = mapData;
 
     this.occlusionHash = this.generateOcclusionHash();
+
     this.PortalInfoList = this.generatePortalInfoList();
+    this.PathNodeList = this.generatePathNodeList();
   }
 
   private get archetypeNameHash(): number {
@@ -45,8 +48,12 @@ export default class AudioOcclusion {
   private generatePortalInfoList(): PortalInfo[] {
     let portalInfoList = [];
 
-    this.interior.rooms.forEach((room) => {
+    this.interior.rooms.forEach(room => {
       const roomPortals = this.interior.getRoomPortals(room.index);
+
+      roomPortals.sort((a, b) => {
+        return a.to - b.to;
+      });
 
       // PortalIdx is relative to RoomIdx
       const roomPortalInfoList = roomPortals.map((portal, index) => {
@@ -57,7 +64,6 @@ export default class AudioOcclusion {
           IsDoor: false,
           IsGlass: false,
         }));
-
 
         const portalInfo = {
           InteriorProxyHash: this.occlusionHash,
@@ -76,4 +82,71 @@ export default class AudioOcclusion {
 
     return portalInfoList;
   }
-};
+
+  private getPathNodeDirections(): PathNodeDirection[] {
+    const pathNodeDirections: PathNodeDirection[] = [];
+
+    this.PortalInfoList.forEach(portalInfo => {
+      const pathNodeDirection = {
+        from: portalInfo.RoomIdx,
+        to: portalInfo.DestRoomIdx,
+      };
+
+      const directionExists = pathNodeDirections.findIndex(direction => {
+        return direction.from === pathNodeDirection.from && direction.to === pathNodeDirection.to;
+      });
+
+      if (directionExists !== -1) return;
+
+      pathNodeDirections.push(pathNodeDirection);
+    });
+
+    return pathNodeDirections;
+  }
+
+  private getRoomOcclusionHash(roomIndex: number): number {
+    const room = this.interior.rooms[roomIndex];
+
+    if (!room) throw new Error(`Room don't exist`);
+
+    if (room.name === 'limbo') {
+      return joaat('outside', true);
+    }
+
+    return this.occlusionHash ^ joaat(room.name, true);
+  }
+
+  private generatePathNodeList(): PathNode[] {
+    const directions = this.getPathNodeDirections();
+
+    const pathNodeList: PathNode[] = [];
+
+    directions.forEach(direction => {
+      const startRoomHash = this.getRoomOcclusionHash(direction.from);
+      const endRoomHash = this.getRoomOcclusionHash(direction.to);
+
+      const pathNodeChildList: PathNodeChild[] = [];
+
+      this.PortalInfoList.forEach((portalInfo, index) => {
+        if (portalInfo.RoomIdx === direction.from && portalInfo.DestRoomIdx === direction.to) {
+          pathNodeChildList.push({
+            PathNodeKey: 0,
+            PortalInfoIdx: index,
+          });
+        }
+      });
+
+      // pathNode for each audio channel
+      for (let i = 1; i <= 3; i++) {
+        const pathNode = {
+          Key: convertToInt32(startRoomHash - endRoomHash) + i,
+          PathNodeChildList: pathNodeChildList,
+        };
+
+        pathNodeList.push(pathNode);
+      }
+    });
+
+    return pathNodeList;
+  }
+}

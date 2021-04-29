@@ -14,3 +14,18 @@ export interface PortalInfo {
   DestRoomIdx: number;
   PortalEntityList: PortalEntity[];
 };
+
+export interface PathNodeDirection {
+  from: number;
+  to: number;
+}
+
+export interface PathNodeChild {
+  PathNodeKey: number;
+  PortalInfoIdx: number;
+}
+
+export interface PathNode {
+  Key: number;
+  PathNodeChildList: PathNodeChild[];
+}
