@@ -5,41 +5,30 @@ import { Vector3 } from './types';
 import { YmapXML, CMloInstanceDef } from './types/ymap';
 
 export class MapData {
-  private rawData: YmapXML;
-  private rawMlo: CMloInstanceDef;
+  public archetypeName: string;
+  public position: Vector3;
 
-  private _archetypeName: string;
-  private _position: Vector3;
+  constructor(rawData: YmapXML) {
+    const rawMloInstance = rawData.CMapData.entities.Item;
 
-
-  constructor(data: YmapXML) {
-    this.rawData = data;
-
-    this.rawMlo = this.rawData.CMapData.entities.Item;
+    this.archetypeName = this.extractArchetypeName(rawMloInstance);
+    this.position = this.extractPosition(rawMloInstance);
   }
 
-  public get archetypeName(): string {
-    if (this._archetypeName) return this._archetypeName;
-
-    this._archetypeName = this.rawMlo.archetypeName;
-
-    return this._archetypeName;
+  private extractArchetypeName(mloInstance: CMloInstanceDef): string {
+    return mloInstance.archetypeName;
   }
 
-  public get position(): Vector3 {
-    if (this._position) return this._position;
+  private extractPosition(mloInstance: CMloInstanceDef): Vector3 {
+    const pos = mloInstance.position.$;
 
-    const pos = this.rawMlo.position.$;
-
-    this._position = {
+    return {
       x: parseFloat(pos.x),
       y: parseFloat(pos.y),
       z: parseFloat(pos.z),
     };
-
-    return this._position;
   }
-};
+}
 
 export class YmapLoader {
   private parser: Parser;
@@ -53,7 +42,7 @@ export class YmapLoader {
 
     try {
       rawData = await fs.readFile(filePath);
-    } catch(err) {
+    } catch (err) {
       throw new Error('Error reading file');
     }
 
