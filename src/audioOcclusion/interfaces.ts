@@ -1,4 +1,4 @@
-interface PortalEntity {
+export interface PortalEntity {
   LinkType: number;
   MaxOcclusion: number;
   hash_E3674005: number;
@@ -12,5 +12,5 @@ export interface PortalInfo {
   RoomIdx: number;
   DestInteriorHash: number;
   DestRoomIdx: number;
-  PortalEntityList: any[];
+  PortalEntityList: PortalEntity[];
 };

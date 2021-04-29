@@ -3,7 +3,7 @@ import { MapData } from '../ymap';
 
 import { joaat, convertToInt32 } from '../utils';
 
-import { PortalInfo } from './interfaces';
+import { PortalEntity, PortalInfo } from './interfaces';
 
 interface IAudioOcclusion {
   interior: Mlo;
@@ -49,14 +49,27 @@ export default class AudioOcclusion {
       const roomPortals = this.interior.getRoomPortals(room.index);
 
       // PortalIdx is relative to RoomIdx
-      const roomPortalInfoList = roomPortals.map((portal, index) => ({
-        InteriorProxyHash: this.occlusionHash,
-        PortalIdx: index,
-        RoomIdx: portal.from,
-        DestInteriorHash: this.occlusionHash,
-        DestRoomIdx: portal.to,
-        PortalEntityList: [],
-      }));
+      const roomPortalInfoList = roomPortals.map((portal, index) => {
+        const portalEntityList: PortalEntity[] = portal.attachedObjects.map(attachedObjectHash => ({
+          LinkType: 1,
+          MaxOcclusion: 0.7,
+          hash_E3674005: attachedObjectHash,
+          IsDoor: false,
+          IsGlass: false,
+        }));
+
+
+        const portalInfo = {
+          InteriorProxyHash: this.occlusionHash,
+          PortalIdx: index,
+          RoomIdx: portal.from,
+          DestInteriorHash: this.occlusionHash,
+          DestRoomIdx: portal.to,
+          PortalEntityList: portalEntityList,
+        };
+
+        return portalInfo;
+      });
 
       portalInfoList = [...portalInfoList, ...roomPortalInfoList];
     });

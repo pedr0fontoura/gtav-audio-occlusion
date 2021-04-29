@@ -1,5 +1,10 @@
 import { XMLDataEntry, XMLEntry } from './index';
 
+interface CEntityDef {
+  $: { type: string };
+  archetypeName: string;
+}
+
 interface CMloRoomDef {
   name: string;
   portalCount: XMLDataEntry<{ value: string }>;
@@ -13,6 +18,9 @@ interface CMloPortalDef {
 
 export interface CMloArchetypeDef {
   $: { type: string };
+  entities: {
+    Item: CEntityDef[];
+  };
   rooms: XMLEntry<{ itemType: string }, CMloRoomDef[]>;
   portals: XMLEntry<{ itemType: string }, CMloPortalDef[]>;
 }
@@ -25,6 +33,10 @@ export interface YtypXML {
   };
 }
 
+export interface MloEntity {
+  hash: number;
+}
+
 export interface MloRoom {
   index: number;
   name: string;
@@ -35,5 +47,5 @@ export interface MloPortal {
   index: number;
   from: number;
   to: number;
-  attachedObjects?: any;
+  attachedObjects: number[];
 }
