@@ -1,27 +1,24 @@
 import { YtypLoader, Mlo } from './ytyp';
 import { YmapLoader, MapData } from './ymap';
 
-import { AudioOcclusionFile } from './types/ymt';
+import AudioOcclusion from './audioOcclusion';
 
 async function execute(): Promise<void> {
-  const filePath = process.argv[2];
+  const ymapPath = process.argv[2];
+  const ytypPath = process.argv[3];
 
-  /* const ytypLoader = new YtypLoader();
-
-  const parsedYtyp = await ytypLoader.parseXML(filePath);
-
-  const interior = new Mlo(parsedYtyp);
-  interior.rooms.forEach((room, index) => {
-    console.log(interior.getRoomPortals(index));
-  }); */
-
+  const ymapLoader = new YmapLoader();
   const ytypLoader = new YtypLoader();
 
-  const parsedYtyp = await ytypLoader.parseXML(filePath);
+  const parsedYmap = await ymapLoader.parseXML(ymapPath);
+  const mapData = new MapData(parsedYmap);
 
+  const parsedYtyp = await ytypLoader.parseXML(ytypPath);
   const interior = new Mlo(parsedYtyp);
 
-  console.log(interior.rooms);
+  const audioOcclusion = new AudioOcclusion({ interior, mapData });
+
+  console.log(audioOcclusion.PortalInfoList);
 }
 
 execute();

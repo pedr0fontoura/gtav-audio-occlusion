@@ -26,11 +26,13 @@ export interface YtypXML {
 }
 
 export interface MloRoom {
+  index: number;
   name: string;
   portalCount: number;
 }
 
 export interface MloPortal {
+  index: number;
   from: number;
   to: number;
   attachedObjects?: any;

@@ -22,11 +22,12 @@ export class Mlo {
   public get rooms() {
     if (this._rooms) return this._rooms;
 
-    this._rooms = this.rawArchetype.rooms.Item.map(rawMloRoom => {
+    this._rooms = this.rawArchetype.rooms.Item.map((rawMloRoom, index) => {
       const name = rawMloRoom.name;
       const portalCount = parseInt(rawMloRoom.portalCount.$.value);
 
       return {
+        index,
         name,
         portalCount
       };
@@ -38,12 +39,13 @@ export class Mlo {
   public get portals() {
     if (this._portals) return this._portals;
 
-    this._portals = this.rawArchetype.portals.Item.map(rawMloPortal => {
+    this._portals = this.rawArchetype.portals.Item.map((rawMloPortal, index) => {
       const from = parseInt(rawMloPortal.roomFrom.$.value);
       const to = parseInt(rawMloPortal.roomTo.$.value);
       const attachedObjects = rawMloPortal.attachedObjects;
 
       return {
+        index,
         from,
         to,
         attachedObjects
