@@ -1,23 +1,27 @@
-import fs from 'fs/promises';
-import { Parser } from 'xml2js';
+import { YtypLoader, Mlo } from './ytyp';
+import { YmapLoader, MapData } from './ymap';
 
 import { AudioOcclusionFile } from './types/ymt';
-
-/**
- * Interior archetype on ytyp files:
- * parsedXML.CMapTypes.archetypes.Item[parsedXML.CMapTypes.archetypes.Item.length - 1];
- */
 
 async function execute(): Promise<void> {
   const filePath = process.argv[2];
 
-  const rawXML = await fs.readFile(filePath);
+  /* const ytypLoader = new YtypLoader();
 
-  const parser = new Parser({ explicitArray: false });
+  const parsedYtyp = await ytypLoader.parseXML(filePath);
 
-  const parsedXML = await parser.parseStringPromise(rawXML);
+  const interior = new Mlo(parsedYtyp);
+  interior.rooms.forEach((room, index) => {
+    console.log(interior.getRoomPortals(index));
+  }); */
 
-  console.log(parsedXML.CMapTypes.archetypes.Item[parsedXML.CMapTypes.archetypes.Item.length - 1]);
+  const ytypLoader = new YtypLoader();
+
+  const parsedYtyp = await ytypLoader.parseXML(filePath);
+
+  const interior = new Mlo(parsedYtyp);
+
+  console.log(interior.rooms);
 }
 
 execute();

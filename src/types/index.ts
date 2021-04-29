@@ -6,3 +6,9 @@ export interface XMLEntry<Data, Item = void> {
 export interface XMLDataEntry<T> {
   $: T;
 }
+
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
+}
