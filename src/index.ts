@@ -1,5 +1,6 @@
 import { YtypLoader, Mlo } from './ytyp';
 import { YmapLoader, MapData } from './ymap';
+import { YmtWriter } from './ymt';
 
 import AudioOcclusion from './audioOcclusion';
 
@@ -9,6 +10,7 @@ async function execute(): Promise<void> {
 
   const ymapLoader = new YmapLoader();
   const ytypLoader = new YtypLoader();
+  const ymtWriter = new YmtWriter();
 
   const parsedYmap = await ymapLoader.parseXML(ymapPath);
   const mapData = new MapData(parsedYmap);
@@ -21,6 +23,9 @@ async function execute(): Promise<void> {
   console.log('occlusionHash', audioOcclusion.occlusionHash);
   console.log('PortalInfoList', audioOcclusion.PortalInfoList);
   console.log('PathNodeList', audioOcclusion.PathNodeList);
+
+  const ymt = ymtWriter.encode(audioOcclusion);
+  await ymtWriter.writeFile(`${audioOcclusion.occlusionHash}.ymt.pso.xml`, ymt);
 }
 
 execute();
