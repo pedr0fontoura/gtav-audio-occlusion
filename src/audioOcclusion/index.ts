@@ -3,7 +3,14 @@ import { MapData } from '../ymap';
 
 import { joaat, convertToInt32 } from '../utils';
 
-import { PortalEntity, PortalInfo, PathNodeDirection, PathNodeChild, PathNode } from './interfaces';
+import {
+  PortalEntity,
+  PortalEntityData,
+  PortalInfo,
+  PathNodeDirection,
+  PathNodeChild,
+  PathNode,
+} from './interfaces';
 
 interface IAudioOcclusion {
   interior: Mlo;
@@ -14,6 +21,8 @@ export default class AudioOcclusion {
   private interior: Mlo;
   private mapData: MapData;
 
+  private portalEntitiesData: PortalEntityData[];
+
   public occlusionHash: number;
 
   public PortalInfoList: PortalInfo[];
@@ -23,8 +32,9 @@ export default class AudioOcclusion {
     this.interior = interior;
     this.mapData = mapData;
 
-    this.occlusionHash = this.generateOcclusionHash();
+    this.portalEntitiesData = this.generatePortalEntitiesData();
 
+    this.occlusionHash = this.generateOcclusionHash();
     this.PortalInfoList = this.generatePortalInfoList();
     this.PathNodeList = this.generatePathNodeList();
   }
@@ -37,6 +47,20 @@ export default class AudioOcclusion {
     }
 
     return joaat(this.mapData.archetypeName, true);
+  }
+
+  private generatePortalEntitiesData(): PortalEntityData[] {
+    return this.interior.portals.map(portal => ({
+      index: portal.index,
+
+      entities: portal.attachedObjects.map(attachedObjectHash => ({
+        LinkType: 1,
+        MaxOcclusion: 0.7,
+        hash_E3674005: attachedObjectHash,
+        IsDoor: false,
+        IsGlass: false,
+      })),
+    }));
   }
 
   private generateOcclusionHash(): number {
@@ -57,13 +81,9 @@ export default class AudioOcclusion {
 
       // PortalIdx is relative to RoomIdx
       const roomPortalInfoList = roomPortals.map((portal, index) => {
-        const portalEntityList: PortalEntity[] = portal.attachedObjects.map(attachedObjectHash => ({
-          LinkType: 1,
-          MaxOcclusion: 0.7,
-          hash_E3674005: attachedObjectHash,
-          IsDoor: false,
-          IsGlass: false,
-        }));
+        const portalEntityList = this.portalEntitiesData.find(
+          portalEntities => portalEntities.index === portal.index,
+        ).entities;
 
         const portalInfo = {
           InteriorProxyHash: this.occlusionHash,

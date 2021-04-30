@@ -4,7 +4,12 @@ export interface PortalEntity {
   hash_E3674005: number;
   IsDoor: boolean;
   IsGlass: boolean;
-};
+}
+
+export interface PortalEntityData {
+  index: number;
+  entities: PortalEntity[];
+}
 
 export interface PortalInfo {
   InteriorProxyHash: number;
@@ -13,7 +18,7 @@ export interface PortalInfo {
   DestInteriorHash: number;
   DestRoomIdx: number;
   PortalEntityList: PortalEntity[];
-};
+}
 
 export interface PathNodeDirection {
   from: number;
