@@ -1,6 +1,3 @@
-import fs from 'fs/promises';
-import { Parser } from 'xml2js';
-
 import { convertToInt32, joaat } from './utils';
 
 import { YtypXML, CMloArchetypeDef, MloEntity, MloRoom, MloPortal } from './types/ytyp';
@@ -95,27 +92,5 @@ export class Mlo {
 
       return portal;
     });
-  }
-}
-
-export class YtypLoader {
-  private parser: Parser;
-
-  constructor() {
-    this.parser = new Parser({ explicitArray: false });
-  }
-
-  public async parseXML(filePath: string): Promise<YtypXML> {
-    let rawData: Buffer;
-
-    try {
-      rawData = await fs.readFile(filePath);
-    } catch (err) {
-      throw new Error('Error reading file');
-    }
-
-    const parsedXML: YtypXML = await this.parser.parseStringPromise(rawData);
-
-    return parsedXML;
   }
 }

@@ -1,31 +1,30 @@
-import { YtypLoader, Mlo } from './ytyp';
-import { YmapLoader, MapData } from './ymap';
-import { YmtWriter } from './ymt';
+import { CodeWalkerFile, CodeWalkerEncoder } from './files/codewalker';
+import { Mlo } from './ytyp';
+import { MapData } from './ymap';
 
 import AudioOcclusion from './audioOcclusion';
+
+import { YmapXML } from './types/ymap';
+import { YtypXML } from './types/ytyp';
 
 async function execute(): Promise<void> {
   const ymapPath = process.argv[2];
   const ytypPath = process.argv[3];
 
-  const ymapLoader = new YmapLoader();
-  const ytypLoader = new YtypLoader();
-  const ymtWriter = new YmtWriter();
+  const cwFile = new CodeWalkerFile();
+  const cwEncoder = new CodeWalkerEncoder();
 
-  const parsedYmap = await ymapLoader.parseXML(ymapPath);
+  const parsedYmap = await cwFile.read<YmapXML>(ymapPath);
+  const parsedYtyp = await cwFile.read<YtypXML>(ytypPath);
+
   const mapData = new MapData(parsedYmap);
-
-  const parsedYtyp = await ytypLoader.parseXML(ytypPath);
   const interior = new Mlo(parsedYtyp);
 
-  const audioOcclusion = new AudioOcclusion({ interior, mapData });
+  const audioOcclusion = new AudioOcclusion({ interior, mapData, encoder: cwEncoder });
 
-  console.log('occlusionHash', audioOcclusion.occlusionHash);
-  console.log('PortalInfoList', audioOcclusion.PortalInfoList);
-  console.log('PathNodeList', audioOcclusion.PathNodeList);
+  const ymt = audioOcclusion.encode();
 
-  const ymt = ymtWriter.encode(audioOcclusion);
-  await ymtWriter.writeFile(`${audioOcclusion.occlusionHash}.ymt.pso.xml`, ymt);
+  await cwFile.write(`${audioOcclusion.occlusionHash}.ymt.pso.xml`, ymt);
 }
 
 execute();

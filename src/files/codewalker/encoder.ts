@@ -1,20 +1,15 @@
-import path from 'path';
-import fs from 'fs/promises';
-import { Builder } from 'xml2js';
+import AudioOcclusion from '../../audioOcclusion';
+import {
+  AudioOcclusionInteriorMetadata,
+  PortalInfo,
+  PortalEntity,
+  PathNode,
+} from '../../types/ymt';
 
-import AudioOcclusion from './audioOcclusion';
-import { AudioOcclusionInteriorMetadata, PortalInfo, PortalEntity, PathNode } from './types/ymt';
+export class CodeWalkerEncoder {
+  constructor() {}
 
-export class YmtWriter {
-  private builder: Builder;
-
-  constructor() {
-    this.builder = new Builder({
-      headless: true,
-    });
-  }
-
-  public encode(audioOcclusion: AudioOcclusion): AudioOcclusionInteriorMetadata {
+  public encodeAudioOcclusion(audioOcclusion: AudioOcclusion): AudioOcclusionInteriorMetadata {
     const encodedPortalInfoList = audioOcclusion.PortalInfoList.map(portalInfo => {
       const encodedPortalEntityList: PortalEntity[] = portalInfo.PortalEntityList.map(
         portalEntity => {
@@ -102,13 +97,5 @@ export class YmtWriter {
     };
 
     return encodedAudioOcclusion;
-  }
-
-  public async writeFile(filePath: string, data: AudioOcclusionInteriorMetadata): Promise<void> {
-    const parsedXML = this.builder.buildObject(data);
-
-    const parsedXMLWithHeader = `<?xml version="1.0" encoding="UTF-8"?>\r\n` + parsedXML;
-
-    await fs.writeFile(path.resolve(__dirname, filePath), parsedXMLWithHeader);
   }
 }
