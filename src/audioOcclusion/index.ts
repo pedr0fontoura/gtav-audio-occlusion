@@ -3,12 +3,7 @@ import { MapData } from '../ymap';
 
 import { joaat, convertToInt32 } from '../utils';
 
-import { CodeWalkerEncoder } from '../files/codewalker';
-
-import { AudioOcclusionInteriorMetadata } from '../types/ymt';
-
 import {
-  PortalEntity,
   PortalEntityData,
   PortalInfo,
   PathNodeDirection,
@@ -19,7 +14,6 @@ import {
 interface IAudioOcclusion {
   interior: Mlo;
   mapData: MapData;
-  encoder: CodeWalkerEncoder;
 }
 
 export default class AudioOcclusion {
@@ -29,17 +23,12 @@ export default class AudioOcclusion {
   private portalEntitiesData: PortalEntityData[];
 
   public occlusionHash: number;
-
   public PortalInfoList: PortalInfo[];
   public PathNodeList: PathNode[];
 
-  public encode: () => AudioOcclusionInteriorMetadata;
-
-  constructor({ interior, mapData, encoder }: IAudioOcclusion) {
+  constructor({ interior, mapData }: IAudioOcclusion) {
     this.interior = interior;
     this.mapData = mapData;
-
-    this.encode = () => encoder.encodeAudioOcclusion(this);
 
     this.portalEntitiesData = this.generatePortalEntitiesData();
 

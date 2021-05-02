@@ -20,9 +20,9 @@ async function execute(): Promise<void> {
   const mapData = new MapData(parsedYmap);
   const interior = new Mlo(parsedYtyp);
 
-  const audioOcclusion = new AudioOcclusion({ interior, mapData, encoder: cwEncoder });
+  const audioOcclusion = new AudioOcclusion({ interior, mapData });
 
-  const ymt = audioOcclusion.encode();
+  const ymt = cwEncoder.encodeAudioOcclusion(audioOcclusion);
 
   await cwFile.write(`${audioOcclusion.occlusionHash}.ymt.pso.xml`, ymt);
 }
