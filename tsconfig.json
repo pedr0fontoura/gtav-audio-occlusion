@@ -8,12 +8,13 @@
     "noImplicitAny": true,
     "target": "es5",
     "allowJs": true,
+    "jsx": "react",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["es2017", "dom"],
+    "lib": ["dom", "es2015", "es2016", "es2017"],
     "types": ["@types/node"],
-    "esModuleInterop": true,
-    "moduleResolution": "node"
+    "module": "commonjs",
+    "esModuleInterop": true
   },
   "include": ["./src/**/*"],
   "exclude": ["**/node_modules", "**/__tests__/*"]

@@ -6,10 +6,14 @@ function createWindow() {
   const mainWindow = new BrowserWindow({
     height: 700,
     width: 1100,
+    title: 'GTA V Audio Occlusion Tool',
   });
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, '../index.html'));
+  mainWindow.loadFile(path.join(__dirname, './renderer/index.html'));
+
+  mainWindow.on('page-title-updated', function (e) {
+    e.preventDefault();
+  });
 }
 
 // This method will be called when Electron has finished
