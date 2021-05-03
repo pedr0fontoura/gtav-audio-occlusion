@@ -1,17 +1,13 @@
 import AudioOcclusion from '../../audioOcclusion';
-import {
-  AudioOcclusionInteriorMetadata,
-  PortalInfo,
-  PortalEntity,
-  PathNode,
-} from '../../types/ymt';
+
+import * as XML from '../../types/xml';
 
 export class CodeWalkerEncoder {
   constructor() {}
 
-  public encodeAudioOcclusion(audioOcclusion: AudioOcclusion): AudioOcclusionInteriorMetadata {
+  public encodeAudioOcclusion(audioOcclusion: AudioOcclusion): XML.AudioOcclusionInteriorMetadata {
     const encodedPortalInfoList = audioOcclusion.PortalInfoList.map(portalInfo => {
-      const encodedPortalEntityList: PortalEntity[] = portalInfo.PortalEntityList.map(
+      const encodedPortalEntityList: XML.PortalEntity[] = portalInfo.PortalEntityList.map(
         portalEntity => {
           const encodedPortalEntity = {
             LinkType: {
@@ -35,7 +31,7 @@ export class CodeWalkerEncoder {
         },
       );
 
-      const encodedPortalInfo: PortalInfo = {
+      const encodedPortalInfo: XML.PortalInfo = {
         InteriorProxyHash: {
           $: { value: portalInfo.InteriorProxyHash },
         },
@@ -60,7 +56,7 @@ export class CodeWalkerEncoder {
       return encodedPortalInfo;
     });
 
-    const encodedPathNodeList: PathNode[] = audioOcclusion.PathNodeList.map(pathNode => {
+    const encodedPathNodeList: XML.PathNode[] = audioOcclusion.PathNodeList.map(pathNode => {
       const encodedPathNodeChildList = {
         $: { itemType: 'hash_892CF74F' },
         Item: pathNode.PathNodeChildList.map(pathNodeChild => {

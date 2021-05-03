@@ -1,5 +1,5 @@
-import { Mlo } from '../ytyp';
-import { MapData } from '../ymap';
+import { CMloArchetypeDef } from '../files/codewalker/ytyp';
+import { CMapData } from '../files/codewalker/ymap';
 
 import { joaat, convertToInt32 } from '../utils';
 
@@ -12,13 +12,13 @@ import {
 } from './interfaces';
 
 interface IAudioOcclusion {
-  interior: Mlo;
-  mapData: MapData;
+  interior: CMloArchetypeDef;
+  mapData: CMapData;
 }
 
 export default class AudioOcclusion {
-  private interior: Mlo;
-  private mapData: MapData;
+  private interior: CMloArchetypeDef;
+  private mapData: CMapData;
 
   private portalEntitiesData: PortalEntityData[];
 
@@ -68,7 +68,7 @@ export default class AudioOcclusion {
   }
 
   private generatePortalInfoList(): PortalInfo[] {
-    let portalInfoList = [];
+    let portalInfoList: PortalInfo[] = [];
 
     this.interior.rooms.forEach(room => {
       const roomPortals = this.interior.getRoomPortals(room.index);

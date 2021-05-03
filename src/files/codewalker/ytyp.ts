@@ -1,13 +1,13 @@
-import { convertToInt32, joaat } from './utils';
+import { convertToInt32, joaat } from '../../utils';
 
-import { YtypXML, CMloArchetypeDef, MloEntity, MloRoom, MloPortal } from './types/ytyp';
+import * as XML from '../../types/xml';
 
-export class Mlo {
-  public entities: MloEntity[];
-  public rooms: MloRoom[];
-  public portals: MloPortal[];
+export class CMloArchetypeDef {
+  public entities: XML.MloEntity[];
+  public rooms: XML.MloRoom[];
+  public portals: XML.MloPortal[];
 
-  constructor(rawData: YtypXML) {
+  constructor(rawData: XML.Ytyp) {
     // Interior archeType is the last one on the list
     const archetypesLength = rawData.CMapTypes.archetypes.Item.length;
 
@@ -18,7 +18,7 @@ export class Mlo {
     this.portals = this.extractPortals(rawArchetype);
   }
 
-  private extractEntities(archetype: CMloArchetypeDef): MloEntity[] {
+  private extractEntities(archetype: XML.CMloArchetypeDef): XML.MloEntity[] {
     return archetype.entities.Item.map(rawMloEntity => {
       let hash: number;
 
@@ -36,7 +36,7 @@ export class Mlo {
     });
   }
 
-  private extractRooms(archetype: CMloArchetypeDef): MloRoom[] {
+  private extractRooms(archetype: XML.CMloArchetypeDef): XML.MloRoom[] {
     return archetype.rooms.Item.map((rawMloRoom, index) => {
       const name = rawMloRoom.name;
 
@@ -50,7 +50,7 @@ export class Mlo {
     });
   }
 
-  private extractPortals(archetype: CMloArchetypeDef): MloPortal[] {
+  private extractPortals(archetype: XML.CMloArchetypeDef): XML.MloPortal[] {
     return archetype.portals.Item.map((rawMloPortal, index) => {
       const from = parseInt(rawMloPortal.roomFrom.$.value);
 
@@ -74,7 +74,7 @@ export class Mlo {
     });
   }
 
-  public getRoomPortals(room: number): MloPortal[] {
+  public getRoomPortals(room: number): XML.MloPortal[] {
     const filteredPortals = this.portals.filter(
       portal => portal.from === room || portal.to === room,
     );

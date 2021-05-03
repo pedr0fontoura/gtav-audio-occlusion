@@ -25,7 +25,7 @@ export interface CMloArchetypeDef {
   portals: XMLEntry<{ itemType: string }, CMloPortalDef[]>;
 }
 
-export interface YtypXML {
+export interface Ytyp {
   CMapTypes: {
     archetypes: {
       Item: CMloArchetypeDef[];

@@ -1,11 +1,10 @@
 import { CodeWalkerFile, CodeWalkerEncoder } from './files/codewalker';
-import { Mlo } from './ytyp';
-import { MapData } from './ymap';
+import { CMloArchetypeDef } from './files/codewalker/ytyp';
+import { CMapData } from './files/codewalker/ymap';
 
 import AudioOcclusion from './audioOcclusion';
 
-import { YmapXML } from './types/ymap';
-import { YtypXML } from './types/ytyp';
+import * as XML from './types/xml';
 
 async function execute(): Promise<void> {
   const ymapPath = process.argv[2];
@@ -14,11 +13,11 @@ async function execute(): Promise<void> {
   const cwFile = new CodeWalkerFile();
   const cwEncoder = new CodeWalkerEncoder();
 
-  const parsedYmap = await cwFile.read<YmapXML>(ymapPath);
-  const parsedYtyp = await cwFile.read<YtypXML>(ytypPath);
+  const parsedYmap = await cwFile.read<XML.Ymap>(ymapPath);
+  const parsedYtyp = await cwFile.read<XML.Ytyp>(ytypPath);
 
-  const mapData = new MapData(parsedYmap);
-  const interior = new Mlo(parsedYtyp);
+  const mapData = new CMapData(parsedYmap);
+  const interior = new CMloArchetypeDef(parsedYtyp);
 
   const audioOcclusion = new AudioOcclusion({ interior, mapData });
 

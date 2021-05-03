@@ -1,22 +1,21 @@
-import { Vector3 } from './types';
-import { YmapXML, CMloInstanceDef } from './types/ymap';
+import * as XML from '../../types/xml';
 
-export class MapData {
+export class CMapData {
   public archetypeName: string;
   public position: Vector3;
 
-  constructor(rawData: YmapXML) {
+  constructor(rawData: XML.Ymap) {
     const rawMloInstance = rawData.CMapData.entities.Item;
 
     this.archetypeName = this.extractArchetypeName(rawMloInstance);
     this.position = this.extractPosition(rawMloInstance);
   }
 
-  private extractArchetypeName(mloInstance: CMloInstanceDef): string {
+  private extractArchetypeName(mloInstance: XML.CMloInstanceDef): string {
     return mloInstance.archetypeName;
   }
 
-  private extractPosition(mloInstance: CMloInstanceDef): Vector3 {
+  private extractPosition(mloInstance: XML.CMloInstanceDef): Vector3 {
     const pos = mloInstance.position.$;
 
     return {
