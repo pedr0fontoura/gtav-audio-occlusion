@@ -1,10 +1,10 @@
-import { CodeWalkerFile, CodeWalkerEncoder } from './files/codewalker';
-import { CMloArchetypeDef } from './files/codewalker/ytyp';
-import { CMapData } from './files/codewalker/ymap';
+import { CodeWalkerFile, CodeWalkerEncoder } from '../core/files/codewalker';
+import { CMloArchetypeDef } from '../core/files/codewalker/ytyp';
+import { CMapData } from '../core/files/codewalker/ymap';
 
-import AudioOcclusion from './audioOcclusion';
+import AudioOcclusion from '../core/audioOcclusion';
 
-import * as XML from './types/xml';
+import * as XML from '../core/types/xml';
 
 async function execute(): Promise<void> {
   const ymapPath = process.argv[2];

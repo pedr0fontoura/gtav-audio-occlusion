@@ -5,13 +5,15 @@
   "license": "MIT",
   "scripts": {
     "watch": "tsc --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "yarn build && electron ./dist/main.js"
   },
   "devDependencies": {
     "@types/node": "^15.0.1",
     "@types/xml2js": "^0.4.8",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.20.0",
+    "electron": "^12.0.6",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",

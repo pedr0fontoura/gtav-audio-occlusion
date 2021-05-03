@@ -5,15 +5,15 @@
       "*": ["types/*"]
     },
     "outDir": "./dist",
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "target": "es5",
     "allowJs": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["es2017"],
+    "lib": ["es2017", "dom"],
     "types": ["@types/node"],
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "node"
   },
   "include": ["./src/**/*"],
   "exclude": ["**/node_modules", "**/__tests__/*"]
