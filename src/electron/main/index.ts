@@ -7,6 +7,7 @@ function createWindow() {
     height: 700,
     width: 1100,
     title: 'GTA V Audio Occlusion Tool',
+    backgroundColor: '#212121',
   });
 
   if (process.env.NODE_ENV === 'development') {
