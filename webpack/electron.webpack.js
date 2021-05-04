@@ -1,5 +1,4 @@
 const path = require('path');
-
 const root = path.resolve(__dirname, '..');
 
 module.exports = {
@@ -7,7 +6,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   devtool: 'source-map',
-  entry: path.resolve(root, 'src', 'electron', 'main/index.ts'),
+  entry: path.resolve(root, 'src', 'electron', 'main', 'index.ts'),
   target: 'electron-main',
   module: {
     rules: [

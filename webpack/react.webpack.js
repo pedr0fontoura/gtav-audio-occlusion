@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const root = path.resolve(__dirname, '..');
@@ -9,7 +10,6 @@ module.exports = {
     mainFields: ['main', 'module', 'browser'],
   },
   entry: path.resolve(root, 'src', 'electron', 'renderer', 'App.tsx'),
-  target: 'electron-renderer',
   devtool: 'source-map',
   module: {
     rules: [
@@ -23,7 +23,7 @@ module.exports = {
     ],
   },
   devServer: {
-    contentBase: path.resolve(root, 'dist/renderer'),
+    contentBase: path.resolve(root, 'dist', 'renderer'),
     historyApiFallback: true,
     compress: true,
     hot: true,
@@ -32,9 +32,14 @@ module.exports = {
     publicPath: '/',
   },
   output: {
-    path: path.resolve(root, 'dist/renderer'),
+    path: path.resolve(root, 'dist', 'renderer'),
     filename: 'js/[name].js',
     publicPath: './',
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(root, 'src', 'electron', 'renderer', 'index.html'),
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+  ],
 };
