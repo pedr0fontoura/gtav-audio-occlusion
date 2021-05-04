@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, IpcMainEvent, dialog } from 'electron';
 import * as path from 'path';
 
 function createWindow() {
@@ -8,6 +8,10 @@ function createWindow() {
     width: 1100,
     title: 'GTA V Audio Occlusion Tool',
     backgroundColor: '#212121',
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
   });
 
   if (process.env.NODE_ENV === 'development') {

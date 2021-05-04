@@ -10,6 +10,7 @@ module.exports = {
     mainFields: ['main', 'module', 'browser'],
   },
   entry: path.resolve(root, 'src', 'electron', 'renderer', 'App.tsx'),
+  target: 'electron-renderer',
   devtool: 'source-map',
   module: {
     rules: [
