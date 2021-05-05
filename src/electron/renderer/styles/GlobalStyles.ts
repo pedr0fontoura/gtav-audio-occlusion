@@ -8,8 +8,12 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
     font-size: 16px;
     color: #FFF;
+  }
+
+  h1 {
+    font-weight: 400;
   }
 `;

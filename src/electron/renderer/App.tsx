@@ -2,9 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
-import { GlobalStyle } from './styles/GlobalStyles';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Routes from './routes';
 
-import Dashboard from './components/Dashboard';
+import { GlobalStyle } from './styles/GlobalStyles';
+import colors from './styles/colors';
+
 import Sidebar from './components/Sidebar';
 
 const Container = styled.div`
@@ -14,13 +17,27 @@ const Container = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
+
+  background: ${colors.bgColor};
+
+  overflow: hidden;
+`;
+
+const RoutesWrapper = styled.div`
+  width: 100%;
+  display: 100%;
+  padding: 16px;
 `;
 
 const App = () => {
   return (
     <Container>
-      <Sidebar />
-      <Dashboard />
+      <Router>
+        <Sidebar />
+        <RoutesWrapper>
+          <Routes />
+        </RoutesWrapper>
+      </Router>
     </Container>
   );
 };
