@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  height: 100vh;
+  min-height: 100%;
   width: 100%;
 
   display: flex;
@@ -11,14 +11,20 @@ export const Container = styled.div`
 export const TableContainer = styled.section`
   margin-top: 8px;
 
+  flex-shrink: 0;
+  flex-grow: 1;
+
+  overflow-y: auto;
+
   table {
     width: 100%;
+
     border-spacing: 0 8px;
 
     th {
       padding: 0px 16px;
       color: rgb(255, 255, 255);
-      font-weight: normal;
+      font-weight: 600;
       text-align: left;
       font-size: 16px;
       line-height: 24px;
@@ -42,5 +48,17 @@ export const TableContainer = styled.section`
     tr:nth-child(even) {
       background: rgba(0, 0, 0, 0.1);
     }
+  }
+`;
+
+export const RemoveBtn = styled.button`
+  outline: none;
+  background: none;
+  border: none;
+
+  color: #fff;
+
+  &:hover {
+    cursor: pointer;
   }
 `;

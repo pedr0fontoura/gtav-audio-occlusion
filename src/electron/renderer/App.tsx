@@ -24,8 +24,8 @@ const Container = styled.div`
 `;
 
 const RoutesWrapper = styled.div`
+  height: 100vh;
   width: 100%;
-  display: 100%;
   padding: 16px;
 `;
 

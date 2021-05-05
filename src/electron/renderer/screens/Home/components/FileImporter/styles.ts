@@ -12,7 +12,7 @@ export const Container = styled.div<IContainerProps>`
   justify-content: center;
   align-items: center;
 
-  position: relative;
+  flex-shrink: 0;
 
   padding: 12px 4px;
 
