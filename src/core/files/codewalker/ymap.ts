@@ -7,15 +7,15 @@ export class CMapData {
   constructor(rawData: XML.Ymap) {
     const rawMloInstance = rawData.CMapData.entities.Item;
 
-    this.archetypeName = this.extractArchetypeName(rawMloInstance);
-    this.position = this.extractPosition(rawMloInstance);
+    this.archetypeName = this.getArchetypeName(rawMloInstance);
+    this.position = this.getPosition(rawMloInstance);
   }
 
-  private extractArchetypeName(mloInstance: XML.CMloInstanceDef): string {
+  private getArchetypeName(mloInstance: XML.CMloInstanceDef): string {
     return mloInstance.archetypeName;
   }
 
-  private extractPosition(mloInstance: XML.CMloInstanceDef): Vector3 {
+  private getPosition(mloInstance: XML.CMloInstanceDef): Vector3 {
     const pos = mloInstance.position.$;
 
     return {

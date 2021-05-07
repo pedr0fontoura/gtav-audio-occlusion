@@ -12,13 +12,13 @@ import {
 } from './interfaces';
 
 interface IAudioOcclusion {
-  interior: CMloArchetypeDef;
-  mapData: CMapData;
+  CMloArchetypeDef: CMloArchetypeDef;
+  CMapData: CMapData;
 }
 
 export default class AudioOcclusion {
-  private interior: CMloArchetypeDef;
-  private mapData: CMapData;
+  private CMloArchetypeDef: CMloArchetypeDef;
+  private CMapData: CMapData;
 
   private portalEntitiesData: PortalEntityData[];
 
@@ -26,9 +26,9 @@ export default class AudioOcclusion {
   public PortalInfoList: PortalInfo[];
   public PathNodeList: PathNode[];
 
-  constructor({ interior, mapData }: IAudioOcclusion) {
-    this.interior = interior;
-    this.mapData = mapData;
+  constructor({ CMloArchetypeDef, CMapData }: IAudioOcclusion) {
+    this.CMloArchetypeDef = CMloArchetypeDef;
+    this.CMapData = CMapData;
 
     this.portalEntitiesData = this.generatePortalEntitiesData();
 
@@ -38,17 +38,17 @@ export default class AudioOcclusion {
   }
 
   private get archetypeNameHash(): number {
-    if (this.mapData.archetypeName.startsWith('hash_')) {
-      const [, hexString] = this.mapData.archetypeName.split('_');
+    if (this.CMapData.archetypeName.startsWith('hash_')) {
+      const [, hexString] = this.CMapData.archetypeName.split('_');
 
       return parseInt(hexString, 16);
     }
 
-    return joaat(this.mapData.archetypeName, true);
+    return joaat(this.CMapData.archetypeName, true);
   }
 
   private generatePortalEntitiesData(): PortalEntityData[] {
-    return this.interior.portals.map(portal => ({
+    return this.CMloArchetypeDef.portals.map(portal => ({
       index: portal.index,
 
       entities: portal.attachedObjects.map(attachedObjectHash => ({
@@ -62,7 +62,7 @@ export default class AudioOcclusion {
   }
 
   private generateOcclusionHash(): number {
-    const pos = this.mapData.position;
+    const pos = this.CMapData.position;
 
     return this.archetypeNameHash ^ (pos.x * 100) ^ (pos.y * 100) ^ (pos.z * 100);
   }
@@ -70,8 +70,8 @@ export default class AudioOcclusion {
   private generatePortalInfoList(): PortalInfo[] {
     let portalInfoList: PortalInfo[] = [];
 
-    this.interior.rooms.forEach(room => {
-      const roomPortals = this.interior.getRoomPortals(room.index);
+    this.CMloArchetypeDef.rooms.forEach(room => {
+      const roomPortals = this.CMloArchetypeDef.getRoomPortals(room.index);
 
       roomPortals.sort((a, b) => {
         return a.to - b.to;
@@ -123,7 +123,7 @@ export default class AudioOcclusion {
   }
 
   private getRoomOcclusionHash(roomIndex: number): number {
-    const room = this.interior.rooms[roomIndex];
+    const room = this.CMloArchetypeDef.rooms[roomIndex];
 
     if (!room) throw new Error(`Room don't exist`);
 

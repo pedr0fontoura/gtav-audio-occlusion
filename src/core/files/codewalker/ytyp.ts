@@ -13,12 +13,12 @@ export class CMloArchetypeDef {
 
     const rawArchetype = rawData.CMapTypes.archetypes.Item[archetypesLength - 1];
 
-    this.entities = this.extractEntities(rawArchetype);
-    this.rooms = this.extractRooms(rawArchetype);
-    this.portals = this.extractPortals(rawArchetype);
+    this.entities = this.getEntities(rawArchetype);
+    this.rooms = this.getRooms(rawArchetype);
+    this.portals = this.getPortals(rawArchetype);
   }
 
-  private extractEntities(archetype: XML.CMloArchetypeDef): XML.MloEntity[] {
+  private getEntities(archetype: XML.CMloArchetypeDef): XML.MloEntity[] {
     return archetype.entities.Item.map(rawMloEntity => {
       let hash: number;
 
@@ -36,7 +36,7 @@ export class CMloArchetypeDef {
     });
   }
 
-  private extractRooms(archetype: XML.CMloArchetypeDef): XML.MloRoom[] {
+  private getRooms(archetype: XML.CMloArchetypeDef): XML.MloRoom[] {
     return archetype.rooms.Item.map((rawMloRoom, index) => {
       const name = rawMloRoom.name;
 
@@ -50,7 +50,7 @@ export class CMloArchetypeDef {
     });
   }
 
-  private extractPortals(archetype: XML.CMloArchetypeDef): XML.MloPortal[] {
+  private getPortals(archetype: XML.CMloArchetypeDef): XML.MloPortal[] {
     return archetype.portals.Item.map((rawMloPortal, index) => {
       const from = parseInt(rawMloPortal.roomFrom.$.value);
 
