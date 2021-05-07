@@ -3,13 +3,37 @@ import { CMapData } from '../files/codewalker/ymap';
 
 import { joaat, convertToInt32 } from '../utils';
 
-import {
-  PortalEntityData,
-  PortalInfo,
-  PathNodeDirection,
-  PathNodeChild,
-  PathNode,
-} from './interfaces';
+export interface PortalEntity {
+  LinkType: number;
+  MaxOcclusion: number;
+  hash_E3674005: number;
+  IsDoor: boolean;
+  IsGlass: boolean;
+}
+
+interface PortalInfo {
+  InteriorProxyHash: number;
+  PortalIdx: number;
+  RoomIdx: number;
+  DestInteriorHash: number;
+  DestRoomIdx: number;
+  PortalEntityList: PortalEntity[];
+}
+
+interface PathNodeDirection {
+  from: number;
+  to: number;
+}
+
+interface PathNodeChild {
+  PathNodeKey: number;
+  PortalInfoIdx: number;
+}
+
+interface PathNode {
+  Key: number;
+  PathNodeChildList: PathNodeChild[];
+}
 
 interface IAudioOcclusion {
   CMloArchetypeDef: CMloArchetypeDef;
@@ -20,8 +44,10 @@ export default class AudioOcclusion {
   private CMloArchetypeDef: CMloArchetypeDef;
   private CMapData: CMapData;
 
-  private portalEntitiesData: PortalEntityData[];
+  // Class specific data
+  public PortalsEntities: PortalEntity[][];
 
+  // Actual game data
   public occlusionHash: number;
   public PortalInfoList: PortalInfo[];
   public PathNodeList: PathNode[];
@@ -30,14 +56,14 @@ export default class AudioOcclusion {
     this.CMloArchetypeDef = CMloArchetypeDef;
     this.CMapData = CMapData;
 
-    this.portalEntitiesData = this.generatePortalEntitiesData();
+    this.PortalsEntities = this.getPortalsEntities();
 
     this.occlusionHash = this.generateOcclusionHash();
     this.PortalInfoList = this.generatePortalInfoList();
     this.PathNodeList = this.generatePathNodeList();
   }
 
-  private get archetypeNameHash(): number {
+  private getArchetypeNameHash(): number {
     if (this.CMapData.archetypeName.startsWith('hash_')) {
       const [, hexString] = this.CMapData.archetypeName.split('_');
 
@@ -47,24 +73,22 @@ export default class AudioOcclusion {
     return joaat(this.CMapData.archetypeName, true);
   }
 
-  private generatePortalEntitiesData(): PortalEntityData[] {
-    return this.CMloArchetypeDef.portals.map(portal => ({
-      index: portal.index,
-
-      entities: portal.attachedObjects.map(attachedObjectHash => ({
+  private getPortalsEntities(): PortalEntity[][] {
+    return this.CMloArchetypeDef.portals.map(portal =>
+      portal.attachedObjects.map(attachedObjectHash => ({
         LinkType: 1,
         MaxOcclusion: 0.7,
         hash_E3674005: attachedObjectHash,
         IsDoor: false,
         IsGlass: false,
       })),
-    }));
+    );
   }
 
   private generateOcclusionHash(): number {
     const pos = this.CMapData.position;
 
-    return this.archetypeNameHash ^ (pos.x * 100) ^ (pos.y * 100) ^ (pos.z * 100);
+    return this.getArchetypeNameHash() ^ (pos.x * 100) ^ (pos.y * 100) ^ (pos.z * 100);
   }
 
   private generatePortalInfoList(): PortalInfo[] {
@@ -79,9 +103,7 @@ export default class AudioOcclusion {
 
       // PortalIdx is relative to RoomIdx
       const roomPortalInfoList = roomPortals.map((portal, index) => {
-        const portalEntityList = this.portalEntitiesData.find(
-          portalEntities => portalEntities.index === portal.index,
-        ).entities;
+        const portalEntityList = this.PortalsEntities[index];
 
         const portalInfo = {
           InteriorProxyHash: this.occlusionHash,

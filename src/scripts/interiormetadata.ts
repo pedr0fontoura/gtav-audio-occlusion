@@ -2,7 +2,7 @@ import { CodeWalkerFile, CodeWalkerEncoder } from '../core/files/codewalker';
 import { CMloArchetypeDef } from '../core/files/codewalker/ytyp';
 import { CMapData } from '../core/files/codewalker/ymap';
 
-import AudioOcclusion from '../core/audioOcclusion';
+import AudioOcclusion from '../core/classes/audioOcclusion';
 
 import * as XML from '../core/types/xml';
 
