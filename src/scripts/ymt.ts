@@ -1,6 +1,6 @@
 import { CodeWalkerFile, CodeWalkerEncoder } from '../core/files/codewalker';
-import { CMloArchetypeDef } from '../core/files/codewalker/ytyp';
 import { CMapData } from '../core/files/codewalker/ymap';
+import { CMloArchetypeDef } from '../core/files/codewalker/ytyp';
 
 import AudioOcclusion from '../core/classes/audioOcclusion';
 
