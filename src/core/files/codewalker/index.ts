@@ -30,8 +30,8 @@ export class CodeWalkerFile {
   }
 
   public async write(filePath: string, data: any): Promise<void> {
-    if (!filePath.includes('.pso.xml')) {
-      throw new Error('Can only write Pso files');
+    if (!filePath.includes('.xml')) {
+      throw new Error('Can only write xml files');
     }
 
     const XMLHeader = `<?xml version="1.0" encoding="UTF-8"?>\r\n`;

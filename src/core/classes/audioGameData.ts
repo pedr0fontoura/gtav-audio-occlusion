@@ -61,7 +61,9 @@ export default class AudioGameData {
   private getInterior(): Interior {
     return {
       Name: this.CMapData.archetypeName,
-      Rooms: this.CMloArchetypeDef.rooms.map(room => room.name),
+      Rooms: this.CMloArchetypeDef.rooms
+        .map(room => room.name)
+        .filter(roomName => roomName !== 'limbo'),
     };
   }
 

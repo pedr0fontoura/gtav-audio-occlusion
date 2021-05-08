@@ -8,5 +8,7 @@ export interface XMLDataEntry<T> {
 }
 
 export * from './ymap';
-export * from './ymt';
 export * from './ytyp';
+export * from './ymt';
+export * from './dat15';
+export * from './dat151';
