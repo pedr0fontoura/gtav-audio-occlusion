@@ -1,6 +1,14 @@
 import { app, BrowserWindow, ipcMain, IpcMainEvent, dialog } from 'electron';
 import * as path from 'path';
 
+import { CodeWalkerFile } from '../../core/files/codewalker';
+import { CMapData } from '../../core/files/codewalker/ymap';
+import { CMloArchetypeDef } from '../../core/files/codewalker/ytyp';
+
+import AudioOcclusion from '../../core/classes/audioOcclusion';
+
+import * as XML from '../../core/types/xml';
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -56,4 +64,39 @@ ipcMain.handle('showFolderDialog', async (event: IpcMainEvent) => {
   });
 
   return fileSelection;
+});
+
+let ymapPath: string;
+let ytypPath: string;
+
+let audioOcclusion: AudioOcclusion;
+
+async function generateAudioOcclusion(): Promise<void> {
+  const cwFile = new CodeWalkerFile();
+
+  const parsedYmap = await cwFile.read<XML.Ymap>(ymapPath);
+  const parsedYtyp = await cwFile.read<XML.Ytyp>(ytypPath);
+
+  audioOcclusion = new AudioOcclusion({
+    CMapData: new CMapData(parsedYmap),
+    CMloArchetypeDef: new CMloArchetypeDef(parsedYtyp),
+  });
+}
+
+ipcMain.on('fileImported', (event: IpcMainEvent, path: string) => {
+  if (!ymapPath && path.includes('ymap')) {
+    ymapPath = path;
+  }
+
+  if (!ytypPath && path.includes('ytyp')) {
+    ytypPath = path;
+  }
+
+  if (ymapPath && ytypPath && !audioOcclusion) {
+    generateAudioOcclusion();
+  }
+});
+
+ipcMain.handle('getAudioOcclusion', (event: IpcMainEvent) => {
+  return audioOcclusion;
 });

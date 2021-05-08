@@ -1,4 +1,4 @@
-import AudioOcclusion from '../../audioOcclusion';
+import AudioOcclusion from '../../classes/audioOcclusion';
 
 import * as XML from '../../types/xml';
 

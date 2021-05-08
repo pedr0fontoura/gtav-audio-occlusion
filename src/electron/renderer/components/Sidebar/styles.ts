@@ -43,7 +43,7 @@ export const SectionLink = styled(Link)<ISectionLinkProps>`
 
   padding: 16px;
 
-  border-radius: 8px;
+  border-radius: 4px;
 
   font-size: 14px;
   font-weight: 600;

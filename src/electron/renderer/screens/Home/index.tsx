@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ipcRenderer } from 'electron';
 import { FaTimes } from 'react-icons/fa';
 
 import FileImporter from './components/FileImporter';
@@ -16,6 +17,8 @@ const Home = () => {
     if (isFileAlreadyImported) return;
 
     setImportedFiles(oldValue => [file, ...oldValue]);
+
+    ipcRenderer.send('fileImported', file.path);
   };
 
   const removeFile = (path: string): void => {
