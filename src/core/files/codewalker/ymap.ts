@@ -1,14 +1,40 @@
 import * as XML from '../../types/xml';
 
 export class CMapData {
+  public entitiesExtentsMin: Vector3;
+  public entitiesExtentsMax: Vector3;
+
   public archetypeName: string;
   public position: Vector3;
 
   constructor(rawData: XML.Ymap) {
     const rawMloInstance = rawData.CMapData.entities.Item;
 
+    this.entitiesExtentsMin = this.getEntitiesExtentsMin(rawData);
+    this.entitiesExtentsMax = this.getEntitiesExtentsMax(rawData);
+
     this.archetypeName = this.getArchetypeName(rawMloInstance);
     this.position = this.getPosition(rawMloInstance);
+  }
+
+  private getEntitiesExtentsMin(rawData: XML.Ymap): Vector3 {
+    const pos = rawData.CMapData.entitiesExtentsMin.$;
+
+    return {
+      x: parseFloat(pos.x),
+      y: parseFloat(pos.y),
+      z: parseFloat(pos.z),
+    };
+  }
+
+  private getEntitiesExtentsMax(rawData: XML.Ymap): Vector3 {
+    const pos = rawData.CMapData.entitiesExtentsMax.$;
+
+    return {
+      x: parseFloat(pos.x),
+      y: parseFloat(pos.y),
+      z: parseFloat(pos.z),
+    };
   }
 
   private getArchetypeName(mloInstance: XML.CMloInstanceDef): string {
