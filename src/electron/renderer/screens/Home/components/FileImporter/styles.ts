@@ -9,6 +9,7 @@ export const Container = styled.div<IContainerProps>`
   height: 250px;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -34,8 +35,11 @@ export const Container = styled.div<IContainerProps>`
   }
 
   > svg {
-    margin-right: 10px;
     flex-shrink: 0;
+  }
+
+  > b {
+    margin-top: 16px;
   }
 `;
 

@@ -26,16 +26,22 @@ export const TableContainer = styled.section`
     width: 100%;
 
     border-spacing: 0px;
+    border-radius: 4px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
 
     tr > th {
       padding: 8px;
-      border-bottom: 1px solid ${colors.secondaryColor};
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       text-align: left;
     }
 
     tr > td {
       padding: 8px;
-      border-bottom: 1px solid ${colors.secondaryColor};
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    tr:last-child > td {
+      border: none;
     }
 
     tr:nth-child(even) {

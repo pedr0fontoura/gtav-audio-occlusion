@@ -69,12 +69,6 @@ const FileImporter = ({ onFileImport }: IFileImporter) => {
     setIsDraggingOver(0);
   };
 
-  const handleClick = async (): Promise<void> => {
-    const file = await ipcRenderer.invoke('showFolderDialog');
-
-    console.log(file);
-  };
-
   return (
     <Container
       isDraggingOver={!!isDraggingOver}
@@ -83,9 +77,11 @@ const FileImporter = ({ onFileImport }: IFileImporter) => {
       onDragLeave={dragLeave}
       onDrop={dragDrop}
     >
-      <ImportButton onClick={handleClick}>
+      <ImportButton>
         <FaFileImport size={40} />
       </ImportButton>
+      <b>Drop Files</b>
+      <span>.ymap, .ytyp, .ymt, .dat151.rel, .dat15.rel</span>
     </Container>
   );
 };
