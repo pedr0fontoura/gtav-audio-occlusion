@@ -49,7 +49,7 @@ export default class Controller {
     ipcMain.on('clearAudioOcclusion', this.clearAudioOcclusion.bind(this));
 
     ipcMain.handle('generateAudioDynamixData', this.generateAudioDynamixData.bind(this));
-    ipcMain.on('writeAudioDynamixData ', this.writeAudioDynamixData.bind(this));
+    ipcMain.on('writeAudioDynamixData', this.writeAudioDynamixData.bind(this));
     ipcMain.on('clearAudioDynamixData', this.clearAudioDynamixData.bind(this));
 
     ipcMain.handle('generateAudioGameData', this.generateAudioGameData.bind(this));
