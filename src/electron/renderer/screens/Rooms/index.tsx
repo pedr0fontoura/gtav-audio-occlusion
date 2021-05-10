@@ -32,7 +32,7 @@ const Rooms = () => {
       const audioGameData: AudioGameData = await ipcRenderer.invoke('getAudioGameData');
 
       if (audioGameData) {
-        setInteriorRooms(audioGameData.InteriorRooms);
+        setInteriorRooms(audioGameData.interiorRooms);
       }
     })();
   }, []);
@@ -64,19 +64,19 @@ const Rooms = () => {
               interiorRooms.map((interiorRoom, index) => (
                 <tr key={index}>
                   <td>{index}</td>
-                  <td>{interiorRoom.MloRoom}</td>
+                  <td>{interiorRoom.mloRoom}</td>
                   <td>
-                    <input type="number" value={interiorRoom.Unk02} />
+                    <input type="number" value={interiorRoom.unk02} />
                   </td>
                   <td>
-                    <input type="number" value={interiorRoom.Unk03} />
+                    <input type="number" value={interiorRoom.unk03} />
                   </td>
                   <td>
                     <input
                       type="number"
-                      value={interiorRoom.Unk04}
+                      value={interiorRoom.unk04}
                       onChange={e =>
-                        updateInteriorRooms(index, { Unk04: parseFloat(e.target.value) })
+                        updateInteriorRooms(index, { unk04: parseFloat(e.target.value) })
                       }
                       min={0}
                       max={1}
@@ -86,37 +86,37 @@ const Rooms = () => {
                   <td>
                     <input
                       type="number"
-                      value={interiorRoom.Unk05}
+                      value={interiorRoom.unk05}
                       onChange={e =>
-                        updateInteriorRooms(index, { Unk05: parseFloat(e.target.value) })
+                        updateInteriorRooms(index, { unk05: parseFloat(e.target.value) })
                       }
                       min={0}
                       max={1}
                       step={0.1}
                     />
                   </td>
-                  <td>{interiorRoom.Unk06}</td>
+                  <td>{interiorRoom.unk06}</td>
                   <td>
-                    <input type="number" value={interiorRoom.Unk07} />
+                    <input type="number" value={interiorRoom.unk07} />
                   </td>
                   <td>
-                    <input type="number" value={interiorRoom.Unk08} />
+                    <input type="number" value={interiorRoom.unk08} />
                   </td>
                   <td>
-                    <input type="number" value={interiorRoom.Unk09} />
+                    <input type="number" value={interiorRoom.unk09} />
                   </td>
                   <td>
-                    <input type="number" value={interiorRoom.Unk10} />
+                    <input type="number" value={interiorRoom.unk10} />
                   </td>
                   <td>
-                    <input type="number" value={interiorRoom.Unk11} />
+                    <input type="number" value={interiorRoom.unk11} />
                   </td>
                   <td>
                     <input
                       type="number"
-                      value={interiorRoom.Unk12}
+                      value={interiorRoom.unk12}
                       onChange={e =>
-                        updateInteriorRooms(index, { Unk12: parseInt(e.target.value) })
+                        updateInteriorRooms(index, { unk12: parseInt(e.target.value) })
                       }
                       min={0}
                     />

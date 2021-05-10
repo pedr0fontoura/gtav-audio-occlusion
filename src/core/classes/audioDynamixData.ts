@@ -9,23 +9,23 @@ interface Patch {
 }
 
 interface IAudioDynamixData {
-  CMapData: CMapData;
+  cMapData: CMapData;
 }
 
 export default class AudioDynamixData {
-  private CMapData: CMapData;
+  private cMapData: CMapData;
 
   public scene: Scene;
   public patch: Patch;
 
-  constructor({ CMapData }: IAudioDynamixData) {
-    this.CMapData = CMapData;
+  constructor({ cMapData }: IAudioDynamixData) {
+    this.cMapData = cMapData;
 
     this.scene = {
-      name: this.CMapData.archetypeName + '_scene',
+      name: this.cMapData.archetypeName + '_scene',
     };
     this.patch = {
-      name: this.CMapData.archetypeName + '_patch',
+      name: this.cMapData.archetypeName + '_patch',
     };
   }
 }

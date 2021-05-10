@@ -40,7 +40,7 @@ const Portals = () => {
       const audioOcclusion: AudioOcclusion = await ipcRenderer.invoke('getAudioOcclusion');
 
       if (audioOcclusion) {
-        setPortalsEntities(audioOcclusion.PortalsEntities);
+        setPortalsEntities(audioOcclusion.portalsEntities);
       }
     })();
   }, []);
@@ -66,17 +66,17 @@ const Portals = () => {
                 portalEntities.map((entity, entityIdx) => (
                   <tr key={entityIdx}>
                     <td>{portalIdx}</td>
-                    <td>{entity.LinkType}</td>
+                    <td>{entity.linkType}</td>
                     <td>
                       <input
                         type="number"
-                        value={entity.MaxOcclusion}
+                        value={entity.maxOcclusion}
                         step={0.1}
                         min={0}
                         max={1}
                         onChange={e =>
                           updatePortalsEntities(portalIdx, entityIdx, {
-                            MaxOcclusion: parseFloat(e.target.value),
+                            maxOcclusion: parseFloat(e.target.value),
                           })
                         }
                       />
@@ -85,10 +85,10 @@ const Portals = () => {
                     <td>
                       <input
                         type="checkbox"
-                        checked={entity.IsDoor}
+                        checked={entity.isDoor}
                         onChange={e =>
                           updatePortalsEntities(portalIdx, entityIdx, {
-                            IsDoor: e.target.checked,
+                            isDoor: e.target.checked,
                           })
                         }
                       />
@@ -96,10 +96,10 @@ const Portals = () => {
                     <td>
                       <input
                         type="checkbox"
-                        checked={entity.IsGlass}
+                        checked={entity.isGlass}
                         onChange={e =>
                           updatePortalsEntities(portalIdx, entityIdx, {
-                            IsGlass: e.target.checked,
+                            isGlass: e.target.checked,
                           })
                         }
                       />

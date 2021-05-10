@@ -29,12 +29,12 @@ export default class Controller {
   public ymap: File;
   public ytyp: File;
 
-  public CMapData: CMapData;
-  public CMloArchetypeDef: CMloArchetypeDef;
+  public cMapData: CMapData;
+  public cMloArchetypeDef: CMloArchetypeDef;
 
-  public AudioOcclusion: AudioOcclusion;
-  public AudioDynamixData: AudioDynamixData;
-  public AudioGameData: AudioGameData;
+  public audioOcclusion: AudioOcclusion;
+  public audioDynamixData: AudioDynamixData;
+  public audioGameData: AudioGameData;
 
   constructor() {
     this.cwFile = new CodeWalkerFile();
@@ -68,9 +68,9 @@ export default class Controller {
   }
 
   private clearGeneratedResources(): void {
-    this.AudioOcclusion = undefined;
-    this.AudioDynamixData = undefined;
-    this.AudioGameData = undefined;
+    this.audioOcclusion = undefined;
+    this.audioDynamixData = undefined;
+    this.audioGameData = undefined;
   }
 
   private async importFile(event: IpcMainEvent, file: string): Promise<void> {
@@ -80,18 +80,18 @@ export default class Controller {
       parsedFile = JSON.parse(file);
     }
 
-    if (!this.CMapData && parsedFile.path.includes('.ymap')) {
+    if (!this.cMapData && parsedFile.path.includes('.ymap')) {
       this.ymap = parsedFile;
       const parsedYmap = await this.cwFile.read<XML.Ymap>(parsedFile.path);
 
-      this.CMapData = new CMapData(parsedYmap);
+      this.cMapData = new CMapData(parsedYmap);
     }
 
-    if (!this.CMloArchetypeDef && parsedFile.path.includes('.ytyp')) {
+    if (!this.cMloArchetypeDef && parsedFile.path.includes('.ytyp')) {
       this.ytyp = parsedFile;
       const parsedYtyp = await this.cwFile.read<XML.Ytyp>(parsedFile.path);
 
-      this.CMloArchetypeDef = new CMloArchetypeDef(parsedYtyp);
+      this.cMloArchetypeDef = new CMloArchetypeDef(parsedYtyp);
     }
   }
 
@@ -104,105 +104,105 @@ export default class Controller {
 
     if (parsedFile.path.includes('.ymap')) {
       this.ymap = undefined;
-      this.CMapData = undefined;
+      this.cMapData = undefined;
       this.clearGeneratedResources();
     }
 
     if (parsedFile.path.includes('.ytyp')) {
       this.ytyp = undefined;
-      this.CMloArchetypeDef = undefined;
+      this.cMloArchetypeDef = undefined;
       this.clearGeneratedResources();
     }
 
     if (parsedFile.path.includes('.ymt')) {
-      this.AudioOcclusion = undefined;
+      this.audioOcclusion = undefined;
     }
 
     if (parsedFile.path.includes('_mix.dat15')) {
-      this.AudioDynamixData = undefined;
+      this.audioDynamixData = undefined;
     }
 
     if (parsedFile.path.includes('_game.dat15')) {
-      this.AudioGameData = undefined;
+      this.audioGameData = undefined;
     }
   }
 
   private generateAudioOcclusion(): File {
-    if (!this.CMapData || !this.CMloArchetypeDef) return;
+    if (!this.cMapData || !this.cMloArchetypeDef) return;
 
-    this.AudioOcclusion = new AudioOcclusion({
-      CMapData: this.CMapData,
-      CMloArchetypeDef: this.CMloArchetypeDef,
+    this.audioOcclusion = new AudioOcclusion({
+      cMapData: this.cMapData,
+      cMloArchetypeDef: this.cMloArchetypeDef,
     });
 
     return {
-      name: `${this.AudioOcclusion.occlusionHash}.ymt.pso.xml`,
-      path: `${this.AudioOcclusion.occlusionHash}.ymt.pso.xml`,
+      name: `${this.audioOcclusion.occlusionHash}.ymt.pso.xml`,
+      path: `${this.audioOcclusion.occlusionHash}.ymt.pso.xml`,
     };
   }
 
   private async writeAudioOcclusion(): Promise<void> {
-    if (!this.AudioOcclusion) return;
+    if (!this.audioOcclusion) return;
 
-    const ymt = this.cwEncoder.encodeAudioOcclusion(this.AudioOcclusion);
+    const ymt = this.cwEncoder.encodeAudioOcclusion(this.audioOcclusion);
 
-    await this.cwFile.write(`${this.AudioOcclusion.occlusionHash}.ymt.pso.xml`, ymt);
+    await this.cwFile.write(`${this.audioOcclusion.occlusionHash}.ymt.pso.xml`, ymt);
   }
 
   private clearAudioOcclusion(): void {
-    this.AudioOcclusion = undefined;
+    this.audioOcclusion = undefined;
   }
 
   private generateAudioDynamixData(): File {
-    if (!this.CMapData) return;
+    if (!this.cMapData) return;
 
-    this.AudioDynamixData = new AudioDynamixData({
-      CMapData: this.CMapData,
+    this.audioDynamixData = new AudioDynamixData({
+      cMapData: this.cMapData,
     });
 
     return {
-      name: `${this.CMapData.archetypeName}_mix.dat15.rel.xml`,
-      path: `${this.CMapData.archetypeName}_mix.dat15.rel.xml`,
+      name: `${this.cMapData.archetypeName}_mix.dat15.rel.xml`,
+      path: `${this.cMapData.archetypeName}_mix.dat15.rel.xml`,
     };
   }
 
   private async writeAudioDynamixData(): Promise<void> {
-    if (!this.AudioDynamixData) return;
+    if (!this.audioDynamixData) return;
 
-    const dat15 = this.cwEncoder.encodeAudioDynamixData(this.AudioDynamixData);
+    const dat15 = this.cwEncoder.encodeAudioDynamixData(this.audioDynamixData);
 
-    await this.cwFile.write(`${this.CMapData.archetypeName}_mix.dat15.rel.xml`, dat15);
+    await this.cwFile.write(`${this.cMapData.archetypeName}_mix.dat15.rel.xml`, dat15);
   }
 
   private clearAudioDynamixData(): void {
-    this.AudioDynamixData = undefined;
+    this.audioDynamixData = undefined;
   }
 
   private generateAudioGameData(): File {
-    if (!this.CMapData || !this.CMloArchetypeDef || !this.AudioDynamixData) return;
+    if (!this.cMapData || !this.cMloArchetypeDef || !this.audioDynamixData) return;
 
-    this.AudioGameData = new AudioGameData({
-      CMapData: this.CMapData,
-      CMloArchetypeDef: this.CMloArchetypeDef,
-      AudioDynamixData: this.AudioDynamixData,
+    this.audioGameData = new AudioGameData({
+      cMapData: this.cMapData,
+      cMloArchetypeDef: this.cMloArchetypeDef,
+      audioDynamixData: this.audioDynamixData,
     });
 
     return {
-      name: `${this.CMapData.archetypeName}_game.dat151.rel.xml`,
-      path: `${this.CMapData.archetypeName}_game.dat151.rel.xml`,
+      name: `${this.cMapData.archetypeName}_game.dat151.rel.xml`,
+      path: `${this.cMapData.archetypeName}_game.dat151.rel.xml`,
     };
   }
 
   private async writeAudioGameData(): Promise<void> {
-    if (!this.AudioGameData) return;
+    if (!this.audioGameData) return;
 
-    const dat151 = this.cwEncoder.encodeAudioGameData(this.AudioGameData);
+    const dat151 = this.cwEncoder.encodeAudioGameData(this.audioGameData);
 
-    await this.cwFile.write(`${this.CMapData.archetypeName}_game.dat151.rel.xml`, dat151);
+    await this.cwFile.write(`${this.cMapData.archetypeName}_game.dat151.rel.xml`, dat151);
   }
 
   private clearAudioGameData(): void {
-    this.AudioGameData = undefined;
+    this.audioGameData = undefined;
   }
 
   private getFiles(event: IpcMainEvent): File[] {
@@ -216,24 +216,24 @@ export default class Controller {
       files.push(this.ytyp);
     }
 
-    if (this.AudioOcclusion) {
+    if (this.audioOcclusion) {
       files.push({
-        name: `${this.AudioOcclusion.occlusionHash}.ymt.pso.xml`,
-        path: `${this.AudioOcclusion.occlusionHash}.ymt.pso.xml`,
+        name: `${this.audioOcclusion.occlusionHash}.ymt.pso.xml`,
+        path: `${this.audioOcclusion.occlusionHash}.ymt.pso.xml`,
       });
     }
 
-    if (this.AudioDynamixData) {
+    if (this.audioDynamixData) {
       files.push({
-        name: `${this.CMapData.archetypeName}_mix.dat15.rel.xml`,
-        path: `${this.CMapData.archetypeName}_mix.dat15.rel.xml`,
+        name: `${this.cMapData.archetypeName}_mix.dat15.rel.xml`,
+        path: `${this.cMapData.archetypeName}_mix.dat15.rel.xml`,
       });
     }
 
-    if (this.AudioGameData) {
+    if (this.audioGameData) {
       files.push({
-        name: `${this.CMapData.archetypeName}_game.dat151.rel.xml`,
-        path: `${this.CMapData.archetypeName}_game.dat151.rel.xml`,
+        name: `${this.cMapData.archetypeName}_game.dat151.rel.xml`,
+        path: `${this.cMapData.archetypeName}_game.dat151.rel.xml`,
       });
     }
 
@@ -241,15 +241,15 @@ export default class Controller {
   }
 
   private getAudioOcclusion(event: IpcMainEvent): AudioOcclusion {
-    return this.AudioOcclusion;
+    return this.audioOcclusion;
   }
 
   private getAudioDynamixData(event: IpcMainEvent): AudioDynamixData {
-    return this.AudioDynamixData;
+    return this.audioDynamixData;
   }
 
   private getAudioGameData(event: IpcMainEvent): AudioGameData {
-    return this.AudioGameData;
+    return this.audioGameData;
   }
 
   private updateAudioOcclusion(
@@ -258,7 +258,7 @@ export default class Controller {
   ): void {
     if (!data) return;
 
-    Object.assign(this.AudioOcclusion, data);
+    Object.assign(this.audioOcclusion, data);
   }
 
   private updateAudioDynamixData(
@@ -267,7 +267,7 @@ export default class Controller {
   ): void {
     if (!data) return;
 
-    Object.assign(this.AudioDynamixData, data);
+    Object.assign(this.audioDynamixData, data);
   }
 
   private updateAudioGameData(
@@ -276,6 +276,6 @@ export default class Controller {
   ): void {
     if (!data) return;
 
-    Object.assign(this.AudioGameData, data);
+    Object.assign(this.audioGameData, data);
   }
 }

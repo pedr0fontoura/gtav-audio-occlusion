@@ -10,24 +10,24 @@ export class CodeWalkerEncoder {
   public encodeAudioOcclusion(audioOcclusion: AudioOcclusion): XML.AudioOcclusionInteriorMetadata {
     audioOcclusion.beforeEncode();
 
-    const encodedPortalInfoList = audioOcclusion.PortalInfoList.map(portalInfo => {
-      const encodedPortalEntityList: XML.PortalEntity[] = portalInfo.PortalEntityList.map(
+    const encodedPortalInfoList = audioOcclusion.portalInfoList.map(portalInfo => {
+      const encodedPortalEntityList: XML.PortalEntity[] = portalInfo.portalEntityList.map(
         portalEntity => {
           const encodedPortalEntity = {
             LinkType: {
-              $: { value: portalEntity.LinkType },
+              $: { value: portalEntity.linkType },
             },
             MaxOcclusion: {
-              $: { value: portalEntity.MaxOcclusion },
+              $: { value: portalEntity.maxOcclusion },
             },
             hash_E3674005: {
               $: { value: portalEntity.hash_E3674005 },
             },
             IsDoor: {
-              $: { value: portalEntity.IsDoor },
+              $: { value: portalEntity.isDoor },
             },
             IsGlass: {
-              $: { value: portalEntity.IsGlass },
+              $: { value: portalEntity.isGlass },
             },
           };
 
@@ -37,19 +37,19 @@ export class CodeWalkerEncoder {
 
       const encodedPortalInfo: XML.PortalInfo = {
         InteriorProxyHash: {
-          $: { value: portalInfo.InteriorProxyHash },
+          $: { value: portalInfo.interiorProxyHash },
         },
         PortalIdx: {
-          $: { value: portalInfo.PortalIdx },
+          $: { value: portalInfo.portalIdx },
         },
         RoomIdx: {
-          $: { value: portalInfo.RoomIdx },
+          $: { value: portalInfo.roomIdx },
         },
         DestInteriorHash: {
-          $: { value: portalInfo.DestInteriorHash },
+          $: { value: portalInfo.destInteriorHash },
         },
         DestRoomIdx: {
-          $: { value: portalInfo.DestRoomIdx },
+          $: { value: portalInfo.destRoomIdx },
         },
         PortalEntityList: {
           $: { itemType: 'hash_F6624EF9' },
@@ -60,16 +60,16 @@ export class CodeWalkerEncoder {
       return encodedPortalInfo;
     });
 
-    const encodedPathNodeList: XML.PathNode[] = audioOcclusion.PathNodeList.map(pathNode => {
+    const encodedPathNodeList: XML.PathNode[] = audioOcclusion.pathNodeList.map(pathNode => {
       const encodedPathNodeChildList = {
         $: { itemType: 'hash_892CF74F' },
-        Item: pathNode.PathNodeChildList.map(pathNodeChild => {
+        Item: pathNode.pathNodeChildList.map(pathNodeChild => {
           return {
             PathNodeKey: {
-              $: { value: pathNodeChild.PathNodeKey },
+              $: { value: pathNodeChild.pathNodeKey },
             },
             PortalInfoIdx: {
-              $: { value: pathNodeChild.PortalInfoIdx },
+              $: { value: pathNodeChild.portalInfoIdx },
             },
           };
         }),
@@ -77,7 +77,7 @@ export class CodeWalkerEncoder {
 
       return {
         Key: {
-          $: { value: pathNode.Key },
+          $: { value: pathNode.key },
         },
         PathNodeChildList: encodedPathNodeChildList,
       };
@@ -200,37 +200,37 @@ export class CodeWalkerEncoder {
               $: { type: 'AmbientZoneList', ntOffset: 0 },
               Name: 'ambient_zone_list',
               Zones: {
-                Item: [audioGameData.AmbientZone.Name],
+                Item: [audioGameData.ambientZone.name],
               },
             },
             {
               $: { type: 'Interior', ntOffset: 0 },
-              Name: audioGameData.Interior.Name,
+              Name: audioGameData.interior.name,
               Unk0: { $: { value: '0xAAAAA044' } },
               Unk1: { $: { value: '0xD4855127' } },
               Unk2: { $: { value: '0x00000000' } },
               Rooms: {
-                Item: audioGameData.Interior.Rooms,
+                Item: audioGameData.interior.rooms,
               },
             },
             {
               $: { type: 'AmbientZone', ntOffset: 0 },
-              Name: audioGameData.AmbientZone.Name,
+              Name: audioGameData.ambientZone.name,
               Flags0: { $: { value: '0xAA800425' } },
               Shape: 'Box',
               Flags1: { $: { value: '0x00000000' } },
               OuterPos: {
                 $: {
-                  x: audioGameData.AmbientZone.OuterPos.x,
-                  y: audioGameData.AmbientZone.OuterPos.y,
-                  z: audioGameData.AmbientZone.OuterPos.z,
+                  x: audioGameData.ambientZone.outerPos.x,
+                  y: audioGameData.ambientZone.outerPos.y,
+                  z: audioGameData.ambientZone.outerPos.z,
                 },
               },
               OuterSize: {
                 $: {
-                  x: audioGameData.AmbientZone.OuterSize.x,
-                  y: audioGameData.AmbientZone.OuterSize.y,
-                  z: audioGameData.AmbientZone.OuterSize.z,
+                  x: audioGameData.ambientZone.outerSize.x,
+                  y: audioGameData.ambientZone.outerSize.y,
+                  z: audioGameData.ambientZone.outerSize.z,
                 },
               },
               OuterVec1: {
@@ -259,16 +259,16 @@ export class CodeWalkerEncoder {
               },
               InnerPos: {
                 $: {
-                  x: audioGameData.AmbientZone.InnerPos.x,
-                  y: audioGameData.AmbientZone.InnerPos.y,
-                  z: audioGameData.AmbientZone.InnerPos.z,
+                  x: audioGameData.ambientZone.innerPos.x,
+                  y: audioGameData.ambientZone.innerPos.y,
+                  z: audioGameData.ambientZone.innerPos.z,
                 },
               },
               InnerSize: {
                 $: {
-                  x: audioGameData.AmbientZone.InnerSize.x,
-                  y: audioGameData.AmbientZone.InnerSize.y,
-                  z: audioGameData.AmbientZone.InnerSize.z,
+                  x: audioGameData.ambientZone.innerSize.x,
+                  y: audioGameData.ambientZone.innerSize.y,
+                  z: audioGameData.ambientZone.innerSize.z,
                 },
               },
               InnerVec1: {
@@ -312,7 +312,7 @@ export class CodeWalkerEncoder {
                 },
               },
               UnkHash0: '',
-              UnkHash1: audioGameData.AmbientZone.UnkHash01,
+              UnkHash1: audioGameData.ambientZone.unkHash01,
               UnkVec3: { $: { x: -1, y: 0, z: 0 } },
               Flags2: { $: { value: '0x00000000' } },
               Unk14: { $: { value: 4 } },
@@ -323,23 +323,23 @@ export class CodeWalkerEncoder {
               },
               ExtParams: '',
             },
-            ...audioGameData.InteriorRooms.map<XML.InteriorRoom>(interiorRoom => ({
+            ...audioGameData.interiorRooms.map<XML.InteriorRoom>(interiorRoom => ({
               $: { type: 'InteriorRoom', ntOffset: 0 },
-              Name: interiorRoom.Name,
+              Name: interiorRoom.name,
               Flags0: { $: { value: '0xAAAAAAAA' } },
-              MloRoom: interiorRoom.MloRoom,
-              Hash1: interiorRoom.Hash1,
-              Unk02: { $: { value: interiorRoom.Unk02 } },
-              Unk03: { $: { value: interiorRoom.Unk03 } },
-              Unk04: { $: { value: interiorRoom.Unk04 } },
-              Unk05: { $: { value: interiorRoom.Unk05 } },
-              Unk06: interiorRoom.Unk06,
-              Unk07: { $: { value: interiorRoom.Unk07 } },
-              Unk08: { $: { value: interiorRoom.Unk08 } },
-              Unk09: { $: { value: interiorRoom.Unk09 } },
-              Unk10: { $: { value: interiorRoom.Unk10 } },
-              Unk11: { $: { value: interiorRoom.Unk11 } },
-              Unk12: { $: { value: interiorRoom.Unk12 } },
+              MloRoom: interiorRoom.mloRoom,
+              Hash1: interiorRoom.hash1,
+              Unk02: { $: { value: interiorRoom.unk02 } },
+              Unk03: { $: { value: interiorRoom.unk03 } },
+              Unk04: { $: { value: interiorRoom.unk04 } },
+              Unk05: { $: { value: interiorRoom.unk05 } },
+              Unk06: interiorRoom.unk06,
+              Unk07: { $: { value: interiorRoom.unk07 } },
+              Unk08: { $: { value: interiorRoom.unk08 } },
+              Unk09: { $: { value: interiorRoom.unk09 } },
+              Unk10: { $: { value: interiorRoom.unk10 } },
+              Unk11: { $: { value: interiorRoom.unk11 } },
+              Unk12: { $: { value: interiorRoom.unk12 } },
               Unk13: '',
               Unk14: 'hash_D4855127',
             })),

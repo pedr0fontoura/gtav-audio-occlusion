@@ -13,15 +13,15 @@ async function execute(): Promise<void> {
 
   const parsedYmap = await cwFile.read<XML.Ymap>(ymapPath);
 
-  const mapData = new CMapData(parsedYmap);
+  const cMapData = new CMapData(parsedYmap);
 
   const audioDynamixData = new AudioDynamixData({
-    CMapData: mapData,
+    cMapData,
   });
 
   const dat15 = cwEncoder.encodeAudioDynamixData(audioDynamixData);
 
-  await cwFile.write(`${mapData.archetypeName}_mix.dat15.rel.xml`, dat15);
+  await cwFile.write(`${cMapData.archetypeName}_mix.dat15.rel.xml`, dat15);
 }
 
 execute();

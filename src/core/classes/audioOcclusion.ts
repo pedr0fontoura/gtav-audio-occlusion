@@ -4,21 +4,21 @@ import { CMapData } from '../files/codewalker/ymap';
 import { joaat, convertToInt32 } from '../utils';
 
 export interface PortalEntity {
-  LinkType: number;
-  MaxOcclusion: number;
+  linkType: number;
+  maxOcclusion: number;
   hash_E3674005: number;
-  IsDoor: boolean;
-  IsGlass: boolean;
+  isDoor: boolean;
+  isGlass: boolean;
 }
 
 interface PortalInfo {
   index: number;
-  InteriorProxyHash: number;
-  PortalIdx: number;
-  RoomIdx: number;
-  DestInteriorHash: number;
-  DestRoomIdx: number;
-  PortalEntityList: PortalEntity[];
+  interiorProxyHash: number;
+  portalIdx: number;
+  roomIdx: number;
+  destInteriorHash: number;
+  destRoomIdx: number;
+  portalEntityList: PortalEntity[];
 }
 
 export interface PathNodeDirection {
@@ -28,67 +28,67 @@ export interface PathNodeDirection {
 }
 
 interface PathNodeChild {
-  PathNodeKey: number;
-  PortalInfoIdx: number;
+  pathNodeKey: number;
+  portalInfoIdx: number;
 }
 
 export interface PathNode {
-  Key: number;
-  PathNodeChildList: PathNodeChild[];
+  key: number;
+  pathNodeChildList: PathNodeChild[];
 }
 
 interface IAudioOcclusion {
-  CMloArchetypeDef: CMloArchetypeDef;
-  CMapData: CMapData;
+  cMloArchetypeDef: CMloArchetypeDef;
+  cMapData: CMapData;
 }
 
 export default class AudioOcclusion {
-  private CMloArchetypeDef: CMloArchetypeDef;
-  private CMapData: CMapData;
+  private cMloArchetypeDef: CMloArchetypeDef;
+  private cMapData: CMapData;
 
   // Tool specific data
-  public PortalsEntities: PortalEntity[][];
+  public portalsEntities: PortalEntity[][];
   public pathNodesDirections: PathNodeDirection[];
 
   // Actual game data
   public occlusionHash: number;
-  public PortalInfoList: PortalInfo[];
-  public PathNodeList: PathNode[];
+  public portalInfoList: PortalInfo[];
+  public pathNodeList: PathNode[];
 
-  constructor({ CMloArchetypeDef, CMapData }: IAudioOcclusion) {
-    this.CMloArchetypeDef = CMloArchetypeDef;
-    this.CMapData = CMapData;
+  constructor({ cMloArchetypeDef, cMapData }: IAudioOcclusion) {
+    this.cMloArchetypeDef = cMloArchetypeDef;
+    this.cMapData = cMapData;
 
     this.occlusionHash = this.generateOcclusionHash();
-    this.PortalsEntities = this.getPortalsEntities();
-    this.PortalInfoList = this.generatePortalInfoList();
+    this.portalsEntities = this.getPortalsEntities();
+    this.portalInfoList = this.generatePortalInfoList();
     this.pathNodesDirections = this.getPathNodesDirections();
   }
 
   private getArchetypeNameHash(): number {
-    if (this.CMapData.archetypeName.startsWith('hash_')) {
-      const [, hexString] = this.CMapData.archetypeName.split('_');
+    if (this.cMapData.archetypeName.startsWith('hash_')) {
+      const [, hexString] = this.cMapData.archetypeName.split('_');
 
       return parseInt(hexString, 16);
     }
 
-    return joaat(this.CMapData.archetypeName, true);
+    return joaat(this.cMapData.archetypeName, true);
   }
 
   private getPortalsEntities(): PortalEntity[][] {
-    return this.CMloArchetypeDef.portals.map(portal =>
+    return this.cMloArchetypeDef.portals.map(portal =>
       portal.attachedObjects.map(attachedObjectHash => ({
-        LinkType: 1,
-        MaxOcclusion: 0.7,
+        linkType: 1,
+        maxOcclusion: 0.7,
         hash_E3674005: attachedObjectHash,
-        IsDoor: false,
-        IsGlass: false,
+        isDoor: false,
+        isGlass: false,
       })),
     );
   }
 
   private generateOcclusionHash(): number {
-    const pos = this.CMapData.position;
+    const pos = this.cMapData.position;
 
     return this.getArchetypeNameHash() ^ (pos.x * 100) ^ (pos.y * 100) ^ (pos.z * 100);
   }
@@ -96,8 +96,8 @@ export default class AudioOcclusion {
   private generatePortalInfoList(): PortalInfo[] {
     let portalInfoList: PortalInfo[] = [];
 
-    this.CMloArchetypeDef.rooms.forEach(room => {
-      const roomPortals = this.CMloArchetypeDef.getRoomPortals(room.index);
+    this.cMloArchetypeDef.rooms.forEach(room => {
+      const roomPortals = this.cMloArchetypeDef.getRoomPortals(room.index);
 
       roomPortals.sort((a, b) => {
         return a.index - b.index;
@@ -105,16 +105,16 @@ export default class AudioOcclusion {
 
       // PortalIdx is relative to RoomIdx
       const roomPortalInfoList = roomPortals.map((portal, index) => {
-        const portalEntityList = this.PortalsEntities[portal.index];
+        const portalEntityList = this.portalsEntities[portal.index];
 
         const portalInfo = {
           index: portal.index,
-          InteriorProxyHash: this.occlusionHash,
-          PortalIdx: index,
-          RoomIdx: portal.from,
-          DestInteriorHash: this.occlusionHash,
-          DestRoomIdx: portal.to,
-          PortalEntityList: portalEntityList,
+          interiorProxyHash: this.occlusionHash,
+          portalIdx: index,
+          roomIdx: portal.from,
+          destInteriorHash: this.occlusionHash,
+          destRoomIdx: portal.to,
+          portalEntityList: portalEntityList,
         };
 
         return portalInfo;
@@ -129,11 +129,11 @@ export default class AudioOcclusion {
   private getPathNodesDirections(): PathNodeDirection[] {
     const pathNodeDirections: PathNodeDirection[] = [];
 
-    this.PortalInfoList.forEach(portalInfo => {
+    this.portalInfoList.forEach(portalInfo => {
       const pathNodeDirection = {
         portal: portalInfo.index,
-        from: portalInfo.RoomIdx,
-        to: portalInfo.DestRoomIdx,
+        from: portalInfo.roomIdx,
+        to: portalInfo.destRoomIdx,
       };
 
       const directionExists = pathNodeDirections.findIndex(direction => {
@@ -149,7 +149,7 @@ export default class AudioOcclusion {
   }
 
   private getRoomOcclusionHash(roomIndex: number): number {
-    const room = this.CMloArchetypeDef.rooms[roomIndex];
+    const room = this.cMloArchetypeDef.rooms[roomIndex];
 
     if (!room) throw new Error(`Room don't exist`);
 
@@ -171,11 +171,11 @@ export default class AudioOcclusion {
 
       const pathNodeChildList: PathNodeChild[] = [];
 
-      this.PortalInfoList.forEach((portalInfo, index) => {
-        if (portalInfo.RoomIdx === direction.from && portalInfo.DestRoomIdx === direction.to) {
+      this.portalInfoList.forEach((portalInfo, index) => {
+        if (portalInfo.roomIdx === direction.from && portalInfo.destRoomIdx === direction.to) {
           pathNodeChildList.push({
-            PathNodeKey: 0,
-            PortalInfoIdx: index,
+            pathNodeKey: 0,
+            portalInfoIdx: index,
           });
         }
       });
@@ -183,8 +183,8 @@ export default class AudioOcclusion {
       // pathNode for each audio channel
       for (let i = 1; i <= 3; i++) {
         const pathNode = {
-          Key: convertToInt32(startRoomHash - endRoomHash) + i,
-          PathNodeChildList: pathNodeChildList,
+          key: convertToInt32(startRoomHash - endRoomHash) + i,
+          pathNodeChildList: pathNodeChildList,
         };
 
         pathNodeList.push(pathNode);
@@ -195,7 +195,7 @@ export default class AudioOcclusion {
   }
 
   public beforeEncode(): void {
-    this.PortalInfoList = this.generatePortalInfoList();
-    this.PathNodeList = this.generatePathNodeList();
+    this.portalInfoList = this.generatePortalInfoList();
+    this.pathNodeList = this.generatePathNodeList();
   }
 }

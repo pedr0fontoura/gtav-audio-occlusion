@@ -22,13 +22,13 @@ async function execute(): Promise<void> {
   const cMloArchetypeDef = new CMloArchetypeDef(parsedYtyp);
 
   const audioDynamixData = new AudioDynamixData({
-    CMapData: cMapData,
+    cMapData,
   });
 
   const audioGameData = new AudioGameData({
-    CMapData: cMapData,
-    CMloArchetypeDef: cMloArchetypeDef,
-    AudioDynamixData: audioDynamixData,
+    cMapData,
+    cMloArchetypeDef,
+    audioDynamixData,
   });
 
   const dat15 = cwEncoder.encodeAudioGameData(audioGameData);
