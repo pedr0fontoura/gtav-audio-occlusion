@@ -12,6 +12,7 @@ export interface PortalEntity {
 }
 
 interface PortalInfo {
+  index: number;
   InteriorProxyHash: number;
   PortalIdx: number;
   RoomIdx: number;
@@ -20,7 +21,8 @@ interface PortalInfo {
   PortalEntityList: PortalEntity[];
 }
 
-interface PathNodeDirection {
+export interface PathNodeDirection {
+  portal: number;
   from: number;
   to: number;
 }
@@ -30,7 +32,7 @@ interface PathNodeChild {
   PortalInfoIdx: number;
 }
 
-interface PathNode {
+export interface PathNode {
   Key: number;
   PathNodeChildList: PathNodeChild[];
 }
@@ -44,8 +46,9 @@ export default class AudioOcclusion {
   private CMloArchetypeDef: CMloArchetypeDef;
   private CMapData: CMapData;
 
-  // Class specific data
+  // Tool specific data
   public PortalsEntities: PortalEntity[][];
+  public pathNodesDirections: PathNodeDirection[];
 
   // Actual game data
   public occlusionHash: number;
@@ -56,11 +59,10 @@ export default class AudioOcclusion {
     this.CMloArchetypeDef = CMloArchetypeDef;
     this.CMapData = CMapData;
 
-    this.PortalsEntities = this.getPortalsEntities();
-
     this.occlusionHash = this.generateOcclusionHash();
+    this.PortalsEntities = this.getPortalsEntities();
     this.PortalInfoList = this.generatePortalInfoList();
-    this.PathNodeList = this.generatePathNodeList();
+    this.pathNodesDirections = this.getPathNodesDirections();
   }
 
   private getArchetypeNameHash(): number {
@@ -106,6 +108,7 @@ export default class AudioOcclusion {
         const portalEntityList = this.PortalsEntities[portal.index];
 
         const portalInfo = {
+          index: portal.index,
           InteriorProxyHash: this.occlusionHash,
           PortalIdx: index,
           RoomIdx: portal.from,
@@ -123,11 +126,12 @@ export default class AudioOcclusion {
     return portalInfoList;
   }
 
-  private getPathNodeDirections(): PathNodeDirection[] {
+  private getPathNodesDirections(): PathNodeDirection[] {
     const pathNodeDirections: PathNodeDirection[] = [];
 
     this.PortalInfoList.forEach(portalInfo => {
       const pathNodeDirection = {
+        portal: portalInfo.index,
         from: portalInfo.RoomIdx,
         to: portalInfo.DestRoomIdx,
       };
@@ -157,7 +161,7 @@ export default class AudioOcclusion {
   }
 
   private generatePathNodeList(): PathNode[] {
-    const directions = this.getPathNodeDirections();
+    const directions = this.getPathNodesDirections();
 
     const pathNodeList: PathNode[] = [];
 
@@ -190,7 +194,8 @@ export default class AudioOcclusion {
     return pathNodeList;
   }
 
-  public update(): void {
+  public beforeEncode(): void {
     this.PortalInfoList = this.generatePortalInfoList();
+    this.PathNodeList = this.generatePathNodeList();
   }
 }

@@ -1,8 +1,4 @@
-import styled, { css } from 'styled-components';
-
-interface ITableSection {
-  disabled?: boolean;
-}
+import styled from 'styled-components';
 
 export const Container = styled.div`
   height: 100%;
@@ -20,16 +16,16 @@ export const TableContainer = styled.section`
   height: 100%;
   width: 100%;
 
-  margin-top: 16px;
+  overflow-y: auto;
+
+  padding-right: 16px;
 
   table {
     width: 100%;
 
-    margin-top: 8px;
-
     border-spacing: 0px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 4px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
 
     tr > th {
       padding: 8px;
@@ -50,18 +46,25 @@ export const TableContainer = styled.section`
       background: rgba(0, 0, 0, 0.2);
     }
   }
-`;
 
-export const TableSection = styled.div<ITableSection>`
-  ${({ disabled }) =>
-    disabled &&
-    css`
-      opacity: 0.2;
-      pointer-events: none;
-    `}
+  input[type='number'] {
+    width: 64px;
 
-  & + div {
-    margin-top: 24px;
+    padding: 8px;
+
+    border-radius: 4px;
+
+    color: #fff;
+    font-size: 16px;
+
+    background: rgba(0, 0, 0, 0.4);
+    outline: none;
+    border: none;
+  }
+
+  input[type='checkbox'] {
+    height: 24px;
+    width: 24px;
   }
 `;
 
