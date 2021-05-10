@@ -98,12 +98,12 @@ export default class AudioOcclusion {
       const roomPortals = this.CMloArchetypeDef.getRoomPortals(room.index);
 
       roomPortals.sort((a, b) => {
-        return a.to - b.to;
+        return a.index - b.index;
       });
 
       // PortalIdx is relative to RoomIdx
       const roomPortalInfoList = roomPortals.map((portal, index) => {
-        const portalEntityList = this.PortalsEntities[index];
+        const portalEntityList = this.PortalsEntities[portal.index];
 
         const portalInfo = {
           InteriorProxyHash: this.occlusionHash,
