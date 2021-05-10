@@ -8,6 +8,8 @@ export class CodeWalkerEncoder {
   constructor() {}
 
   public encodeAudioOcclusion(audioOcclusion: AudioOcclusion): XML.AudioOcclusionInteriorMetadata {
+    audioOcclusion.update();
+
     const encodedPortalInfoList = audioOcclusion.PortalInfoList.map(portalInfo => {
       const encodedPortalEntityList: XML.PortalEntity[] = portalInfo.PortalEntityList.map(
         portalEntity => {

@@ -8,11 +8,40 @@ import { Container, TableContainer } from './styles';
 const Portals = () => {
   const [portalsEntities, setPortalsEntities] = useState<PortalEntity[][]>();
 
+  const updatePortalsEntities = (
+    pPortalIdx: number,
+    pEntityIdx: number,
+    data: { [key in keyof PortalEntity]?: any },
+  ): void => {
+    setPortalsEntities(
+      portalsEntities.map((portalEntity, portalIdx) => {
+        if (pPortalIdx !== portalIdx) return portalEntity;
+
+        return portalEntity.map((entity, entityIdx) => {
+          if (pEntityIdx !== entityIdx) return entity;
+
+          return {
+            ...entity,
+            ...data,
+          };
+        });
+      }),
+    );
+  };
+
+  useEffect(() => {
+    if (portalsEntities) {
+      ipcRenderer.send('updateAudioOcclusion', { PortalsEntities: portalsEntities });
+    }
+  }, [portalsEntities]);
+
   useEffect(() => {
     (async () => {
       const audioOcclusion: AudioOcclusion = await ipcRenderer.invoke('getAudioOcclusion');
 
-      setPortalsEntities(audioOcclusion.PortalsEntities);
+      if (audioOcclusion) {
+        setPortalsEntities(audioOcclusion.PortalsEntities);
+      }
     })();
   }, []);
 
@@ -39,14 +68,41 @@ const Portals = () => {
                     <td>{portalIdx}</td>
                     <td>{entity.LinkType}</td>
                     <td>
-                      <input type="number" value={entity.MaxOcclusion} />
+                      <input
+                        type="number"
+                        value={entity.MaxOcclusion}
+                        step={0.1}
+                        min={0}
+                        max={1}
+                        onChange={e =>
+                          updatePortalsEntities(portalIdx, entityIdx, {
+                            MaxOcclusion: parseFloat(e.target.value),
+                          })
+                        }
+                      />
                     </td>
                     <td>{entity.hash_E3674005}</td>
                     <td>
-                      <input type="checkbox" checked={entity.IsDoor} />
+                      <input
+                        type="checkbox"
+                        checked={entity.IsDoor}
+                        onChange={e =>
+                          updatePortalsEntities(portalIdx, entityIdx, {
+                            IsDoor: e.target.checked,
+                          })
+                        }
+                      />
                     </td>
                     <td>
-                      <input type="checkbox" checked={entity.IsGlass} />
+                      <input
+                        type="checkbox"
+                        checked={entity.IsGlass}
+                        onChange={e =>
+                          updatePortalsEntities(portalIdx, entityIdx, {
+                            IsGlass: e.target.checked,
+                          })
+                        }
+                      />
                     </td>
                   </tr>
                 )),

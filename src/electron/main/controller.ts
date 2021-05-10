@@ -61,6 +61,10 @@ export default class Controller {
     ipcMain.handle('getAudioOcclusion', this.getAudioOcclusion.bind(this));
     ipcMain.handle('getAudioDynamixData', this.getAudioDynamixData.bind(this));
     ipcMain.handle('getAudioGameData', this.getAudioGameData.bind(this));
+
+    ipcMain.on('updateAudioOcclusion', this.updateAudioOcclusion.bind(this));
+    ipcMain.on('updateAudioDynamixData', this.updateAudioDynamixData.bind(this));
+    ipcMain.on('updateAudioGameData', this.updateAudioGameData.bind(this));
   }
 
   private clearGeneratedResources(): void {
@@ -75,8 +79,6 @@ export default class Controller {
     if (file) {
       parsedFile = JSON.parse(file);
     }
-
-    console.log(parsedFile);
 
     if (!this.CMapData && parsedFile.path.includes('.ymap')) {
       this.ymap = parsedFile;
@@ -203,18 +205,6 @@ export default class Controller {
     this.AudioGameData = undefined;
   }
 
-  private getAudioOcclusion(event: IpcMainEvent): AudioOcclusion {
-    return this.AudioOcclusion;
-  }
-
-  private getAudioDynamixData(event: IpcMainEvent): AudioDynamixData {
-    return this.AudioDynamixData;
-  }
-
-  private getAudioGameData(event: IpcMainEvent): AudioGameData {
-    return this.AudioGameData;
-  }
-
   private getFiles(event: IpcMainEvent): File[] {
     const files: File[] = [];
 
@@ -248,5 +238,44 @@ export default class Controller {
     }
 
     return files;
+  }
+
+  private getAudioOcclusion(event: IpcMainEvent): AudioOcclusion {
+    return this.AudioOcclusion;
+  }
+
+  private getAudioDynamixData(event: IpcMainEvent): AudioDynamixData {
+    return this.AudioDynamixData;
+  }
+
+  private getAudioGameData(event: IpcMainEvent): AudioGameData {
+    return this.AudioGameData;
+  }
+
+  private updateAudioOcclusion(
+    event: IpcMainEvent,
+    data: { [key in keyof AudioOcclusion]?: any },
+  ): void {
+    if (!data) return;
+
+    Object.assign(this.AudioOcclusion, data);
+  }
+
+  private updateAudioDynamixData(
+    event: IpcMainEvent,
+    data: { [key in keyof AudioDynamixData]?: any },
+  ): void {
+    if (!data) return;
+
+    Object.assign(this.AudioDynamixData, data);
+  }
+
+  private updateAudioGameData(
+    event: IpcMainEvent,
+    data: { [key in keyof AudioGameData]?: any },
+  ): void {
+    if (!data) return;
+
+    Object.assign(this.AudioGameData, data);
   }
 }

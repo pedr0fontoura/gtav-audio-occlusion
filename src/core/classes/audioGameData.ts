@@ -16,7 +16,7 @@ interface AmbientZone {
   UnkHash01: string;
 }
 
-interface InteriorRoom {
+export interface InteriorRoom {
   Name: string;
   MloRoom: string;
   Hash1: string;

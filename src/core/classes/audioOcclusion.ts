@@ -189,4 +189,8 @@ export default class AudioOcclusion {
 
     return pathNodeList;
   }
+
+  public update(): void {
+    this.PortalInfoList = this.generatePortalInfoList();
+  }
 }

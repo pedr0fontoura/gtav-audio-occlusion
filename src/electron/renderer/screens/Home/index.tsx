@@ -208,7 +208,7 @@ const Home = () => {
                 <td>{dat151File ? dat151File.name : '...'}</td>
                 <td>{dat151File ? dat151File.path : '...'}</td>
                 <td>
-                  {isGeneratedAreaEnabled && !dat151File && (
+                  {isGeneratedAreaEnabled && dat15File && !dat151File && (
                     <Button onClick={handleGenerateAudioGameData}>
                       <FaPlus size={16} />
                     </Button>
