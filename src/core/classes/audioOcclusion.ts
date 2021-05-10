@@ -161,11 +161,9 @@ export default class AudioOcclusion {
   }
 
   private generatePathNodeList(): PathNode[] {
-    const directions = this.getPathNodesDirections();
-
     const pathNodeList: PathNode[] = [];
 
-    directions.forEach(direction => {
+    this.pathNodesDirections.forEach(direction => {
       const startRoomHash = this.getRoomOcclusionHash(direction.from);
       const endRoomHash = this.getRoomOcclusionHash(direction.to);
 
