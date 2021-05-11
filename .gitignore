@@ -1,4 +1,5 @@
 node_modules/
 dist/
+output/
 yarn.lock
 *.xml

@@ -42,7 +42,7 @@ export class CodeWalkerFile {
 
     console.log(`Writing file on ${path.resolve(cwd, filePath)}`);
 
-    await fs.writeFile(path.resolve(cwd, filePath), XMLHeader + XML);
+    await fs.writeFile(path.resolve(cwd, 'output', filePath), XMLHeader + XML);
   }
 }
 
