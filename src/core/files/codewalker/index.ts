@@ -1,4 +1,3 @@
-import path from 'path';
 import fs from 'fs/promises';
 import { Parser, Builder } from 'xml2js';
 
@@ -38,13 +37,7 @@ export class CodeWalkerFile {
 
     const XML = this.builder.buildObject(data);
 
-    const cwd = process.cwd();
-
-    const resultFilePath = path.resolve(cwd, 'output', filePath);
-
-    console.log(`Writing file on ${resultFilePath}`);
-
-    await fs.writeFile(resultFilePath, XMLHeader + XML);
+    await fs.writeFile(filePath, XMLHeader + XML);
   }
 }
 

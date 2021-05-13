@@ -32,14 +32,22 @@ export default class AudioGameData {
   private interior: Interior;
   private audioDynamixData: AudioDynamixData;
 
+  public fileName: string;
+
   public ambientZone: AmbientZone;
+
+  public interiorName: string;
   public interiorRooms: InteriorRoom[];
 
   constructor(interior: Interior, audioDynamixData: AudioDynamixData) {
     this.interior = interior;
     this.audioDynamixData = audioDynamixData;
 
+    this.fileName = `${this.interior.name}_game.dat151.rel.xml`;
+
     this.ambientZone = this.getAmbientZone();
+
+    this.interiorName = this.interior.name;
     this.interiorRooms = this.getInteriorRooms();
   }
 

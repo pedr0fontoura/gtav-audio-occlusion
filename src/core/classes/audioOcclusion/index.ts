@@ -35,6 +35,9 @@ export default class AudioOcclusion {
   private interior: Interior;
 
   public occlusionHash: number;
+
+  public fileName: string;
+
   public portalsEntities: PortalEntity[][];
   public portalInfoList: PortalInfo[];
   public nodes: Node[];
@@ -45,6 +48,10 @@ export default class AudioOcclusion {
     this.interior = interior;
 
     this.occlusionHash = this.getOcclusionHash();
+
+    this.fileName =
+      this.occlusionHash > 0 ? `${this.occlusionHash}.ymt.pso.xml` : `${this.occlusionHash >>> 0}.ymt.pso.xml`;
+
     this.portalsEntities = this.getPortalsEntities();
     this.portalInfoList = this.getPortalInfoList();
 

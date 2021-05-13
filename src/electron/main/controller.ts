@@ -1,4 +1,5 @@
 import { ipcMain, IpcMainEvent } from 'electron';
+import path from 'path';
 import { CodeWalkerEncoder, CodeWalkerFile } from '../../core/files/codewalker';
 import { CMapData } from '../../core/files/codewalker/ymap';
 import { CMloArchetypeDef } from '../../core/files/codewalker/ytyp';
@@ -27,6 +28,8 @@ export default class Controller {
   private cwFile: CodeWalkerFile;
   private cwEncoder: CodeWalkerEncoder;
 
+  public outputDirPath: string;
+
   public ymap: File;
   public ytyp: File;
 
@@ -42,6 +45,8 @@ export default class Controller {
   constructor() {
     this.cwFile = new CodeWalkerFile();
     this.cwEncoder = new CodeWalkerEncoder();
+
+    this.outputDirPath = path.resolve(process.cwd(), 'output');
 
     // Register events
     ipcMain.on('importFile', this.importFile.bind(this));
@@ -144,8 +149,8 @@ export default class Controller {
     this.audioOcclusion = new AudioOcclusion(this.interior);
 
     return {
-      name: `${this.audioOcclusion.occlusionHash}.ymt.pso.xml`,
-      path: `${this.audioOcclusion.occlusionHash}.ymt.pso.xml`,
+      name: this.audioOcclusion.fileName,
+      path: path.resolve(this.outputDirPath, this.audioOcclusion.fileName),
     };
   }
 
@@ -154,7 +159,7 @@ export default class Controller {
 
     const ymt = this.cwEncoder.encodeAudioOcclusion(this.audioOcclusion);
 
-    await this.cwFile.write(`${this.audioOcclusion.occlusionHash}.ymt.pso.xml`, ymt);
+    await this.cwFile.write(path.resolve(this.outputDirPath, this.audioOcclusion.fileName), ymt);
   }
 
   private clearAudioOcclusion(): void {
@@ -167,8 +172,8 @@ export default class Controller {
     this.audioDynamixData = new AudioDynamixData(this.interior);
 
     return {
-      name: `${this.interior.name}_mix.dat15.rel.xml`,
-      path: `${this.interior.name}_mix.dat15.rel.xml`,
+      name: this.audioDynamixData.fileName,
+      path: path.resolve(this.outputDirPath, this.audioDynamixData.fileName),
     };
   }
 
@@ -177,7 +182,7 @@ export default class Controller {
 
     const dat15 = this.cwEncoder.encodeAudioDynamixData(this.audioDynamixData);
 
-    await this.cwFile.write(`${this.interior.name}_mix.dat15.rel.xml`, dat15);
+    await this.cwFile.write(path.resolve(this.outputDirPath, this.audioDynamixData.fileName), dat15);
   }
 
   private clearAudioDynamixData(): void {
@@ -190,8 +195,8 @@ export default class Controller {
     this.audioGameData = new AudioGameData(this.interior, this.audioDynamixData);
 
     return {
-      name: `${this.interior.name}_game.dat151.rel.xml`,
-      path: `${this.interior.name}_game.dat151.rel.xml`,
+      name: this.audioGameData.fileName,
+      path: path.resolve(this.outputDirPath, this.audioGameData.fileName),
     };
   }
 
@@ -200,7 +205,7 @@ export default class Controller {
 
     const dat151 = this.cwEncoder.encodeAudioGameData(this.audioGameData);
 
-    await this.cwFile.write(`${this.interior.name}_game.dat151.rel.xml`, dat151);
+    await this.cwFile.write(path.resolve(this.outputDirPath, this.audioGameData.fileName), dat151);
   }
 
   private clearAudioGameData(): void {
@@ -220,22 +225,22 @@ export default class Controller {
 
     if (this.audioOcclusion) {
       files.push({
-        name: `${this.audioOcclusion.occlusionHash}.ymt.pso.xml`,
-        path: `${this.audioOcclusion.occlusionHash}.ymt.pso.xml`,
+        name: this.audioOcclusion.fileName,
+        path: path.resolve(this.outputDirPath, this.audioOcclusion.fileName),
       });
     }
 
     if (this.audioDynamixData) {
       files.push({
-        name: `${this.interior.name}_mix.dat15.rel.xml`,
-        path: `${this.interior.name}_mix.dat15.rel.xml`,
+        name: this.audioDynamixData.fileName,
+        path: path.resolve(this.outputDirPath, this.audioDynamixData.fileName),
       });
     }
 
     if (this.audioGameData) {
       files.push({
-        name: `${this.interior.name}_game.dat151.rel.xml`,
-        path: `${this.interior.name}_game.dat151.rel.xml`,
+        name: this.audioGameData.fileName,
+        path: path.resolve(this.outputDirPath, this.audioGameData.fileName),
       });
     }
 

@@ -203,12 +203,12 @@ export class CodeWalkerEncoder {
             },
             {
               $: { type: 'Interior', ntOffset: 0 },
-              Name: audioGameData.interior.name,
+              Name: audioGameData.interiorName,
               Unk0: { $: { value: '0xAAAAA044' } },
               Unk1: { $: { value: '0xD4855127' } },
               Unk2: { $: { value: '0x00000000' } },
               Rooms: {
-                Item: audioGameData.interior.rooms,
+                Item: audioGameData.interiorRooms.map(room => room.name),
               },
             },
             {
