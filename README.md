@@ -7,7 +7,7 @@ A tool for generating GTA V custom interiors audio occlusion.
 ![Tool Preview](https://i.imgur.com/F2FtY6u.png 'Tool Preview')
 ![Tool Preview](https://i.imgur.com/H9khmSb.png 'Tool Preview')
 ![Tool Preview](https://i.imgur.com/RNme5e1.png 'Tool Preview')
-![Tool Preview](https://imgur.com/a/uHBA8xp 'Tool Preview')
+![Tool Preview](https://i.imgur.com/aMVjYKr.png 'Tool Preview')
 
 ## Installation
 
@@ -22,9 +22,9 @@ A tool for generating GTA V custom interiors audio occlusion.
 
 3. Start the app.
 
-```bash
-yarn start
-```
+   ```bash
+   yarn start
+   ```
 
 ## Credits
 
