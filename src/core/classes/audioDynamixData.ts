@@ -1,4 +1,4 @@
-import { CMapData } from '../files/codewalker/ymap';
+import Interior from './interior';
 
 interface Scene {
   name: string;
@@ -8,24 +8,16 @@ interface Patch {
   name: string;
 }
 
-interface IAudioDynamixData {
-  cMapData: CMapData;
-}
-
 export default class AudioDynamixData {
-  private cMapData: CMapData;
-
   public scene: Scene;
   public patch: Patch;
 
-  constructor({ cMapData }: IAudioDynamixData) {
-    this.cMapData = cMapData;
-
+  constructor(interior: Interior) {
     this.scene = {
-      name: this.cMapData.archetypeName + '_scene',
+      name: interior.name + '_scene',
     };
     this.patch = {
-      name: this.cMapData.archetypeName + '_patch',
+      name: interior.name + '_patch',
     };
   }
 }

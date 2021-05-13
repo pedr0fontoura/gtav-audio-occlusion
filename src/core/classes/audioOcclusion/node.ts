@@ -1,4 +1,4 @@
-import { CMloArchetypeDef } from '../../files/codewalker/ytyp';
+import Interior from '../interior';
 import { PortalInfo } from './index';
 
 import { joaat } from '../../utils';
@@ -21,8 +21,7 @@ export default class Node {
   constructor(room: MloRoom, occlusionHash: number) {
     this.index = room.index;
     this.name = room.name;
-    this.key =
-      room.name === 'limbo' ? joaat('outside', true) : occlusionHash ^ joaat(room.name, true);
+    this.key = room.name === 'limbo' ? joaat('outside', true) : occlusionHash ^ joaat(room.name, true);
 
     this.portals = [];
     this.edges = [];
@@ -30,12 +29,8 @@ export default class Node {
     this.inactiveEdges = [];
   }
 
-  public static getNodes(
-    portalInfoList: PortalInfo[],
-    cMloArchetypeDef: CMloArchetypeDef,
-    occlusionHash: number,
-  ): Node[] {
-    const nodes = cMloArchetypeDef.rooms.map(room => {
+  public static getNodes(portalInfoList: PortalInfo[], interior: Interior, occlusionHash: number): Node[] {
+    const nodes = interior.rooms.map(room => {
       const node = new Node(room, occlusionHash);
 
       node.portals = portalInfoList.filter(portal => portal.roomIdx === node.index);

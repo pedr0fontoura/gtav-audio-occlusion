@@ -19,11 +19,11 @@ export default class Pair {
 
     nodes.forEach(nodeFrom => {
       nodes.forEach(nodeTo => {
-        if (inactiveNodes.some(inactiveNode => inactiveNode === nodeTo)) {
+        if (inactiveNodes.some(inactiveNode => inactiveNode.index === nodeTo.index)) {
           return;
         }
 
-        if (nodeFrom != nodeTo) {
+        if (nodeFrom.index !== nodeTo.index) {
           pairs.push(new Pair(nodeFrom, nodeTo));
           inactiveNodes.push(nodeFrom);
         }

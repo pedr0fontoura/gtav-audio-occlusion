@@ -1,7 +1,6 @@
-import { CMloArchetypeDef } from '../../files/codewalker/ytyp';
-import { CMapData } from '../../files/codewalker/ymap';
-
 import { joaat } from '../../utils';
+
+import Interior from '../interior';
 
 import Node from './node';
 import PathNodeItem from './pathNodeitem';
@@ -32,14 +31,8 @@ export interface PathNodeDirection {
   to: number;
 }
 
-interface IAudioOcclusion {
-  cMloArchetypeDef: CMloArchetypeDef;
-  cMapData: CMapData;
-}
-
 export default class AudioOcclusion {
-  private cMloArchetypeDef: CMloArchetypeDef;
-  private cMapData: CMapData;
+  private interior: Interior;
 
   public occlusionHash: number;
   public portalsEntities: PortalEntity[][];
@@ -48,35 +41,24 @@ export default class AudioOcclusion {
 
   public pathNodeList: PathNodeItem[];
 
-  constructor({ cMloArchetypeDef, cMapData }: IAudioOcclusion) {
-    this.cMloArchetypeDef = cMloArchetypeDef;
-    this.cMapData = cMapData;
+  constructor(interior: Interior) {
+    this.interior = interior;
 
     this.occlusionHash = this.getOcclusionHash();
     this.portalsEntities = this.getPortalsEntities();
     this.portalInfoList = this.getPortalInfoList();
 
-    this.nodes = Node.getNodes(this.portalInfoList, this.cMloArchetypeDef, this.occlusionHash);
-  }
-
-  private getArchetypeNameHash(): number {
-    if (this.cMapData.archetypeName.startsWith('hash_')) {
-      const [, hexString] = this.cMapData.archetypeName.split('_');
-
-      return parseInt(hexString, 16);
-    }
-
-    return joaat(this.cMapData.archetypeName, true);
+    this.nodes = Node.getNodes(this.portalInfoList, this.interior, this.occlusionHash);
   }
 
   private getOcclusionHash(): number {
-    const pos = this.cMapData.position;
+    const pos = this.interior.position;
 
-    return this.getArchetypeNameHash() ^ (pos.x * 100) ^ (pos.y * 100) ^ (pos.z * 100);
+    return joaat(this.interior.name, true) ^ (pos.x * 100) ^ (pos.y * 100) ^ (pos.z * 100);
   }
 
   private getPortalsEntities(): PortalEntity[][] {
-    return this.cMloArchetypeDef.portals.map(portal =>
+    return this.interior.portals.map(portal =>
       portal.attachedObjects.map(attachedObject => ({
         linkType: 1,
         maxOcclusion: 0.7,
@@ -90,8 +72,8 @@ export default class AudioOcclusion {
   private getPortalInfoList(): PortalInfo[] {
     let portalInfoList: PortalInfo[] = [];
 
-    this.cMloArchetypeDef.rooms.forEach(room => {
-      const roomPortals = this.cMloArchetypeDef.getRoomPortals(room.index);
+    this.interior.rooms.forEach(room => {
+      const roomPortals = this.interior.getRoomPortals(room.index);
 
       roomPortals.sort((a, b) => {
         return a.index - b.index;

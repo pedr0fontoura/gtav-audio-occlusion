@@ -1,11 +1,6 @@
-import { CMloArchetypeDef } from '../files/codewalker/ytyp';
-import { CMapData } from '../files/codewalker/ymap';
 import AudioDynamixData from './audioDynamixData';
 
-interface Interior {
-  name: string;
-  rooms: string[];
-}
+import Interior from './interior';
 
 interface AmbientZone {
   name: string;
@@ -33,55 +28,36 @@ export interface InteriorRoom {
   unk12: number;
 }
 
-interface IAudioDynamixData {
-  cMloArchetypeDef: CMloArchetypeDef;
-  cMapData: CMapData;
-  audioDynamixData: AudioDynamixData;
-}
-
 export default class AudioGameData {
-  private cMloArchetypeDef: CMloArchetypeDef;
-  private cMapData: CMapData;
+  private interior: Interior;
   private audioDynamixData: AudioDynamixData;
 
-  public interior: Interior;
   public ambientZone: AmbientZone;
   public interiorRooms: InteriorRoom[];
 
-  constructor({ cMloArchetypeDef, cMapData, audioDynamixData }: IAudioDynamixData) {
-    this.cMloArchetypeDef = cMloArchetypeDef;
-    this.cMapData = cMapData;
+  constructor(interior: Interior, audioDynamixData: AudioDynamixData) {
+    this.interior = interior;
     this.audioDynamixData = audioDynamixData;
 
-    this.interior = this.getInterior();
     this.ambientZone = this.getAmbientZone();
     this.interiorRooms = this.getInteriorRooms();
   }
 
-  private getInterior(): Interior {
-    return {
-      name: this.cMapData.archetypeName,
-      rooms: this.cMloArchetypeDef.rooms
-        .map(room => room.name)
-        .filter(roomName => roomName !== 'limbo'),
-    };
-  }
-
   private getAmbientZone(): AmbientZone {
     const boxSize = {
-      x: this.cMapData.entitiesExtentsMax.x - this.cMapData.entitiesExtentsMin.x,
-      y: this.cMapData.entitiesExtentsMax.y - this.cMapData.entitiesExtentsMin.y,
-      z: this.cMapData.entitiesExtentsMax.x - this.cMapData.entitiesExtentsMin.z,
+      x: this.interior.entitiesExtentsMax.x - this.interior.entitiesExtentsMin.x,
+      y: this.interior.entitiesExtentsMax.y - this.interior.entitiesExtentsMin.y,
+      z: this.interior.entitiesExtentsMax.x - this.interior.entitiesExtentsMin.z,
     };
 
     const center = {
-      x: this.cMapData.entitiesExtentsMin.x + boxSize.x / 2,
-      y: this.cMapData.entitiesExtentsMin.y + boxSize.y / 2,
-      z: this.cMapData.entitiesExtentsMin.z + boxSize.z / 2,
+      x: this.interior.entitiesExtentsMin.x + boxSize.x / 2,
+      y: this.interior.entitiesExtentsMin.y + boxSize.y / 2,
+      z: this.interior.entitiesExtentsMin.z + boxSize.z / 2,
     };
 
     return {
-      name: this.cMapData.archetypeName + '_az',
+      name: this.interior.name + '_az',
       outerPos: { x: center.x, y: center.y, z: center.z },
       outerSize: { x: boxSize.x + 1.0, y: boxSize.y + 1.0, z: boxSize.z + 1.0 },
       innerPos: { x: center.x, y: center.y, z: center.z },
@@ -91,9 +67,9 @@ export default class AudioGameData {
   }
 
   private getInteriorRooms(): InteriorRoom[] {
-    return this.interior.rooms.map(roomName => ({
-      name: roomName,
-      mloRoom: roomName,
+    return this.interior.rooms.map(room => ({
+      name: room.name,
+      mloRoom: room.name,
       hash1: this.ambientZone.name,
       unk02: 0,
       unk03: 0.5,

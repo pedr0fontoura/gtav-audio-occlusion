@@ -6,8 +6,9 @@ export class CMloArchetypeDef {
   public entities: XML.MloEntity[];
   public rooms: XML.MloRoom[];
   public portals: XML.MloPortal[];
+  public fileName: string;
 
-  constructor(rawData: XML.Ytyp) {
+  constructor(rawData: XML.Ytyp, fileName: string) {
     // Interior archeType is the last one on the list
     const archetypesLength = rawData.CMapTypes.archetypes.Item.length;
 
@@ -16,6 +17,8 @@ export class CMloArchetypeDef {
     this.entities = this.getEntities(rawArchetype);
     this.rooms = this.getRooms(rawArchetype);
     this.portals = this.getPortals(rawArchetype);
+
+    this.fileName = fileName;
   }
 
   private getEntities(archetype: XML.CMloArchetypeDef): XML.MloEntity[] {
@@ -76,24 +79,6 @@ export class CMloArchetypeDef {
         to,
         attachedObjects,
       };
-    });
-  }
-
-  public getRoomPortals(room: number): XML.MloPortal[] {
-    const filteredPortals = this.portals.filter(portal => portal.from === room || portal.to === room);
-
-    return filteredPortals.map(portal => {
-      if (portal.to === room) {
-        const reversePortal = {
-          ...portal,
-          from: portal.to,
-          to: portal.from,
-        };
-
-        return reversePortal;
-      }
-
-      return portal;
     });
   }
 }

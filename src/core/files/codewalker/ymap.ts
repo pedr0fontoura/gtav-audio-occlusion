@@ -7,7 +7,9 @@ export class CMapData {
   public archetypeName: string;
   public position: Vector3;
 
-  constructor(rawData: XML.Ymap) {
+  public fileName: string;
+
+  constructor(rawData: XML.Ymap, fileName: string) {
     const rawMloInstance = rawData.CMapData.entities.Item;
 
     this.entitiesExtentsMin = this.getEntitiesExtentsMin(rawData);
@@ -15,6 +17,8 @@ export class CMapData {
 
     this.archetypeName = this.getArchetypeName(rawMloInstance);
     this.position = this.getPosition(rawMloInstance);
+
+    this.fileName = fileName;
   }
 
   private getEntitiesExtentsMin(rawData: XML.Ymap): Vector3 {
