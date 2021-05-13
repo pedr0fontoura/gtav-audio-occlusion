@@ -27,13 +27,9 @@ const Portals = () => {
         });
       }),
     );
-  };
 
-  useEffect(() => {
-    if (portalsEntities) {
-      ipcRenderer.send('updateAudioOcclusion', { PortalsEntities: portalsEntities });
-    }
-  }, [portalsEntities]);
+    ipcRenderer.send('updatePortalEntity', pPortalIdx, pEntityIdx, data);
+  };
 
   useEffect(() => {
     (async () => {

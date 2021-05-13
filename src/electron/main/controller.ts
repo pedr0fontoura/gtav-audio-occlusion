@@ -3,7 +3,7 @@ import { CodeWalkerEncoder, CodeWalkerFile } from '../../core/files/codewalker';
 import { CMapData } from '../../core/files/codewalker/ymap';
 import { CMloArchetypeDef } from '../../core/files/codewalker/ytyp';
 
-import AudioOcclusion from '../../core/classes/audioOcclusion';
+import AudioOcclusion, { PortalEntity } from '../../core/classes/audioOcclusion';
 import AudioDynamixData from '../../core/classes/audioDynamixData';
 import AudioGameData from '../../core/classes/audioGameData';
 
@@ -65,6 +65,8 @@ export default class Controller {
     ipcMain.on('updateAudioOcclusion', this.updateAudioOcclusion.bind(this));
     ipcMain.on('updateAudioDynamixData', this.updateAudioDynamixData.bind(this));
     ipcMain.on('updateAudioGameData', this.updateAudioGameData.bind(this));
+
+    ipcMain.on('updatePortalEntity', this.updatePortalEntity.bind(this));
   }
 
   private clearGeneratedResources(): void {
@@ -277,5 +279,14 @@ export default class Controller {
     if (!data) return;
 
     Object.assign(this.audioGameData, data);
+  }
+
+  private updatePortalEntity(
+    event: IpcMainEvent,
+    portalIndex: number,
+    entityIndex: number,
+    data: { [key in keyof PortalEntity]?: any },
+  ) {
+    Object.assign(this.audioOcclusion.portalsEntities[portalIndex][entityIndex], data);
   }
 }

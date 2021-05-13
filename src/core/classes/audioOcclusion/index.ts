@@ -56,16 +56,6 @@ export default class AudioOcclusion {
     this.portalInfoList = this.getPortalInfoList();
 
     this.nodes = Node.getNodes(this.portalInfoList, this.cMloArchetypeDef, this.occlusionHash);
-    this.pathNodeList = Path.getPaths(this.nodes, this.portalInfoList);
-
-    this.pathNodeList.forEach(pathNode =>
-      console.log({
-        nodeFrom: pathNode.nodeFrom.index,
-        nodeTo: pathNode.nodeTo.index,
-        key: pathNode.key,
-        items: pathNode.pathNodeChildList,
-      }),
-    );
   }
 
   private getArchetypeNameHash(): number {
@@ -130,6 +120,6 @@ export default class AudioOcclusion {
   }
 
   public beforeEncode(): void {
-    this.portalInfoList = this.getPortalInfoList();
+    this.pathNodeList = Path.getPaths(this.nodes, this.portalInfoList);
   }
 }

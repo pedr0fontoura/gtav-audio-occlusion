@@ -40,9 +40,11 @@ export class CodeWalkerFile {
 
     const cwd = process.cwd();
 
-    console.log(`Writing file on ${path.resolve(cwd, filePath)}`);
+    const resultFilePath = path.resolve(cwd, 'output', filePath);
 
-    await fs.writeFile(path.resolve(cwd, 'output', filePath), XMLHeader + XML);
+    console.log(`Writing file on ${resultFilePath}`);
+
+    await fs.writeFile(resultFilePath, XMLHeader + XML);
   }
 }
 

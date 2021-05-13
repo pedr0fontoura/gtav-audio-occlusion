@@ -36,6 +36,16 @@ export const TableContainer = styled.section`
     tr > td {
       padding: 8px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      span {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+
+        & + span {
+          margin-left: 16px;
+        }
+      }
     }
 
     tr:last-child > td {
@@ -63,6 +73,8 @@ export const TableContainer = styled.section`
   }
 
   input[type='checkbox'] {
+    margin-left: 16px;
+
     height: 24px;
     width: 24px;
   }

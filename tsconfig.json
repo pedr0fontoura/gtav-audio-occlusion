@@ -17,5 +17,5 @@
     "esModuleInterop": true
   },
   "include": ["./src/**/*"],
-  "exclude": ["**/node_modules", "**/__tests__/*", "./src/electron/*"]
+  "exclude": ["**/node_modules", "**/__tests__/*"]
 }

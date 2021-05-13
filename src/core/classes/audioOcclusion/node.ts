@@ -16,6 +16,8 @@ export default class Node {
   public portals: PortalInfo[];
   public edges: Node[];
 
+  public inactiveEdges: number[];
+
   constructor(room: MloRoom, occlusionHash: number) {
     this.index = room.index;
     this.name = room.name;
@@ -24,6 +26,8 @@ export default class Node {
 
     this.portals = [];
     this.edges = [];
+
+    this.inactiveEdges = [];
   }
 
   public static getNodes(

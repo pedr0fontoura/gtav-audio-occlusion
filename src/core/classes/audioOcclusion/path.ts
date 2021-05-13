@@ -1,10 +1,8 @@
-import { CMloArchetypeDef } from '../../files/codewalker/ytyp';
 import { PortalInfo } from './index';
 
 import Node from './node';
 import PathNodeItem from './pathNodeitem';
 import PathNodeChildItem from './pathNodeChildItem';
-import Pairs from './pair';
 
 export enum PathType {
   Unk0,
@@ -21,6 +19,8 @@ export default class Path {
 
     nodes.forEach(node => {
       node.edges.forEach(edge => {
+        if (node.inactiveEdges.includes(edge.index)) return;
+
         const pathNodeItem = new PathNodeItem(node, edge, PathType.Unk1);
 
         node.portals.forEach(portalInfo => {
