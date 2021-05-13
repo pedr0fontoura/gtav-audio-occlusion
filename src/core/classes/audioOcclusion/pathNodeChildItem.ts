@@ -1,9 +1,12 @@
-export default class PathNodeChildItem {
-  public pathNodeKey: number;
-  public portalInfoIdx: number;
+import PathNodeItem from './pathNodeitem';
+import { PortalInfo } from './index';
 
-  constructor(pathNodeKey: number, portalInfoIdx: number) {
-    this.pathNodeKey = pathNodeKey;
-    this.portalInfoIdx = portalInfoIdx;
+export default class PathNodeChildItem {
+  public pathNode: PathNodeItem;
+  public portalInfo: PortalInfo;
+
+  constructor(pathNode: PathNodeItem, portalInfo: PortalInfo) {
+    this.pathNode = pathNode;
+    this.portalInfo = portalInfo;
   }
 }

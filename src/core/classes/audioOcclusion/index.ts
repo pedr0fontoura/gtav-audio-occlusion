@@ -17,6 +17,7 @@ export interface PortalEntity {
 
 export interface PortalInfo {
   index: number;
+  infoIdx: number;
   interiorProxyHash: number;
   portalIdx: number;
   roomIdx: number;
@@ -102,6 +103,7 @@ export default class AudioOcclusion {
 
         const portalInfo = {
           index: portal.index,
+          infoIdx: 0,
           interiorProxyHash: this.occlusionHash,
           portalIdx: index,
           roomIdx: portal.from,
@@ -116,10 +118,14 @@ export default class AudioOcclusion {
       portalInfoList = [...portalInfoList, ...roomPortalInfoList];
     });
 
+    portalInfoList.forEach((portalInfo, index) => {
+      portalInfo.infoIdx = index;
+    });
+
     return portalInfoList;
   }
 
   public beforeEncode(): void {
-    this.pathNodeList = Path.getPaths(this.nodes, this.portalInfoList);
+    this.pathNodeList = Path.getPaths(this.nodes);
   }
 }

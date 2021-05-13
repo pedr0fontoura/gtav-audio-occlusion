@@ -11,29 +11,27 @@ export class CodeWalkerEncoder {
     audioOcclusion.beforeEncode();
 
     const encodedPortalInfoList = audioOcclusion.portalInfoList.map(portalInfo => {
-      const encodedPortalEntityList: XML.PortalEntity[] = portalInfo.portalEntityList.map(
-        portalEntity => {
-          const encodedPortalEntity = {
-            LinkType: {
-              $: { value: portalEntity.linkType },
-            },
-            MaxOcclusion: {
-              $: { value: portalEntity.maxOcclusion },
-            },
-            hash_E3674005: {
-              $: { value: portalEntity.hash_E3674005 },
-            },
-            IsDoor: {
-              $: { value: portalEntity.isDoor },
-            },
-            IsGlass: {
-              $: { value: portalEntity.isGlass },
-            },
-          };
+      const encodedPortalEntityList: XML.PortalEntity[] = portalInfo.portalEntityList.map(portalEntity => {
+        const encodedPortalEntity = {
+          LinkType: {
+            $: { value: portalEntity.linkType },
+          },
+          MaxOcclusion: {
+            $: { value: portalEntity.maxOcclusion },
+          },
+          hash_E3674005: {
+            $: { value: portalEntity.hash_E3674005 },
+          },
+          IsDoor: {
+            $: { value: portalEntity.isDoor },
+          },
+          IsGlass: {
+            $: { value: portalEntity.isGlass },
+          },
+        };
 
-          return encodedPortalEntity;
-        },
-      );
+        return encodedPortalEntity;
+      });
 
       const encodedPortalInfo: XML.PortalInfo = {
         InteriorProxyHash: {
@@ -66,10 +64,10 @@ export class CodeWalkerEncoder {
         Item: pathNode.pathNodeChildList.map(pathNodeChild => {
           return {
             PathNodeKey: {
-              $: { value: pathNodeChild.pathNodeKey },
+              $: { value: pathNodeChild.pathNode.key },
             },
             PortalInfoIdx: {
-              $: { value: pathNodeChild.portalInfoIdx },
+              $: { value: pathNodeChild.portalInfo.infoIdx },
             },
           };
         }),
