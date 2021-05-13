@@ -35,6 +35,8 @@ export interface Ytyp {
 
 export interface MloEntity {
   hash: number;
+  isDoor: boolean;
+  isGlass: boolean;
 }
 
 export interface MloRoom {
@@ -47,5 +49,5 @@ export interface MloPortal {
   index: number;
   from: number;
   to: number;
-  attachedObjects: number[];
+  attachedObjects: MloEntity[];
 }

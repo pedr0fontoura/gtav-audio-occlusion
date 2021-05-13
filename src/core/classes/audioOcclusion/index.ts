@@ -77,12 +77,12 @@ export default class AudioOcclusion {
 
   private getPortalsEntities(): PortalEntity[][] {
     return this.cMloArchetypeDef.portals.map(portal =>
-      portal.attachedObjects.map(attachedObjectHash => ({
+      portal.attachedObjects.map(attachedObject => ({
         linkType: 1,
         maxOcclusion: 0.7,
-        hash_E3674005: attachedObjectHash,
-        isDoor: false,
-        isGlass: false,
+        hash_E3674005: attachedObject.hash,
+        isDoor: attachedObject.isDoor,
+        isGlass: attachedObject.isGlass,
       })),
     );
   }

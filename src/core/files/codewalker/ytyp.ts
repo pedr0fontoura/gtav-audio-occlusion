@@ -30,8 +30,13 @@ export class CMloArchetypeDef {
         hash = joaat(rawMloEntity.archetypeName);
       }
 
+      const isDoor = rawMloEntity.archetypeName.includes('door');
+      const isGlass = rawMloEntity.archetypeName.includes('glass') || rawMloEntity.archetypeName.includes('window');
+
       return {
         hash: convertToInt32(hash),
+        isDoor,
+        isGlass,
       };
     });
   }
@@ -62,7 +67,7 @@ export class CMloArchetypeDef {
         .map(entityIdx => {
           const parsedEntityIdx = parseInt(entityIdx);
 
-          return this.entities[parsedEntityIdx].hash;
+          return this.entities[parsedEntityIdx];
         });
 
       return {
@@ -75,9 +80,7 @@ export class CMloArchetypeDef {
   }
 
   public getRoomPortals(room: number): XML.MloPortal[] {
-    const filteredPortals = this.portals.filter(
-      portal => portal.from === room || portal.to === room,
-    );
+    const filteredPortals = this.portals.filter(portal => portal.from === room || portal.to === room);
 
     return filteredPortals.map(portal => {
       if (portal.to === room) {
