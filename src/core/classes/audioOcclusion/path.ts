@@ -25,6 +25,8 @@ export default class Path {
     if (pathType === 1) {
       nodes.forEach(node => {
         node.edges.forEach(edge => {
+          if (node.inactiveEdges.includes(edge.index)) return;
+
           const pathNodeItem = new PathNodeItem(node, edge, pathType);
 
           node.portals.forEach(portalInfo => {
@@ -101,6 +103,8 @@ export default class Path {
                 }
               });
             } else {
+              if (nodeFrom.inactiveEdges.includes(nodeTo.index)) return;
+
               const pathNodeItem = new PathNodeItem(nodeFrom, nodeTo, pathType);
 
               nodeFrom.portals.forEach(portalInfo => {
@@ -133,6 +137,8 @@ export default class Path {
                     }
                   });
                 } else {
+                  if (nodeFrom.inactiveEdges.includes(nodeTo.index)) return;
+
                   const pathNodeItem = new PathNodeItem(nodeFrom, nodeTo, pathType);
 
                   nodeFrom.portals.forEach(portalInfo => {
@@ -173,6 +179,8 @@ export default class Path {
                   }
                 });
               } else {
+                if (nodeFrom.inactiveEdges.includes(nodeTo.index)) return;
+
                 const pathNodeItem = new PathNodeItem(nodeFrom, nodeTo, pathType);
 
                 nodeFrom.portals.forEach(portalInfo => {
