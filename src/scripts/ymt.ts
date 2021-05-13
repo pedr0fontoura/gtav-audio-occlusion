@@ -17,8 +17,8 @@ async function execute(): Promise<void> {
   const parsedYtyp = await cwFile.read<XML.Ytyp>(ytypPath);
 
   const audioOcclusion = new AudioOcclusion({
-    CMapData: new CMapData(parsedYmap),
-    CMloArchetypeDef: new CMloArchetypeDef(parsedYtyp),
+    cMapData: new CMapData(parsedYmap),
+    cMloArchetypeDef: new CMloArchetypeDef(parsedYtyp),
   });
 
   const ymt = cwEncoder.encodeAudioOcclusion(audioOcclusion);
