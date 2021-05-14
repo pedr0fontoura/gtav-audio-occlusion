@@ -18,6 +18,7 @@ export interface Portal {
   from: number;
   to: number;
   attachedObjects: Entity[];
+  flags: number;
 }
 
 export default class Interior {

@@ -13,6 +13,7 @@ interface CMloRoomDef {
 interface CMloPortalDef {
   roomFrom: XMLDataEntry<{ value: string }>;
   roomTo: XMLDataEntry<{ value: string }>;
+  flags: XMLDataEntry<{ value: string }>;
   attachedObjects: string;
 }
 
@@ -50,4 +51,5 @@ export interface MloPortal {
   from: number;
   to: number;
   attachedObjects: MloEntity[];
+  flags: number;
 }

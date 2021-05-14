@@ -1,4 +1,4 @@
-import { joaat } from '../../utils';
+import { joaat, isBitSet } from '../../utils';
 
 import Interior from '../interior';
 
@@ -61,7 +61,17 @@ export default class AudioOcclusion {
   private getOcclusionHash(): number {
     const pos = this.interior.position;
 
-    return joaat(this.interior.name, true) ^ (pos.x * 100) ^ (pos.y * 100) ^ (pos.z * 100);
+    let archetypeNameHash: number;
+
+    if (this.interior.cMapData.archetypeName.startsWith('hash_')) {
+      const [, hexString] = this.interior.cMapData.archetypeName.split('_');
+
+      archetypeNameHash = parseInt(hexString, 16);
+    } else {
+      archetypeNameHash = joaat(this.interior.name, true);
+    }
+
+    return archetypeNameHash ^ (pos.x * 100) ^ (pos.y * 100) ^ (pos.z * 100);
   }
 
   private getPortalsEntities(): PortalEntity[][] {
@@ -87,22 +97,24 @@ export default class AudioOcclusion {
       });
 
       // PortalIdx is relative to RoomIdx
-      const roomPortalInfoList = roomPortals.map((portal, index) => {
-        const portalEntityList = this.portalsEntities[portal.index];
+      const roomPortalInfoList = roomPortals
+        .filter(portal => !isBitSet(portal.flags, 1) && !isBitSet(portal.flags, 2))
+        .map((portal, index) => {
+          const portalEntityList = this.portalsEntities[portal.index];
 
-        const portalInfo = {
-          index: portal.index,
-          infoIdx: 0,
-          interiorProxyHash: this.occlusionHash,
-          portalIdx: index,
-          roomIdx: portal.from,
-          destInteriorHash: this.occlusionHash,
-          destRoomIdx: portal.to,
-          portalEntityList: portalEntityList,
-        };
+          const portalInfo = {
+            index: portal.index,
+            infoIdx: 0,
+            interiorProxyHash: this.occlusionHash,
+            portalIdx: index,
+            roomIdx: portal.from,
+            destInteriorHash: this.occlusionHash,
+            destRoomIdx: portal.to,
+            portalEntityList: portalEntityList,
+          };
 
-        return portalInfo;
-      });
+          return portalInfo;
+        });
 
       portalInfoList = [...portalInfoList, ...roomPortalInfoList];
     });
