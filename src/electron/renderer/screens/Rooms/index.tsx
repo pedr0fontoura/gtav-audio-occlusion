@@ -23,7 +23,7 @@ const Rooms = () => {
 
   useEffect(() => {
     if (interiorRooms) {
-      ipcRenderer.send('updateAudioGameData', { InteriorRooms: interiorRooms });
+      ipcRenderer.send('updateAudioGameData', { interiorRooms: interiorRooms });
     }
   }, [interiorRooms]);
 
@@ -75,9 +75,7 @@ const Rooms = () => {
                     <input
                       type="number"
                       value={interiorRoom.unk04}
-                      onChange={e =>
-                        updateInteriorRooms(index, { unk04: parseFloat(e.target.value) })
-                      }
+                      onChange={e => updateInteriorRooms(index, { unk04: parseFloat(e.target.value) })}
                       min={0}
                       max={1}
                       step={0.1}
@@ -87,9 +85,7 @@ const Rooms = () => {
                     <input
                       type="number"
                       value={interiorRoom.unk05}
-                      onChange={e =>
-                        updateInteriorRooms(index, { unk05: parseFloat(e.target.value) })
-                      }
+                      onChange={e => updateInteriorRooms(index, { unk05: parseFloat(e.target.value) })}
                       min={0}
                       max={1}
                       step={0.1}
@@ -115,9 +111,7 @@ const Rooms = () => {
                     <input
                       type="number"
                       value={interiorRoom.unk12}
-                      onChange={e =>
-                        updateInteriorRooms(index, { unk12: parseInt(e.target.value) })
-                      }
+                      onChange={e => updateInteriorRooms(index, { unk12: parseInt(e.target.value) })}
                       min={0}
                     />
                   </td>
