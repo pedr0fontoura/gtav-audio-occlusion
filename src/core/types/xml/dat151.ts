@@ -90,8 +90,8 @@ export interface InteriorRoom {
   Hash1: string;
   Unk02: XMLDataEntry<{ value: string | number }>;
   Unk03: XMLDataEntry<{ value: string | number }>;
-  Unk04: XMLDataEntry<{ value: string | number }>;
-  Unk05: XMLDataEntry<{ value: string | number }>;
+  Reverb: XMLDataEntry<{ value: string | number }>;
+  Echo: XMLDataEntry<{ value: string | number }>;
   Unk06: string;
   Unk07: XMLDataEntry<{ value: string | number }>;
   Unk08: XMLDataEntry<{ value: string | number }>;
