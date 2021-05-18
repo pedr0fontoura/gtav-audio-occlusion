@@ -21,7 +21,7 @@ If you feel comfortable, please contribute.
 
 **Download**
 
-Get the latest version of the tool from the release sections.
+Get the latest version of the tool from the releases section.
 
 **Build**
 
