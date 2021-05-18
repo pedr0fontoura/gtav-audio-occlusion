@@ -1,6 +1,5 @@
 import React, { useState, DragEvent } from 'react';
 import { FaFileImport } from 'react-icons/fa';
-import { ipcRenderer } from 'electron';
 
 interface IFileImporter {
   onFileImport: (file: File) => void;
@@ -30,13 +29,7 @@ const FileImporter = ({ onFileImport }: IFileImporter) => {
       return false;
     }
 
-    const acceptedFileExtensions = [
-      'ytyp.xml',
-      'ymap.xml',
-      'ymt.pso.xml',
-      'dat151.rel.xml',
-      'dat15.rel.xml',
-    ];
+    const acceptedFileExtensions = ['ytyp.xml', 'ymap.xml'];
 
     let isFileValid = false;
 
@@ -81,7 +74,7 @@ const FileImporter = ({ onFileImport }: IFileImporter) => {
         <FaFileImport size={40} />
       </ImportButton>
       <b>Drop Files</b>
-      <span>.ymap, .ytyp, .ymt, .dat151.rel, .dat15.rel</span>
+      <span>.ymap.xml, .ytyp.xml</span>
     </Container>
   );
 };

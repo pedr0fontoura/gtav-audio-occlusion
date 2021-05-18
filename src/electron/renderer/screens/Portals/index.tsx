@@ -43,12 +43,12 @@ const Portals = () => {
 
   return (
     <Container>
-      <h1>Portals</h1>
+      <h1>Portals Entities</h1>
       <TableContainer>
         <table>
           <thead>
             <tr>
-              <th>Index</th>
+              <th>Portal Index</th>
               <th>LinkType</th>
               <th>MaxOcclusion</th>
               <th>hash_E3674005</th>

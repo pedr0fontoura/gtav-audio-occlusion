@@ -65,12 +65,8 @@ const Rooms = () => {
                 <tr key={index}>
                   <td>{index}</td>
                   <td>{interiorRoom.mloRoom}</td>
-                  <td>
-                    <input type="number" value={interiorRoom.unk02} />
-                  </td>
-                  <td>
-                    <input type="number" value={interiorRoom.unk03} />
-                  </td>
+                  <td>{interiorRoom.unk02}</td>
+                  <td>{interiorRoom.unk03}</td>
                   <td>
                     <input
                       type="number"
@@ -92,21 +88,11 @@ const Rooms = () => {
                     />
                   </td>
                   <td>{interiorRoom.unk06}</td>
-                  <td>
-                    <input type="number" value={interiorRoom.unk07} />
-                  </td>
-                  <td>
-                    <input type="number" value={interiorRoom.unk08} />
-                  </td>
-                  <td>
-                    <input type="number" value={interiorRoom.unk09} />
-                  </td>
-                  <td>
-                    <input type="number" value={interiorRoom.unk10} />
-                  </td>
-                  <td>
-                    <input type="number" value={interiorRoom.unk11} />
-                  </td>
+                  <td>{interiorRoom.unk07}</td>
+                  <td>{interiorRoom.unk08}</td>
+                  <td>{interiorRoom.unk09}</td>
+                  <td>{interiorRoom.unk10}</td>
+                  <td>{interiorRoom.unk11}</td>
                   <td>
                     <input
                       type="number"

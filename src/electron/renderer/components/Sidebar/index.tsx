@@ -20,7 +20,7 @@ const Sidebar = () => {
           Nodes
         </SectionLink>
         <SectionLink to="/portals" current={pathname}>
-          Portals
+          Portals Entities
         </SectionLink>
         <SectionLink to="/rooms" current={pathname}>
           Rooms

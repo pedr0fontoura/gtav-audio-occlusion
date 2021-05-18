@@ -24,7 +24,7 @@ export interface FilesDTO {
   dat151: File;
 }
 
-export default class Controller {
+export default class App {
   private cwFile: CodeWalkerFile;
   private cwEncoder: CodeWalkerEncoder;
 
