@@ -1,4 +1,4 @@
-import { ipcMain, IpcMainEvent } from 'electron';
+import { dialog, ipcMain, IpcMainEvent } from 'electron';
 import path from 'path';
 import { CodeWalkerEncoder, CodeWalkerFile } from '../../core/files/codewalker';
 import { CMapData } from '../../core/files/codewalker/ymap';
@@ -46,8 +46,6 @@ export default class App {
     this.cwFile = new CodeWalkerFile();
     this.cwEncoder = new CodeWalkerEncoder();
 
-    this.outputDirPath = path.resolve(process.cwd(), 'output');
-
     // Register events
     ipcMain.on('importFile', this.importFile.bind(this));
     ipcMain.on('removeFile', this.removeFile.bind(this));
@@ -65,6 +63,7 @@ export default class App {
     ipcMain.on('clearAudioGameData', this.clearAudioGameData.bind(this));
 
     ipcMain.handle('getFiles', this.getFiles.bind(this));
+    ipcMain.handle('getOutputDirPath', this.getOutputDirPath.bind(this));
 
     ipcMain.handle('getAudioOcclusion', this.getAudioOcclusion.bind(this));
     ipcMain.handle('getAudioDynamixData', this.getAudioDynamixData.bind(this));
@@ -75,6 +74,8 @@ export default class App {
     ipcMain.on('updateAudioGameData', this.updateAudioGameData.bind(this));
 
     ipcMain.on('updatePortalEntity', this.updatePortalEntity.bind(this));
+
+    ipcMain.handle('selectOutputDirectory', this.selectOutputDirectory.bind(this));
   }
 
   private clearGeneratedResources(): void {
@@ -247,6 +248,10 @@ export default class App {
     return files;
   }
 
+  private getOutputDirPath(event: IpcMainEvent): string {
+    return this.outputDirPath;
+  }
+
   private getAudioOcclusion(event: IpcMainEvent): AudioOcclusion {
     return this.audioOcclusion;
   }
@@ -284,5 +289,19 @@ export default class App {
     data: { [key in keyof PortalEntity]?: any },
   ) {
     Object.assign(this.audioOcclusion.portalsEntities[portalIndex][entityIndex], data);
+  }
+
+  private async selectOutputDirectory(event: IpcMainEvent): Promise<string> {
+    const selection = await dialog.showOpenDialog({
+      properties: ['openDirectory', 'createDirectory'],
+    });
+
+    if (selection.canceled) return;
+
+    const [path] = selection.filePaths;
+
+    this.outputDirPath = path;
+
+    return path;
   }
 }

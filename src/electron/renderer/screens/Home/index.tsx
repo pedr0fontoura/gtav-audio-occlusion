@@ -4,7 +4,7 @@ import { FaTimes, FaPlus, FaFileDownload } from 'react-icons/fa';
 
 import FileImporter from './components/FileImporter';
 
-import { Container, TableContainer, TableSection, Button } from './styles';
+import { Container, TableContainer, OutputSection, TableSection, Button } from './styles';
 
 interface ResourceFile {
   name: string;
@@ -13,6 +13,7 @@ interface ResourceFile {
 
 const Home = () => {
   const [files, setFiles] = useState<ResourceFile[]>([]);
+  const [outputDir, setOutputDir] = useState<string>();
 
   const ymapFile = files.find(file => file.name.includes('.ymap'));
   const ytypFile = files.find(file => file.name.includes('.ytyp'));
@@ -21,7 +22,13 @@ const Home = () => {
   const dat15File = files.find(file => file.name.includes('_mix.dat15'));
   const dat151File = files.find(file => file.name.includes('_game.dat151'));
 
-  const isGeneratedAreaEnabled = ymapFile && ytypFile;
+  const isGeneratedAreaEnabled = outputDir && ymapFile && ytypFile;
+
+  const selectOutputDirectory = async (): Promise<void> => {
+    const result = await ipcRenderer.invoke('selectOutputDirectory');
+
+    setOutputDir(result);
+  };
 
   const importFile = (file: File): void => {
     const isFileAlreadyImported = files.find(f => f.path === file.path);
@@ -93,9 +100,12 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const result: File[] = await ipcRenderer.invoke('getFiles');
-
-      setFiles(result);
+      const [files, outputDirPath] = await Promise.all<ResourceFile[], string>([
+        ipcRenderer.invoke('getFiles'),
+        ipcRenderer.invoke('getOutputDirPath'),
+      ]);
+      setFiles(files);
+      setOutputDir(outputDirPath);
     })();
   }, []);
 
@@ -103,6 +113,11 @@ const Home = () => {
     <Container>
       <FileImporter onFileImport={importFile} />
       <TableContainer>
+        <OutputSection>
+          <strong>Output path</strong>
+          <button onClick={selectOutputDirectory}>{outputDir ? outputDir : 'Choose directory ...'}</button>
+        </OutputSection>
+
         <TableSection>
           <strong>Source</strong>
           <table>

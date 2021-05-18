@@ -52,6 +52,31 @@ export const TableContainer = styled.section`
   }
 `;
 
+export const OutputSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  > button {
+    margin-top: 8px;
+
+    font-size: 16px;
+    color: #fff;
+
+    background: none;
+    border: none;
+    outline: none;
+
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+`;
+
 export const TableSection = styled.div<ITableSection>`
   ${({ disabled }) =>
     disabled &&
@@ -60,9 +85,7 @@ export const TableSection = styled.div<ITableSection>`
       pointer-events: none;
     `}
 
-  & + div {
-    margin-top: 24px;
-  }
+  margin-top: 24px;
 `;
 
 export const Button = styled.button`
