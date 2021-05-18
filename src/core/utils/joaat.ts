@@ -1,18 +1,13 @@
-// This file belongs to the pires-gta5 project, all credits to VPagani.
+// Thanks to VPagani.
 
-/**
- * FiveM: signed and not case sensitive (default)
- * AltV: unsigned and not case sensitive
- * RageMP: unsigned and not case sensistive
- */
-export function joaat(input: string, unsigned: boolean = false, cased: boolean = false): number {
+export function joaat(input: string, unsigned: boolean = false): number {
   let hash = 0;
   let len = input.length;
 
-  if (!cased) input = input.toLowerCase();
+  const lowerCaseInput = input.toLowerCase();
 
   for (let i = 0; i < len; i++) {
-    hash += input.charCodeAt(i);
+    hash += lowerCaseInput.charCodeAt(i);
     hash += hash << 10;
     hash ^= hash >>> 6;
   }

@@ -78,7 +78,7 @@ export default class AudioOcclusion {
     return this.interior.portals.map(portal =>
       portal.attachedObjects.map(attachedObject => ({
         linkType: 1,
-        maxOcclusion: 0.7,
+        maxOcclusion: attachedObject.isDoor ? 0.7 : 0.0,
         hash_E3674005: attachedObject.hash,
         isDoor: attachedObject.isDoor,
         isGlass: attachedObject.isGlass,
