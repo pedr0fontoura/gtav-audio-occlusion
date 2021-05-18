@@ -20,6 +20,7 @@ If you feel comfortable, please contribute.
 ## Installation
 
 **Download**
+
 Get the latest version of the tool from the release sections.
 
 **Build**
