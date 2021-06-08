@@ -55,7 +55,7 @@ export default class AudioGameData {
     const boxSize = {
       x: this.interior.entitiesExtentsMax.x - this.interior.entitiesExtentsMin.x,
       y: this.interior.entitiesExtentsMax.y - this.interior.entitiesExtentsMin.y,
-      z: this.interior.entitiesExtentsMax.x - this.interior.entitiesExtentsMin.z,
+      z: this.interior.entitiesExtentsMax.z - this.interior.entitiesExtentsMin.z,
     };
 
     const center = {
