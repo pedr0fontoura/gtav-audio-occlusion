@@ -9,10 +9,16 @@ export class CMloArchetypeDef {
   public fileName: string;
 
   constructor(rawData: XML.Ytyp, fileName: string) {
-    // Interior archeType is the last one on the list
-    const archetypesLength = rawData.CMapTypes.archetypes.Item.length;
+    let rawArchetype: XML.CMloArchetypeDef;
 
-    const rawArchetype = rawData.CMapTypes.archetypes.Item[archetypesLength - 1];
+    if (Array.isArray(rawData.CMapTypes.archetypes.Item)) {
+      // Interior archeType is the last one on the list
+      const archetypesLength = rawData.CMapTypes.archetypes.Item.length;
+
+      rawArchetype = rawData.CMapTypes.archetypes.Item[archetypesLength - 1];
+    } else {
+      rawArchetype = rawData.CMapTypes.archetypes.Item;
+    }
 
     this.entities = this.getEntities(rawArchetype);
     this.rooms = this.getRooms(rawArchetype);

@@ -29,7 +29,7 @@ export interface CMloArchetypeDef {
 export interface Ytyp {
   CMapTypes: {
     archetypes: {
-      Item: CMloArchetypeDef[];
+      Item: CMloArchetypeDef | CMloArchetypeDef[];
     };
   };
 }
