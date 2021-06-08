@@ -41,5 +41,5 @@ Get the latest version of the tool from the releases section.
 ## Credits
 
 - [Nikez](https://github.com/nikez/gtav_audio_occlusion_documentation) for the original documentation about audio occlusion.
-- [OcclusionGenerator](https://github.com/tangerinenuistance5/OcclusionGenerator) for the path nodes generation algorithm.
+- [appricotflower821](https://github.com/tangerinenuistance5/OcclusionGenerator) for the path nodes generation algorithm and discovering unknow hashes.
 - [VPagani](https://github.com/VPagani) for the joaat function.
