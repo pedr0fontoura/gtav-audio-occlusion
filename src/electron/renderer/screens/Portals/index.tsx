@@ -51,7 +51,7 @@ const Portals = () => {
               <th>Portal Index</th>
               <th>LinkType</th>
               <th>MaxOcclusion</th>
-              <th>hash_E3674005</th>
+              <th>EntityModelHashkey</th>
               <th>IsDoor</th>
               <th>IsGlass</th>
             </tr>
@@ -77,7 +77,7 @@ const Portals = () => {
                         }
                       />
                     </td>
-                    <td>{entity.hash_E3674005}</td>
+                    <td>{entity.entityModelHashkey}</td>
                     <td>
                       <input
                         type="checkbox"

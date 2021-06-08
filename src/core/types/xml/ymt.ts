@@ -3,7 +3,7 @@ import { XMLDataEntry, XMLEntry } from './index';
 export interface PortalEntity {
   LinkType: XMLDataEntry<{ value: string | number }>;
   MaxOcclusion: XMLDataEntry<{ value: string | number }>;
-  hash_E3674005: XMLDataEntry<{ value: string | number }>;
+  EntityModelHashkey: XMLDataEntry<{ value: string | number }>;
   IsDoor: XMLDataEntry<{ value: string | boolean }>;
   IsGlass: XMLDataEntry<{ value: string | boolean }>;
 }
@@ -28,7 +28,7 @@ export interface PathNode {
 }
 
 export interface AudioOcclusionInteriorMetadata {
-  hash_DE5DB4C2: {
+  naOcclusionInteriorMetadata: {
     PortalInfoList: XMLEntry<{ itemType: string | number }, PortalInfo[]>;
     PathNodeList: XMLEntry<{ itemType: string | number }, PathNode[]>;
   };

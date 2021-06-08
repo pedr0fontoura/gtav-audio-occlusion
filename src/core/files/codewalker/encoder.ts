@@ -19,8 +19,8 @@ export class CodeWalkerEncoder {
           MaxOcclusion: {
             $: { value: portalEntity.maxOcclusion },
           },
-          hash_E3674005: {
-            $: { value: portalEntity.hash_E3674005 },
+          EntityModelHashkey: {
+            $: { value: portalEntity.entityModelHashkey },
           },
           IsDoor: {
             $: { value: portalEntity.isDoor },
@@ -50,7 +50,7 @@ export class CodeWalkerEncoder {
           $: { value: portalInfo.destRoomIdx },
         },
         PortalEntityList: {
-          $: { itemType: 'hash_F6624EF9' },
+          $: { itemType: 'naOcclusionPortalEntityMetadata' },
           Item: encodedPortalEntityList,
         },
       };
@@ -82,9 +82,9 @@ export class CodeWalkerEncoder {
     });
 
     const encodedAudioOcclusion = {
-      hash_DE5DB4C2: {
+      naOcclusionInteriorMetadata: {
         PortalInfoList: {
-          $: { itemType: 'hash_811C03CF' },
+          $: { itemType: 'naOcclusionPortalInfoMetadata' },
           Item: encodedPortalInfoList,
         },
         PathNodeList: {
