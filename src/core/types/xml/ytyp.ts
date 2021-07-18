@@ -17,8 +17,12 @@ interface CMloPortalDef {
   attachedObjects: string;
 }
 
+interface GenericArchetypeDef {
+  $: { type: 'CBaseArchetypeDef' | 'CEntityDef' | 'CMloRoomDef' };
+}
+
 export interface CMloArchetypeDef {
-  $: { type: string };
+  $: { type: 'CMloArchetypeDef' };
   entities: {
     Item: CEntityDef[];
   };
@@ -26,10 +30,12 @@ export interface CMloArchetypeDef {
   portals: XMLEntry<{ itemType: string }, CMloPortalDef[]>;
 }
 
+export type ArchetypeEntry = CMloArchetypeDef | GenericArchetypeDef;
+
 export interface Ytyp {
   CMapTypes: {
     archetypes: {
-      Item: CMloArchetypeDef | CMloArchetypeDef[];
+      Item: ArchetypeEntry | ArchetypeEntry[];
     };
   };
 }

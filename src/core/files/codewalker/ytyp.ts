@@ -1,4 +1,4 @@
-import { convertToInt32, joaat } from '../../utils';
+import { convertToInt32, joaat, isCMloArchetypeDef } from '../../utils';
 
 import * as XML from '../../types/xml';
 
@@ -12,11 +12,8 @@ export class CMloArchetypeDef {
     let rawArchetype: XML.CMloArchetypeDef;
 
     if (Array.isArray(rawData.CMapTypes.archetypes.Item)) {
-      // Interior archeType is the last one on the list
-      const archetypesLength = rawData.CMapTypes.archetypes.Item.length;
-
-      rawArchetype = rawData.CMapTypes.archetypes.Item[archetypesLength - 1];
-    } else {
+      rawArchetype = rawData.CMapTypes.archetypes.Item.find(isCMloArchetypeDef);
+    } else if (isCMloArchetypeDef(rawData.CMapTypes.archetypes.Item)) {
       rawArchetype = rawData.CMapTypes.archetypes.Item;
     }
 
