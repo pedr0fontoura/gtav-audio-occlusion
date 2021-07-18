@@ -13,22 +13,26 @@ const Portals = () => {
     pEntityIdx: number,
     data: { [key in keyof PortalEntity]?: any },
   ): void => {
-    setPortalsEntities(
-      portalsEntities.map((portalEntity, portalIdx) => {
-        if (pPortalIdx !== portalIdx) return portalEntity;
+    const entityHash = portalsEntities[pPortalIdx][pEntityIdx].entityModelHashkey;
 
-        return portalEntity.map((entity, entityIdx) => {
-          if (pEntityIdx !== entityIdx) return entity;
+    if (data.maxOcclusion && isNaN(data.maxOcclusion)) {
+      data.maxOcclusion = 0.0;
+    }
 
-          return {
-            ...entity,
-            ...data,
-          };
-        });
-      }),
-    );
+    const updatedPortalsEntities = portalsEntities.map(portal => {
+      return portal.map(entity => {
+        if (entityHash !== entity.entityModelHashkey) return entity;
 
-    ipcRenderer.send('updatePortalEntity', pPortalIdx, pEntityIdx, data);
+        return {
+          ...entity,
+          ...data,
+        };
+      });
+    });
+
+    setPortalsEntities(updatedPortalsEntities);
+
+    ipcRenderer.send('updatePortalEntity', data);
   };
 
   useEffect(() => {

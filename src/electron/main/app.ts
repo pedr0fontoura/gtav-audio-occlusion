@@ -282,13 +282,8 @@ export default class App {
     Object.assign(this.audioGameData, data);
   }
 
-  private updatePortalEntity(
-    event: IpcMainEvent,
-    portalIndex: number,
-    entityIndex: number,
-    data: { [key in keyof PortalEntity]?: any },
-  ) {
-    Object.assign(this.audioOcclusion.portalsEntities[portalIndex][entityIndex], data);
+  private updatePortalEntity(event: IpcMainEvent, data: PortalEntity[][]) {
+    this.audioOcclusion.portalsEntities = data;
   }
 
   private async selectOutputDirectory(event: IpcMainEvent): Promise<string> {
