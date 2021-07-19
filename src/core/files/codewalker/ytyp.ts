@@ -11,10 +11,16 @@ export class CMloArchetypeDef {
   constructor(rawData: XML.Ytyp, fileName: string) {
     let rawArchetype: XML.CMloArchetypeDef;
 
-    if (Array.isArray(rawData.CMapTypes.archetypes.Item)) {
-      rawArchetype = rawData.CMapTypes.archetypes.Item.find(isCMloArchetypeDef);
-    } else if (isCMloArchetypeDef(rawData.CMapTypes.archetypes.Item)) {
-      rawArchetype = rawData.CMapTypes.archetypes.Item;
+    const archetypesItem = rawData.CMapTypes.archetypes.Item;
+
+    if (Array.isArray(archetypesItem)) {
+      rawArchetype = archetypesItem.find(isCMloArchetypeDef);
+    } else {
+      if (isCMloArchetypeDef(archetypesItem)) {
+        rawArchetype = archetypesItem;
+      } else {
+        throw new Error('No CMloArchetypeDef found in the .ytyp file');
+      }
     }
 
     this.entities = this.getEntities(rawArchetype);
@@ -25,7 +31,7 @@ export class CMloArchetypeDef {
   }
 
   private getEntities(archetype: XML.CMloArchetypeDef): XML.MloEntity[] {
-    console.log('cMloArchetypeDef: getting entities ...');
+    console.log('CMloArchetypeDef: getting entities ...');
 
     return archetype.entities.Item.map(rawMloEntity => {
       let hash: number;
@@ -50,7 +56,7 @@ export class CMloArchetypeDef {
   }
 
   private getRooms(archetype: XML.CMloArchetypeDef): XML.MloRoom[] {
-    console.log('cMloArchetypeDef: getting rooms ...');
+    console.log('CMloArchetypeDef: getting rooms ...');
 
     return archetype.rooms.Item.map((rawMloRoom, index) => {
       const name = rawMloRoom.name;
@@ -66,7 +72,7 @@ export class CMloArchetypeDef {
   }
 
   private getPortals(archetype: XML.CMloArchetypeDef): XML.MloPortal[] {
-    console.log('cMloArchetypeDef: getting portals ...');
+    console.log('CMloArchetypeDef: getting portals ...');
 
     const portals = Array.isArray(archetype.portals.Item) ? archetype.portals.Item : [archetype.portals.Item];
 

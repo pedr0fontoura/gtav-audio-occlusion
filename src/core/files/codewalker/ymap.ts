@@ -1,3 +1,5 @@
+import { isCMloInstanceDef } from '../../utils';
+
 import * as XML from '../../types/xml';
 
 export class CMapData {
@@ -10,10 +12,22 @@ export class CMapData {
   public fileName: string;
 
   constructor(rawData: XML.Ymap, fileName: string) {
-    const rawMloInstance = rawData.CMapData.entities.Item;
-
     this.entitiesExtentsMin = this.getEntitiesExtentsMin(rawData);
     this.entitiesExtentsMax = this.getEntitiesExtentsMax(rawData);
+
+    let rawMloInstance: XML.CMloInstanceDef;
+
+    const entitiesItem = rawData.CMapData.entities.Item;
+
+    if (Array.isArray(entitiesItem)) {
+      rawMloInstance = entitiesItem.find(isCMloInstanceDef);
+    } else {
+      if (isCMloInstanceDef(entitiesItem)) {
+        rawMloInstance = entitiesItem;
+      } else {
+        throw new Error('No CMloInstanceDef found in the .ymap file');
+      }
+    }
 
     this.archetypeName = this.getArchetypeName(rawMloInstance);
     this.position = this.getPosition(rawMloInstance);
