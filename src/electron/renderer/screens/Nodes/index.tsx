@@ -4,7 +4,7 @@ import { ipcRenderer } from 'electron';
 import Node from '../../../../core/classes/audioOcclusion/node';
 import AudioOcclusion from '../../../../core/classes/audioOcclusion';
 
-import { Container, TableContainer } from './styles';
+import { TableContainer, LinksWrapper, LinkContainer } from './styles';
 
 const Nodes = () => {
   const [nodes, setNodes] = useState<Node[]>();
@@ -48,7 +48,7 @@ const Nodes = () => {
   }, []);
 
   return (
-    <Container>
+    <>
       <h1>Nodes</h1>
       <TableContainer>
         <table>
@@ -63,24 +63,24 @@ const Nodes = () => {
               nodes.map(node => (
                 <tr key={node.index}>
                   <td>Room {node.index}</td>
-                  <td>
+                  <LinksWrapper>
                     {node.edges.map(edge => (
-                      <span key={edge.index}>
+                      <LinkContainer key={edge.index}>
                         {edge.index}
                         <input
                           type="checkbox"
                           checked={!node.inactiveEdges.includes(edge.index)}
                           onChange={e => updateLink(node.index, edge.index, e.target.checked)}
                         />
-                      </span>
+                      </LinkContainer>
                     ))}
-                  </td>
+                  </LinksWrapper>
                 </tr>
               ))}
           </tbody>
         </table>
       </TableContainer>
-    </Container>
+    </>
   );
 };
 

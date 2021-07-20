@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron';
 
 import AudioGameData, { InteriorRoom } from '../../../../core/classes/audioGameData';
 
-import { Container, TableContainer } from './styles';
+import { TableContainer } from './styles';
 
 const Rooms = () => {
   const [interiorRooms, setInteriorRooms] = useState<InteriorRoom[]>();
@@ -38,7 +38,7 @@ const Rooms = () => {
   }, []);
 
   return (
-    <Container>
+    <>
       <h1>Rooms</h1>
       <TableContainer>
         <table>
@@ -106,7 +106,7 @@ const Rooms = () => {
           </tbody>
         </table>
       </TableContainer>
-    </Container>
+    </>
   );
 };
 

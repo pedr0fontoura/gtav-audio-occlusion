@@ -1,24 +1,12 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  height: 100%;
-  width: 100%;
-
-  display: flex;
-  flex-direction: column;
-
-  h1 {
-    margin-bottom: 16px;
-  }
-`;
-
 export const TableContainer = styled.section`
   height: 100%;
   width: 100%;
 
-  overflow-y: auto;
-
   padding-right: 16px;
+
+  overflow-y: auto;
 
   table {
     width: 100%;
@@ -72,11 +60,8 @@ export const TableContainer = styled.section`
     border: none;
   }
 
-  input[type='checkbox'] {
-    margin-left: 16px;
-
-    height: 24px;
-    width: 24px;
+  .links {
+    display: inline-flex;
   }
 `;
 
@@ -106,5 +91,28 @@ export const Button = styled.button`
 
   & + & {
     margin-left: 8px;
+  }
+`;
+
+export const LinksWrapper = styled.td`
+  width: 100%;
+
+  display: inline-flex;
+`;
+
+export const LinkContainer = styled.div`
+  width: 50px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  input {
+    height: 24px;
+    width: 24px;
+  }
+
+  & + div {
+    margin-left: 16px;
   }
 `;
