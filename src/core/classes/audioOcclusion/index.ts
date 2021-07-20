@@ -76,13 +76,25 @@ export default class AudioOcclusion {
 
   private getPortalsEntities(): PortalEntity[][] {
     return this.interior.portals.map(portal =>
-      portal.attachedObjects.map(attachedObject => ({
-        linkType: 1,
-        maxOcclusion: attachedObject.isDoor ? 0.7 : 0.0,
-        entityModelHashkey: attachedObject.hash,
-        isDoor: attachedObject.isDoor,
-        isGlass: attachedObject.isGlass,
-      })),
+      portal.attachedObjects.map(attachedObject => {
+        let maxOcclusion = 0.0;
+
+        if (attachedObject.isDoor) {
+          maxOcclusion = 0.7;
+        }
+
+        if (attachedObject.isGlass) {
+          maxOcclusion = 0.4;
+        }
+
+        return {
+          linkType: 1,
+          maxOcclusion,
+          entityModelHashkey: attachedObject.hash,
+          isDoor: attachedObject.isDoor,
+          isGlass: attachedObject.isGlass,
+        };
+      }),
     );
   }
 
