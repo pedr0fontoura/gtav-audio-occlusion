@@ -40,6 +40,10 @@ export default class AudioGameData {
   public interiorRooms: InteriorRoom[];
 
   constructor(interior: Interior, audioDynamixData: AudioDynamixData) {
+    if (interior.isNameHashed) {
+      throw new Error(`You can't generate .dat151 files from interiors with hashed names`);
+    }
+
     this.interior = interior;
     this.audioDynamixData = audioDynamixData;
 

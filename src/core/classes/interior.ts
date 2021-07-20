@@ -26,6 +26,7 @@ export default class Interior {
   public cMloArchetypeDef: CMloArchetypeDef;
 
   public name: string;
+  public isNameHashed: boolean;
 
   public position: Vector3;
 
@@ -41,11 +42,14 @@ export default class Interior {
     this.cMloArchetypeDef = cMloArchetypeDef;
 
     if (this.cMapData.archetypeName.includes('hash_')) {
-      const extensionIndex = this.cMloArchetypeDef.fileName.indexOf('.ytyp');
-      this.name = this.cMloArchetypeDef.fileName.substring(0, extensionIndex);
+      this.isNameHashed = true;
+
+      console.warn('Please provide an .ymap with the unhashed CMloInstanceDef name to enable .dat files generation');
     } else {
-      this.name = cMapData.archetypeName;
+      this.isNameHashed = false;
     }
+
+    this.name = cMapData.archetypeName;
 
     this.position = this.cMapData.position;
 
