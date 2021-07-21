@@ -4,7 +4,7 @@ import { FaTimes, FaPlus, FaFileDownload } from 'react-icons/fa';
 
 import FileImporter from './components/FileImporter';
 
-import { Container, TableContainer, OutputSection, TableSection, Button } from './styles';
+import { TableContainer, OutputSection, TableSection, Button } from './styles';
 
 interface ResourceFile {
   name: string;
@@ -110,7 +110,7 @@ const Home = () => {
   }, []);
 
   return (
-    <Container>
+    <>
       <FileImporter onFileImport={importFile} />
       <TableContainer>
         <OutputSection>
@@ -244,7 +244,7 @@ const Home = () => {
           </table>
         </TableSection>
       </TableContainer>
-    </Container>
+    </>
   );
 };
 

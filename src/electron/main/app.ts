@@ -1,5 +1,6 @@
-import { dialog, ipcMain, IpcMainEvent } from 'electron';
+import { BrowserWindow, dialog, ipcMain, IpcMainEvent } from 'electron';
 import path from 'path';
+
 import { CodeWalkerEncoder, CodeWalkerFile } from '../../core/files/codewalker';
 import { CMapData } from '../../core/files/codewalker/ymap';
 import { CMloArchetypeDef } from '../../core/files/codewalker/ytyp';
@@ -10,6 +11,8 @@ import AudioDynamixData from '../../core/classes/audioDynamixData';
 import AudioGameData from '../../core/classes/audioGameData';
 
 import * as XML from '../../core/types/xml';
+
+import UserInterfaceLogger from './logger';
 
 interface File {
   name: string;
@@ -24,7 +27,11 @@ export interface FilesDTO {
   dat151: File;
 }
 
-export default class App {
+export default class AudioOcclusionTool {
+  private mainWindow: BrowserWindow;
+
+  private logger: UserInterfaceLogger;
+
   private cwFile: CodeWalkerFile;
   private cwEncoder: CodeWalkerEncoder;
 
@@ -46,7 +53,6 @@ export default class App {
     this.cwFile = new CodeWalkerFile();
     this.cwEncoder = new CodeWalkerEncoder();
 
-    // Register events
     ipcMain.on('importFile', this.importFile.bind(this));
     ipcMain.on('removeFile', this.removeFile.bind(this));
 
@@ -76,6 +82,39 @@ export default class App {
     ipcMain.on('updatePortalEntity', this.updatePortalEntity.bind(this));
 
     ipcMain.handle('selectOutputDirectory', this.selectOutputDirectory.bind(this));
+  }
+
+  public init() {
+    if (this.mainWindow) {
+      return;
+    }
+
+    this.mainWindow = new BrowserWindow({
+      height: 700,
+      width: 1100,
+      title: 'GTA V Audio Occlusion Tool',
+      backgroundColor: '#212121',
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false,
+      },
+    });
+
+    if (process.env.NODE_ENV === 'development') {
+      this.mainWindow.loadURL('http://localhost:4000');
+    } else {
+      this.mainWindow.loadFile(path.join(__dirname, './renderer/index.html'));
+    }
+
+    this.mainWindow.on('page-title-updated', e => {
+      e.preventDefault();
+    });
+
+    this.mainWindow.webContents.on('did-finish-load', () => {
+      this.logger = new UserInterfaceLogger(this.mainWindow);
+
+      this.logger.log('Finished loading main window');
+    });
   }
 
   private clearGeneratedResources(): void {
@@ -147,6 +186,8 @@ export default class App {
   private generateAudioOcclusion(): File {
     if (!this.cMapData || !this.cMloArchetypeDef) return;
 
+    this.logger.log('Generating Audio Occlusion');
+
     this.audioOcclusion = new AudioOcclusion(this.interior);
 
     return {
@@ -158,8 +199,10 @@ export default class App {
   private async writeAudioOcclusion(): Promise<void> {
     if (!this.audioOcclusion) return;
 
+    this.logger.log('Encoding Audio Occlusion');
     const ymt = this.cwEncoder.encodeAudioOcclusion(this.audioOcclusion);
 
+    this.logger.log('Writing Audio Occlusion file');
     await this.cwFile.write(path.resolve(this.outputDirPath, this.audioOcclusion.fileName), ymt);
   }
 

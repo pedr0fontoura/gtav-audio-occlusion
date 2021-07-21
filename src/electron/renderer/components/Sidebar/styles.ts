@@ -8,7 +8,7 @@ interface ISectionLinkProps {
 }
 
 export const Container = styled.div`
-  height: 100vh;
+  height: 100%;
   width: 15%;
   min-width: 250px;
 

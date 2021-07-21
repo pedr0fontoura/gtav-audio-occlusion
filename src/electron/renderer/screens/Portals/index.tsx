@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron';
 
 import AudioOcclusion, { PortalEntity } from '../../../../core/classes/audioOcclusion';
 
-import { Container, TableContainer } from './styles';
+import { TableContainer } from './styles';
 
 const Portals = () => {
   const [portalsEntities, setPortalsEntities] = useState<PortalEntity[][]>();
@@ -46,7 +46,7 @@ const Portals = () => {
   }, []);
 
   return (
-    <Container>
+    <>
       <h1>Portals Entities</h1>
       <TableContainer>
         <table>
@@ -110,7 +110,7 @@ const Portals = () => {
           </tbody>
         </table>
       </TableContainer>
-    </Container>
+    </>
   );
 };
 
