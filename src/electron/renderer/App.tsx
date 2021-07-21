@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-
 import { BrowserRouter as Router } from 'react-router-dom';
+
+import { ConsoleProvider } from './hooks/useConsole';
 import Routes from './routes';
 
 import { GlobalStyle } from './styles/GlobalStyles';
@@ -49,17 +50,19 @@ const RoutesContainer = styled.div`
 
 const App = () => {
   return (
-    <Container>
-      <Router>
-        <HorizontalContainer>
-          <Sidebar />
-          <RoutesContainer>
-            <Routes />
-          </RoutesContainer>
-        </HorizontalContainer>
-      </Router>
-      <Console />
-    </Container>
+    <ConsoleProvider>
+      <Container>
+        <Router>
+          <HorizontalContainer>
+            <Sidebar />
+            <RoutesContainer>
+              <Routes />
+            </RoutesContainer>
+          </HorizontalContainer>
+        </Router>
+        <Console />
+      </Container>
+    </ConsoleProvider>
   );
 };
 
