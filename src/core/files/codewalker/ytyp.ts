@@ -82,12 +82,18 @@ export class CMloArchetypeDef {
       const to = parseInt(rawMloPortal.roomTo.$.value);
 
       const attachedObjects = rawMloPortal.attachedObjects
-        .split(' ')
+        .split(/\s/)
         .filter(entity => !!entity)
         .map(entityIdx => {
           const parsedEntityIdx = parseInt(entityIdx);
-
-          return this.entities[parsedEntityIdx];
+          if (parsedEntityIdx < this.entities.length)
+          {
+            return this.entities[parsedEntityIdx];
+          }
+          else
+          {
+            console.log('CMloArchetypeDef: getting portals ... invalid ref', entityIdx, parsedEntityIdx);
+          }
         });
 
       const flags = parseInt(rawMloPortal.flags.$.value);
