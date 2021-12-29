@@ -1,6 +1,7 @@
 import { isCMloInstanceDef } from '../../utils';
 
 import * as XML from '../../types/xml';
+import Big from 'big.js';
 
 export class CMapData {
   public entitiesExtentsMin: Vector3;
@@ -39,9 +40,9 @@ export class CMapData {
     const pos = rawData.CMapData.entitiesExtentsMin.$;
 
     return {
-      x: parseFloat(pos.x),
-      y: parseFloat(pos.y),
-      z: parseFloat(pos.z),
+      x: new Big(pos.x),
+      y: new Big(pos.y),
+      z: new Big(pos.z),
     };
   }
 
@@ -49,9 +50,9 @@ export class CMapData {
     const pos = rawData.CMapData.entitiesExtentsMax.$;
 
     return {
-      x: parseFloat(pos.x),
-      y: parseFloat(pos.y),
-      z: parseFloat(pos.z),
+      x: new Big(pos.x),
+      y: new Big(pos.y),
+      z: new Big(pos.z),
     };
   }
 
@@ -63,9 +64,9 @@ export class CMapData {
     const pos = mloInstance.position.$;
 
     return {
-      x: parseFloat(pos.x),
-      y: parseFloat(pos.y),
-      z: parseFloat(pos.z),
+      x: new Big(pos.x),
+      y: new Big(pos.y),
+      z: new Big(pos.z),
     };
   }
 }
