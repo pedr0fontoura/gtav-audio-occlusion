@@ -1,5 +1,7 @@
+import { Big } from "big.js";
+
 interface Vector3 {
-  x: number;
-  y: number;
-  z: number;
+  x: Big;
+  y: Big;
+  z: Big;
 }

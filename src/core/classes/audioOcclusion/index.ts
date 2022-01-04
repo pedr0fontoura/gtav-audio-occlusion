@@ -5,6 +5,7 @@ import Interior from '../interior';
 import Node from './node';
 import PathNodeItem from './pathNodeitem';
 import Path from './path';
+import { Big } from 'big.js';
 
 export interface PortalEntity {
   linkType: number;
@@ -71,7 +72,10 @@ export default class AudioOcclusion {
       archetypeNameHash = joaat(this.interior.name, true);
     }
 
-    return archetypeNameHash ^ (pos.x * 100) ^ (pos.y * 100) ^ (pos.z * 100);
+    return archetypeNameHash ^ 
+      pos.x.times(100).round(0, Big.roundDown).toNumber() ^
+      pos.y.times(100).round(0, Big.roundDown).toNumber() ^
+      pos.z.times(100).round(0, Big.roundDown).toNumber();
   }
 
   private getPortalsEntities(): PortalEntity[][] {
