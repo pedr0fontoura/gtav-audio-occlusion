@@ -9,6 +9,7 @@ import Interior from '../../core/classes/interior';
 import AudioOcclusion, { PortalEntity } from '../../core/classes/audioOcclusion';
 import AudioDynamixData from '../../core/classes/audioDynamixData';
 import AudioGameData from '../../core/classes/audioGameData';
+import Node from '../../core/classes/audioOcclusion/node';
 
 import * as XML from '../../core/types/xml';
 
@@ -71,7 +72,9 @@ export default class AudioOcclusionTool {
     ipcMain.handle('getFiles', this.getFiles.bind(this));
     ipcMain.handle('getOutputDirPath', this.getOutputDirPath.bind(this));
 
-    ipcMain.handle('getAudioOcclusion', this.getAudioOcclusion.bind(this));
+    ipcMain.handle('getNodes', this.getNodes.bind(this));
+    ipcMain.handle('getPortalsEntities', this.getPortalsEntities.bind(this));
+
     ipcMain.handle('getAudioDynamixData', this.getAudioDynamixData.bind(this));
     ipcMain.handle('getAudioGameData', this.getAudioGameData.bind(this));
 
@@ -79,7 +82,7 @@ export default class AudioOcclusionTool {
     ipcMain.on('updateAudioDynamixData', this.updateAudioDynamixData.bind(this));
     ipcMain.on('updateAudioGameData', this.updateAudioGameData.bind(this));
 
-    ipcMain.on('updatePortalEntity', this.updatePortalEntity.bind(this));
+    ipcMain.on('updatePortalsEntities', this.updatePortalsEntities.bind(this));
 
     ipcMain.handle('selectOutputDirectory', this.selectOutputDirectory.bind(this));
   }
@@ -295,8 +298,14 @@ export default class AudioOcclusionTool {
     return this.outputDirPath;
   }
 
-  private getAudioOcclusion(event: IpcMainEvent): AudioOcclusion {
-    return this.audioOcclusion;
+  // Audio Occlusion data
+
+  private getNodes(event: IpcMainEvent): Node[] {
+    return this.audioOcclusion.nodes;
+  }
+
+  private getPortalsEntities(event: IpcMainEvent): PortalEntity[][] {
+    return this.audioOcclusion.portalsEntities;
   }
 
   private getAudioDynamixData(event: IpcMainEvent): AudioDynamixData {
@@ -325,7 +334,7 @@ export default class AudioOcclusionTool {
     Object.assign(this.audioGameData, data);
   }
 
-  private updatePortalEntity(event: IpcMainEvent, data: PortalEntity[][]) {
+  private updatePortalsEntities(event: IpcMainEvent, data: PortalEntity[][]) {
     this.audioOcclusion.portalsEntities = data;
   }
 

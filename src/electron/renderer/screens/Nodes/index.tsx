@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 
 import Node from '../../../../core/classes/audioOcclusion/node';
-import AudioOcclusion from '../../../../core/classes/audioOcclusion';
 
 import { TableContainer, LinksWrapper, LinkContainer } from './styles';
 
@@ -37,11 +36,9 @@ const Nodes = () => {
 
   useEffect(() => {
     (async () => {
-      const audioOcclusion: AudioOcclusion = await ipcRenderer.invoke('getAudioOcclusion');
+      const nodes: Node[] = await ipcRenderer.invoke('getNodes');
 
-      if (audioOcclusion) {
-        const { nodes } = audioOcclusion;
-
+      if (nodes) {
         setNodes(nodes);
       }
     })();

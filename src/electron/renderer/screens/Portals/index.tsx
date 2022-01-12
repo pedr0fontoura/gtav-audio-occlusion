@@ -32,15 +32,15 @@ const Portals = () => {
 
     setPortalsEntities(updatedPortalsEntities);
 
-    ipcRenderer.send('updatePortalEntity', data);
+    ipcRenderer.send('updatePortalsEntities', updatedPortalsEntities);
   };
 
   useEffect(() => {
     (async () => {
-      const audioOcclusion: AudioOcclusion = await ipcRenderer.invoke('getAudioOcclusion');
+      const _portalsEntities: PortalEntity[][] = await ipcRenderer.invoke('getPortalsEntities');
 
-      if (audioOcclusion) {
-        setPortalsEntities(audioOcclusion.portalsEntities);
+      if (_portalsEntities) {
+        setPortalsEntities(_portalsEntities);
       }
     })();
   }, []);
@@ -81,7 +81,7 @@ const Portals = () => {
                         }
                       />
                     </td>
-                    <td>{((entity.entityModelHashkey)>>>0).toString(16)}</td>
+                    <td>{((entity.entityModelHashkey)>>>0).toString(16).toUpperCase()} ({((entity.entityModelHashkey)>>>0)})</td>
                     <td>
                       <input
                         type="checkbox"
