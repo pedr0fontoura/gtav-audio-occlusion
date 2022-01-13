@@ -116,7 +116,11 @@ export default class AudioOcclusionTool {
     this.mainWindow.webContents.on('did-finish-load', () => {
       this.logger = new UserInterfaceLogger(this.mainWindow);
 
-      this.logger.log('Finished loading main window');
+      global.console.log = (message?: any, ...optionalParams: any[]) => this.logger.log(message);
+      global.console.warn = (message?: any, ...optionalParams: any[]) => this.logger.warn(message);
+      global.console.error = (message?: any, ...optionalParams: any[]) => this.logger.error(message);
+
+      console.log('Finished loading main window');
     });
   }
 
@@ -189,7 +193,7 @@ export default class AudioOcclusionTool {
   private generateAudioOcclusion(): File {
     if (!this.cMapData || !this.cMloArchetypeDef) return;
 
-    this.logger.log('Generating Audio Occlusion');
+    console.log('Generating Audio Occlusion');
 
     this.audioOcclusion = new AudioOcclusion(this.interior);
 
@@ -202,10 +206,10 @@ export default class AudioOcclusionTool {
   private async writeAudioOcclusion(): Promise<void> {
     if (!this.audioOcclusion) return;
 
-    this.logger.log('Encoding Audio Occlusion');
+    console.log('Encoding Audio Occlusion');
     const ymt = this.cwEncoder.encodeAudioOcclusion(this.audioOcclusion);
 
-    this.logger.log('Writing Audio Occlusion file');
+    console.log('Writing Audio Occlusion file');
     await this.cwFile.write(path.resolve(this.outputDirPath, this.audioOcclusion.fileName), ymt);
   }
 
