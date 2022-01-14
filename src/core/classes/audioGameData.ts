@@ -57,21 +57,21 @@ export default class AudioGameData {
 
   private getAmbientZone(): AmbientZone {
     const boxSize = {
-      x: this.interior.entitiesExtentsMax.x - this.interior.entitiesExtentsMin.x,
-      y: this.interior.entitiesExtentsMax.y - this.interior.entitiesExtentsMin.y,
-      z: this.interior.entitiesExtentsMax.z - this.interior.entitiesExtentsMin.z,
-    };
+      x: this.interior.entitiesExtentsMax.x.minus(this.interior.entitiesExtentsMin.x),
+      y: this.interior.entitiesExtentsMax.y.minus(this.interior.entitiesExtentsMin.y),
+      z: this.interior.entitiesExtentsMax.z.minus(this.interior.entitiesExtentsMin.z),
+    }
 
     const center = {
-      x: this.interior.entitiesExtentsMin.x + boxSize.x / 2,
-      y: this.interior.entitiesExtentsMin.y + boxSize.y / 2,
-      z: this.interior.entitiesExtentsMin.z + boxSize.z / 2,
+      x: this.interior.entitiesExtentsMin.x.plus(boxSize.x).div(2),
+      y: this.interior.entitiesExtentsMin.y.plus(boxSize.y).div(2),
+      z: this.interior.entitiesExtentsMin.z.plus(boxSize.z).div(2),
     };
 
     return {
       name: this.interior.name + '_az',
       outerPos: { x: center.x, y: center.y, z: center.z },
-      outerSize: { x: boxSize.x + 1.0, y: boxSize.y + 1.0, z: boxSize.z + 1.0 },
+      outerSize: { x: boxSize.x.plus(1.0), y: boxSize.y.plus(1.0), z: boxSize.z.plus(1.0) },
       innerPos: { x: center.x, y: center.y, z: center.z },
       innerSize: { x: boxSize.x, y: boxSize.y, z: boxSize.z },
       unkHash01: this.audioDynamixData.scene.name,
