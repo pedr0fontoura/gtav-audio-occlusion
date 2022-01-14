@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 
-import AudioOcclusion, { PortalEntity } from '../../../../core/classes/audioOcclusion';
+import { PortalEntity } from '../../../../core/classes/audioOcclusion';
 
 import { TableContainer } from './styles';
 
-const Portals = () => {
+const PortalsEntities = () => {
   const [portalsEntities, setPortalsEntities] = useState<PortalEntity[][]>();
 
   const updatePortalsEntities = (
@@ -116,4 +116,4 @@ const Portals = () => {
   );
 };
 
-export default Portals;
+export default PortalsEntities;

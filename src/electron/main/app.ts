@@ -6,7 +6,7 @@ import { CMapData } from '../../core/files/codewalker/ymap';
 import { CMloArchetypeDef } from '../../core/files/codewalker/ytyp';
 
 import Interior from '../../core/classes/interior';
-import AudioOcclusion, { PortalEntity } from '../../core/classes/audioOcclusion';
+import AudioOcclusion, { PortalEntity, PortalInfo } from '../../core/classes/audioOcclusion';
 import AudioDynamixData from '../../core/classes/audioDynamixData';
 import AudioGameData from '../../core/classes/audioGameData';
 import Node from '../../core/classes/audioOcclusion/node';
@@ -73,6 +73,7 @@ export default class AudioOcclusionTool {
     ipcMain.handle('getOutputDirPath', this.getOutputDirPath.bind(this));
 
     ipcMain.handle('getNodes', this.getNodes.bind(this));
+    ipcMain.handle('getPortalEntries', this.getPortalEntries.bind(this));
     ipcMain.handle('getPortalsEntities', this.getPortalsEntities.bind(this));
 
     ipcMain.handle('getAudioDynamixData', this.getAudioDynamixData.bind(this));
@@ -306,6 +307,10 @@ export default class AudioOcclusionTool {
 
   private getNodes(event: IpcMainEvent): Node[] {
     return this.audioOcclusion.nodes;
+  }
+
+  private getPortalEntries(event: IpcMainEvent): PortalInfo[] {
+    return this.audioOcclusion.portalInfoList;
   }
 
   private getPortalsEntities(event: IpcMainEvent): PortalEntity[][] {

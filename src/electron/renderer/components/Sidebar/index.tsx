@@ -16,10 +16,13 @@ const Sidebar = () => {
         </SectionLink>
       </Section>
       <Section>
+        <SectionLink to="/portalEntries" current={pathname}>
+          Portals
+        </SectionLink>
         <SectionLink to="/nodes" current={pathname}>
           Nodes
         </SectionLink>
-        <SectionLink to="/portals" current={pathname}>
+        <SectionLink to="/portalsEntities" current={pathname}>
           Portals Entities
         </SectionLink>
         <SectionLink to="/rooms" current={pathname}>
