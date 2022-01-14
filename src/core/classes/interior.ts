@@ -2,6 +2,7 @@ import { CMloArchetypeDef } from '../files/codewalker/ytyp';
 import { CMapData } from '../files/codewalker/ymap';
 
 export interface Entity {
+  name: string;
   hash: number;
   isDoor: boolean;
   isGlass: boolean;

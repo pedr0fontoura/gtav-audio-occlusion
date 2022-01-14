@@ -41,6 +41,7 @@ export interface Ytyp {
 }
 
 export interface MloEntity {
+  name: string;
   hash: number;
   isDoor: boolean;
   isGlass: boolean;

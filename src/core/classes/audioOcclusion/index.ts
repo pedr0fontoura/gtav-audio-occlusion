@@ -10,6 +10,7 @@ import { Big } from 'big.js';
 export interface PortalEntity {
   linkType: number;
   maxOcclusion: number;
+  name: string;
   entityModelHashkey: number;
   isDoor: boolean;
   isGlass: boolean;
@@ -94,6 +95,7 @@ export default class AudioOcclusion {
         return {
           linkType: 1,
           maxOcclusion,
+          name: attachedObject.name,
           entityModelHashkey: attachedObject.hash,
           isDoor: attachedObject.isDoor,
           isGlass: attachedObject.isGlass,

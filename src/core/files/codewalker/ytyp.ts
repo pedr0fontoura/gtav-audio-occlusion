@@ -34,6 +34,7 @@ export class CMloArchetypeDef {
     console.log('CMloArchetypeDef: getting entities ...');
 
     return archetype.entities.Item.map(rawMloEntity => {
+      let name: string;
       let hash: number;
 
       if (rawMloEntity.archetypeName.startsWith('hash_')) {
@@ -41,6 +42,7 @@ export class CMloArchetypeDef {
 
         hash = parseInt(hexString, 16);
       } else {
+        name = rawMloEntity.archetypeName;
         hash = joaat(rawMloEntity.archetypeName);
       }
 
@@ -48,6 +50,7 @@ export class CMloArchetypeDef {
       const isGlass = rawMloEntity.archetypeName.includes('glass') || rawMloEntity.archetypeName.includes('window');
 
       return {
+        name,
         hash: convertToInt32(hash),
         isDoor,
         isGlass,

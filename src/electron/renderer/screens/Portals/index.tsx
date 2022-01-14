@@ -55,6 +55,7 @@ const Portals = () => {
               <th>Portal Index</th>
               <th>LinkType</th>
               <th>MaxOcclusion</th>
+              <th>Name</th>
               <th>EntityModelHashkey</th>
               <th>IsDoor</th>
               <th>IsGlass</th>
@@ -81,6 +82,7 @@ const Portals = () => {
                         }
                       />
                     </td>
+                    <td>{entity.name ? entity.name : null}</td>
                     <td>{((entity.entityModelHashkey)>>>0).toString(16).toUpperCase()} ({((entity.entityModelHashkey)>>>0)})</td>
                     <td>
                       <input
