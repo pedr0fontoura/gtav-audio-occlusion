@@ -306,15 +306,15 @@ export default class AudioOcclusionTool {
   // Audio Occlusion data
 
   private getNodes(event: IpcMainEvent): Node[] {
-    return this.audioOcclusion.nodes;
+    return this.audioOcclusion?.nodes;
   }
 
   private getPortalEntries(event: IpcMainEvent): PortalInfo[] {
-    return this.audioOcclusion.portalInfoList;
+    return this.audioOcclusion?.portalInfoList;
   }
 
   private getPortalsEntities(event: IpcMainEvent): PortalEntity[][] {
-    return this.audioOcclusion.portalsEntities;
+    return this.audioOcclusion?.portalsEntities;
   }
 
   private getAudioDynamixData(event: IpcMainEvent): AudioDynamixData {
