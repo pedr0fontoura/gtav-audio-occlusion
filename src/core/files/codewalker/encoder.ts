@@ -195,13 +195,6 @@ export class CodeWalkerEncoder {
         Items: {
           Item: [
             {
-              $: { type: 'AmbientZoneList', ntOffset: 0 },
-              Name: 'ambient_zone_list',
-              Zones: {
-                Item: [audioGameData.ambientZone.name],
-              },
-            },
-            {
               $: { type: 'Interior', ntOffset: 0 },
               Name: audioGameData.interiorName,
               Unk0: { $: { value: '0xAAAAA044' } },
@@ -210,116 +203,6 @@ export class CodeWalkerEncoder {
               Rooms: {
                 Item: audioGameData.interiorRooms.map(room => room.name),
               },
-            },
-            {
-              $: { type: 'AmbientZone', ntOffset: 0 },
-              Name: audioGameData.ambientZone.name,
-              Flags0: { $: { value: '0xAA800425' } },
-              Shape: 'Box',
-              Flags1: { $: { value: '0x00000000' } },
-              OuterPos: {
-                $: {
-                  x: audioGameData.ambientZone.outerPos.x,
-                  y: audioGameData.ambientZone.outerPos.y,
-                  z: audioGameData.ambientZone.outerPos.z,
-                },
-              },
-              OuterSize: {
-                $: {
-                  x: audioGameData.ambientZone.outerSize.x,
-                  y: audioGameData.ambientZone.outerSize.y,
-                  z: audioGameData.ambientZone.outerSize.z,
-                },
-              },
-              OuterVec1: {
-                $: {
-                  x: 0,
-                  y: 0,
-                  z: 0,
-                  w: 0,
-                },
-              },
-              OuterVec2: {
-                $: {
-                  x: 0,
-                  y: 0,
-                  z: 0,
-                  w: 0,
-                },
-              },
-              OuterAngle: { $: { value: 0 } },
-              OuterVec3: {
-                $: {
-                  x: 0,
-                  y: 0,
-                  z: 0,
-                },
-              },
-              InnerPos: {
-                $: {
-                  x: audioGameData.ambientZone.innerPos.x,
-                  y: audioGameData.ambientZone.innerPos.y,
-                  z: audioGameData.ambientZone.innerPos.z,
-                },
-              },
-              InnerSize: {
-                $: {
-                  x: audioGameData.ambientZone.innerSize.x,
-                  y: audioGameData.ambientZone.innerSize.y,
-                  z: audioGameData.ambientZone.innerSize.z,
-                },
-              },
-              InnerVec1: {
-                $: {
-                  x: 0,
-                  y: 0,
-                  z: 0,
-                  w: 0,
-                },
-              },
-              InnerVec2: {
-                $: {
-                  x: 0,
-                  y: 0,
-                  z: 0,
-                  w: 0,
-                },
-              },
-              InnerAngle: { $: { value: 0 } },
-              InnerVec3: {
-                $: {
-                  x: 0,
-                  y: 0,
-                  z: 0,
-                },
-              },
-              UnkVec1: {
-                $: {
-                  x: 0,
-                  y: 0,
-                  z: 10,
-                  w: 0,
-                },
-              },
-              UnkVec2: {
-                $: {
-                  x: 1,
-                  y: -1,
-                  z: -1,
-                  w: 0,
-                },
-              },
-              UnkHash0: '',
-              UnkHash1: audioGameData.ambientZone.unkHash01,
-              UnkVec3: { $: { x: -1, y: 0, z: 0 } },
-              Flags2: { $: { value: '0x00000000' } },
-              Unk14: { $: { value: 4 } },
-              Unk15: { $: { value: 1 } },
-              Unk16: { $: { value: 0 } },
-              Hashes: {
-                Item: ['hash_4ACAAADD', 'hash_ED816221'],
-              },
-              ExtParams: '',
             },
             ...audioGameData.interiorRooms.map<XML.InteriorRoom>(interiorRoom => ({
               $: { type: 'InteriorRoom', ntOffset: 0 },

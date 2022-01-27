@@ -100,7 +100,7 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const [files, outputDirPath] = await Promise.all<ResourceFile[], string>([
+      const [files, outputDirPath]: [ResourceFile[], string] = await Promise.all([
         ipcRenderer.invoke('getFiles'),
         ipcRenderer.invoke('getOutputDirPath'),
       ]);
@@ -196,6 +196,29 @@ const Home = () => {
               </tr>
 
               <tr>
+                <td>AudioGameData</td>
+                <td>{dat151File ? dat151File.name : '...'}</td>
+                <td>{dat151File ? dat151File.path : '...'}</td>
+                <td>
+                  {isGeneratedAreaEnabled && !dat151File && (
+                    <Button onClick={handleGenerateAudioGameData}>
+                      <FaPlus size={16} />
+                    </Button>
+                  )}
+                  {dat151File && (
+                    <>
+                      <Button onClick={handleWriteAudioGameData}>
+                        <FaFileDownload size={16} />
+                      </Button>
+                      <Button onClick={() => removeFile(dat151File)}>
+                        <FaTimes size={16} />
+                      </Button>
+                    </>
+                  )}
+                </td>
+              </tr>
+
+              <tr>
                 <td>AudioDynamixData</td>
                 <td>{dat15File ? dat15File.name : '...'}</td>
                 <td>{dat15File ? dat15File.path : '...'}</td>
@@ -211,29 +234,6 @@ const Home = () => {
                         <FaFileDownload size={16} />
                       </Button>
                       <Button onClick={() => removeFile(dat15File)}>
-                        <FaTimes size={16} />
-                      </Button>
-                    </>
-                  )}
-                </td>
-              </tr>
-
-              <tr>
-                <td>AudioGameData</td>
-                <td>{dat151File ? dat151File.name : '...'}</td>
-                <td>{dat151File ? dat151File.path : '...'}</td>
-                <td>
-                  {isGeneratedAreaEnabled && dat15File && !dat151File && (
-                    <Button onClick={handleGenerateAudioGameData}>
-                      <FaPlus size={16} />
-                    </Button>
-                  )}
-                  {dat151File && (
-                    <>
-                      <Button onClick={handleWriteAudioGameData}>
-                        <FaFileDownload size={16} />
-                      </Button>
-                      <Button onClick={() => removeFile(dat151File)}>
                         <FaTimes size={16} />
                       </Button>
                     </>

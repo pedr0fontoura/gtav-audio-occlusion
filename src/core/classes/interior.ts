@@ -42,13 +42,7 @@ export default class Interior {
     this.cMapData = cMapData;
     this.cMloArchetypeDef = cMloArchetypeDef;
 
-    if (this.cMapData.archetypeName.includes('hash_')) {
-      this.isNameHashed = true;
-
-      console.warn('Please provide an .ymap with the unhashed CMloInstanceDef name to enable .dat files generation');
-    } else {
-      this.isNameHashed = false;
-    }
+    this.isNameHashed = this.cMapData.archetypeName.includes('hash_');
 
     this.name = cMapData.archetypeName;
 

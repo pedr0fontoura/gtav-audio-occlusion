@@ -242,9 +242,10 @@ export default class AudioOcclusionTool {
   }
 
   private generateAudioGameData(): File {
-    if (!this.interior || !this.audioDynamixData) return;
+    if (!this.interior) return;
 
-    this.audioGameData = new AudioGameData(this.interior, this.audioDynamixData);
+    this.audioGameData = new AudioGameData(this.interior);
+
 
     return {
       name: this.audioGameData.fileName,
