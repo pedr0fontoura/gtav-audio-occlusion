@@ -221,6 +221,7 @@ export default class AudioOcclusionTool {
   private generateAudioDynamixData(): File {
     if (!this.interior) return;
 
+    console.log('Generating Audio Dynamix Data');
     this.audioDynamixData = new AudioDynamixData(this.interior);
 
     return {
@@ -232,8 +233,10 @@ export default class AudioOcclusionTool {
   private async writeAudioDynamixData(): Promise<void> {
     if (!this.audioDynamixData) return;
 
+    console.log('Encoding Audio Dynamix Data');
     const dat15 = this.cwEncoder.encodeAudioDynamixData(this.audioDynamixData);
 
+    console.log('Writing Audio Dynamix Data file');
     await this.cwFile.write(path.resolve(this.outputDirPath, this.audioDynamixData.fileName), dat15);
   }
 
@@ -244,8 +247,8 @@ export default class AudioOcclusionTool {
   private generateAudioGameData(): File {
     if (!this.interior) return;
 
+    console.log('Generating Audio Game Data');
     this.audioGameData = new AudioGameData(this.interior);
-
 
     return {
       name: this.audioGameData.fileName,
@@ -256,8 +259,10 @@ export default class AudioOcclusionTool {
   private async writeAudioGameData(): Promise<void> {
     if (!this.audioGameData) return;
 
+    console.log('Encoding Audio Game Data');
     const dat151 = this.cwEncoder.encodeAudioGameData(this.audioGameData);
 
+    console.log('Writing Audio Game Data file');
     await this.cwFile.write(path.resolve(this.outputDirPath, this.audioGameData.fileName), dat151);
   }
 
