@@ -8,11 +8,25 @@ import { TableContainer } from './styles';
 const PortalEntries = () => {
   const [portalEntries, setPortalEntries] = useState<PortalInfo[]>();
 
+  const updatePortalEntry = (index: number, enabled: boolean) => {
+    const updatedPortalEntries = portalEntries.map(portalEntry => {
+      if (portalEntry.infoIdx !== index) return portalEntry;
+
+      return { ...portalEntry, enabled };
+    });
+
+    setPortalEntries(updatedPortalEntries);
+
+    ipcRenderer.send('updatePortalEntry', index, enabled);
+  }
+
   useEffect(() => {
     (async () => {
       const _portalEntries: PortalInfo[] = await ipcRenderer.invoke('getPortalEntries');
 
       if (_portalEntries) {
+        _portalEntries.sort((a, b) => a.index - b.index);
+
         setPortalEntries(_portalEntries);
       }
     })();
@@ -28,7 +42,7 @@ const PortalEntries = () => {
               <th>Portal Index</th>
               <th>RoomIdx</th>
               <th>DestRoomIdx</th>
-              <th>PortalIdx</th>
+              <th>RoomPortalIdx</th>
               <th>InteriorProxyHash</th>
               <th>DestInteriorHash</th>
               <th>Enabled</th>
@@ -40,13 +54,14 @@ const PortalEntries = () => {
                 <td>{portalEntry.index}</td>
                 <td>{portalEntry.roomIdx}</td>
                 <td>{portalEntry.destRoomIdx}</td>
-                <td>{portalEntry.portalIdx}</td>
+                <td>{portalEntry.roomPortalIdx}</td>
                 <td>{portalEntry.interiorProxyHash}</td>
                 <td>{portalEntry.destInteriorHash}</td>
                 <td>
                   <input
                     type="checkbox"
-                    checked={true}
+                    checked={portalEntry.enabled}
+                    onChange={e => updatePortalEntry(portalEntry.infoIdx, e.target.checked)}
                   />
                 </td>
               </tr>

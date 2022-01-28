@@ -79,11 +79,14 @@ export default class AudioOcclusionTool {
     ipcMain.handle('getAudioDynamixData', this.getAudioDynamixData.bind(this));
     ipcMain.handle('getAudioGameData', this.getAudioGameData.bind(this));
 
+    ipcMain.on('refreshAudioOcclusionNodes', this.refreshAudioOcclusionNodes.bind(this));
+
     ipcMain.on('updateAudioOcclusion', this.updateAudioOcclusion.bind(this));
     ipcMain.on('updateAudioDynamixData', this.updateAudioDynamixData.bind(this));
     ipcMain.on('updateAudioGameData', this.updateAudioGameData.bind(this));
 
     ipcMain.on('updatePortalsEntities', this.updatePortalsEntities.bind(this));
+    ipcMain.on('updatePortalEntry', this.updatePortalEntry.bind(this));
 
     ipcMain.handle('selectOutputDirectory', this.selectOutputDirectory.bind(this));
   }
@@ -331,6 +334,12 @@ export default class AudioOcclusionTool {
     return this.audioGameData;
   }
 
+  private refreshAudioOcclusionNodes(event: IpcMainEvent): void {
+    console.log("Refreshing occlusion nodes");
+
+    this.audioOcclusion.refreshNodes();
+  }
+
   private updateAudioOcclusion(event: IpcMainEvent, data: { [key in keyof AudioOcclusion]?: any }): void {
     if (!data) return;
 
@@ -351,6 +360,10 @@ export default class AudioOcclusionTool {
 
   private updatePortalsEntities(event: IpcMainEvent, data: PortalEntity[][]) {
     this.audioOcclusion.portalsEntities = data;
+  }
+
+  private updatePortalEntry(event: IpcMainEvent, portalIndex: number, enabled: boolean): void {
+    this.audioOcclusion.portalInfoList[portalIndex].enabled = enabled;
   }
 
   private async selectOutputDirectory(event: IpcMainEvent): Promise<string> {

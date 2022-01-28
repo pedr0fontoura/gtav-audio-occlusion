@@ -1,11 +1,12 @@
+import { Big } from 'big.js';
+
 import { joaat, isBitSet } from '../../utils';
 
-import Interior from '../interior';
+import Interior, { Portal } from '../interior';
 
 import Node from './node';
 import PathNodeItem from './pathNodeitem';
 import Path from './path';
-import { Big } from 'big.js';
 
 export interface PortalEntity {
   linkType: number;
@@ -20,11 +21,12 @@ export interface PortalInfo {
   index: number;
   infoIdx: number;
   interiorProxyHash: number;
-  portalIdx: number;
+  roomPortalIdx: number;
   roomIdx: number;
   destInteriorHash: number;
   destRoomIdx: number;
   portalEntityList: PortalEntity[];
+  enabled: boolean;
 }
 
 export interface PathNodeDirection {
@@ -114,7 +116,7 @@ export default class AudioOcclusion {
         return a.index - b.index;
       });
 
-      // PortalIdx is relative to RoomIdx
+      // roomPortalIdx is relative to roomIdx
       const roomPortalInfoList = roomPortals
         .filter(portal => !isBitSet(portal.flags, 1) && !isBitSet(portal.flags, 2))
         .map((portal, index) => {
@@ -124,11 +126,12 @@ export default class AudioOcclusion {
             index: portal.index,
             infoIdx: 0,
             interiorProxyHash: this.occlusionHash,
-            portalIdx: index,
+            roomPortalIdx: index,
             roomIdx: portal.from,
             destInteriorHash: this.occlusionHash,
             destRoomIdx: portal.to,
             portalEntityList: portalEntityList,
+            enabled: true,
           };
 
           return portalInfo;
@@ -144,7 +147,13 @@ export default class AudioOcclusion {
     return portalInfoList;
   }
 
+  public refreshNodes(): void {
+    this.nodes = Node.getNodes(this.portalInfoList, this.interior, this.occlusionHash);
+  }
+
   public beforeEncode(): void {
+    this.refreshNodes();
+
     this.pathNodeList = Path.getPaths(this.nodes);
   }
 }

@@ -9,11 +9,11 @@ const PortalsEntities = () => {
   const [portalsEntities, setPortalsEntities] = useState<PortalEntity[][]>();
 
   const updatePortalsEntities = (
-    pPortalIdx: number,
+    pRoomPortalIdx: number,
     pEntityIdx: number,
     data: { [key in keyof PortalEntity]?: any },
   ): void => {
-    const entityHash = portalsEntities[pPortalIdx][pEntityIdx].entityModelHashkey;
+    const entityHash = portalsEntities[pRoomPortalIdx][pEntityIdx].entityModelHashkey;
 
     if (data.maxOcclusion && isNaN(data.maxOcclusion)) {
       data.maxOcclusion = 0.0;
@@ -63,10 +63,10 @@ const PortalsEntities = () => {
           </thead>
           <tbody>
             {portalsEntities &&
-              portalsEntities.map((portalEntities, portalIdx) =>
+              portalsEntities.map((portalEntities, roomPortalIdx) =>
                 portalEntities.map((entity, entityIdx) => (
                   <tr key={entityIdx}>
-                    <td>{portalIdx}</td>
+                    <td>{roomPortalIdx}</td>
                     <td>{entity.linkType}</td>
                     <td>
                       <input
@@ -76,7 +76,7 @@ const PortalsEntities = () => {
                         min={0}
                         max={1}
                         onChange={e =>
-                          updatePortalsEntities(portalIdx, entityIdx, {
+                          updatePortalsEntities(roomPortalIdx, entityIdx, {
                             maxOcclusion: parseFloat(e.target.value),
                           })
                         }
@@ -89,7 +89,7 @@ const PortalsEntities = () => {
                         type="checkbox"
                         checked={entity.isDoor}
                         onChange={e =>
-                          updatePortalsEntities(portalIdx, entityIdx, {
+                          updatePortalsEntities(roomPortalIdx, entityIdx, {
                             isDoor: e.target.checked,
                           })
                         }
@@ -100,7 +100,7 @@ const PortalsEntities = () => {
                         type="checkbox"
                         checked={entity.isGlass}
                         onChange={e =>
-                          updatePortalsEntities(portalIdx, entityIdx, {
+                          updatePortalsEntities(roomPortalIdx, entityIdx, {
                             isGlass: e.target.checked,
                           })
                         }

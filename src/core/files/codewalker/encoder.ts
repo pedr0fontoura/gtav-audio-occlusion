@@ -38,7 +38,7 @@ export class CodeWalkerEncoder {
           $: { value: portalInfo.interiorProxyHash },
         },
         PortalIdx: {
-          $: { value: portalInfo.portalIdx },
+          $: { value: portalInfo.roomPortalIdx },
         },
         RoomIdx: {
           $: { value: portalInfo.roomIdx },

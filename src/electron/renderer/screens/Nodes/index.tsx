@@ -36,6 +36,8 @@ const Nodes = () => {
 
   useEffect(() => {
     (async () => {
+      ipcRenderer.send('refreshAudioOcclusionNodes');
+
       const nodes: Node[] = await ipcRenderer.invoke('getNodes');
 
       if (nodes) {

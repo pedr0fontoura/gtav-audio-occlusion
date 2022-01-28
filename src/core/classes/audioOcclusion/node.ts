@@ -33,7 +33,7 @@ export default class Node {
     const nodes = interior.rooms.map(room => {
       const node = new Node(room, occlusionHash);
 
-      node.portals = portalInfoList.filter(portal => portal.roomIdx === node.index);
+      node.portals = portalInfoList.filter(portal => portal.roomIdx === node.index && portal.enabled);
 
       return node;
     });
