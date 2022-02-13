@@ -337,7 +337,7 @@ export default class AudioOcclusionTool {
   private refreshAudioOcclusionNodes(event: IpcMainEvent): void {
     console.log("Refreshing occlusion nodes");
 
-    this.audioOcclusion.refreshNodes();
+    this.audioOcclusion?.refreshNodes();
   }
 
   private updateAudioOcclusion(event: IpcMainEvent, data: { [key in keyof AudioOcclusion]?: any }): void {
