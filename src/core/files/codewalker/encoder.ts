@@ -11,27 +11,23 @@ export class CodeWalkerEncoder {
     audioOcclusion.beforeEncode();
 
     const encodedPortalInfoList = audioOcclusion.portalInfoList.map(portalInfo => {
-      const encodedPortalEntityList: XML.PortalEntity[] = portalInfo.portalEntityList.map(portalEntity => {
-        const encodedPortalEntity = {
-          LinkType: {
-            $: { value: portalEntity.linkType },
-          },
-          MaxOcclusion: {
-            $: { value: portalEntity.maxOcclusion },
-          },
-          EntityModelHashkey: {
-            $: { value: portalEntity.entityModelHashkey },
-          },
-          IsDoor: {
-            $: { value: portalEntity.isDoor },
-          },
-          IsGlass: {
-            $: { value: portalEntity.isGlass },
-          },
-        };
-
-        return encodedPortalEntity;
-      });
+      const encodedPortalEntityList = audioOcclusion.portalsEntities[portalInfo.index].map(portalEntity => ({
+        LinkType: {
+          $: { value: portalEntity.linkType },
+        },
+        MaxOcclusion: {
+          $: { value: portalEntity.maxOcclusion },
+        },
+        EntityModelHashkey: {
+          $: { value: portalEntity.entityModelHashkey },
+        },
+        IsDoor: {
+          $: { value: portalEntity.isDoor },
+        },
+        IsGlass: {
+          $: { value: portalEntity.isGlass },
+        },
+      }));
 
       const encodedPortalInfo: XML.PortalInfo = {
         InteriorProxyHash: {

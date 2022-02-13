@@ -2,7 +2,7 @@ import { Big } from 'big.js';
 
 import { joaat, isBitSet } from '../../utils';
 
-import Interior, { Portal } from '../interior';
+import Interior from '../interior';
 
 import Node from './node';
 import PathNodeItem from './pathNodeitem';
@@ -25,7 +25,6 @@ export interface PortalInfo {
   roomIdx: number;
   destInteriorHash: number;
   destRoomIdx: number;
-  portalEntityList: PortalEntity[];
   enabled: boolean;
 }
 
@@ -118,24 +117,17 @@ export default class AudioOcclusion {
 
       // roomPortalIdx is relative to roomIdx
       const roomPortalInfoList = roomPortals
-        .filter(portal => !isBitSet(portal.flags, 1) && !isBitSet(portal.flags, 2))
-        .map((portal, index) => {
-          const portalEntityList = this.portalsEntities[portal.index];
-
-          const portalInfo = {
-            index: portal.index,
-            infoIdx: 0,
-            interiorProxyHash: this.occlusionHash,
-            roomPortalIdx: index,
-            roomIdx: portal.from,
-            destInteriorHash: this.occlusionHash,
-            destRoomIdx: portal.to,
-            portalEntityList: portalEntityList,
-            enabled: true,
-          };
-
-          return portalInfo;
-        });
+        .filter(portal => !isBitSet(portal.flags, 2))
+        .map((portal, index) => ({
+          index: portal.index,
+          infoIdx: 0,
+          interiorProxyHash: this.occlusionHash,
+          roomPortalIdx: index,
+          roomIdx: portal.from,
+          destInteriorHash: this.occlusionHash,
+          destRoomIdx: portal.to,
+          enabled: true,
+        }));
 
       portalInfoList = [...portalInfoList, ...roomPortalInfoList];
     });
