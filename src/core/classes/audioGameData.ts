@@ -32,7 +32,7 @@ export default class AudioGameData {
 
   private getInteriorRooms(interior: Interior): InteriorRoom[] {
     return interior.rooms.map(room => ({
-      name: room.name,
+      name: `${interior.name}_${room.name}`,
       mloRoom: room.name,
       hash1: null,
       unk02: 0,
