@@ -89,12 +89,9 @@ export class CMloArchetypeDef {
         .filter(entity => !!entity)
         .map(entityIdx => {
           const parsedEntityIdx = parseInt(entityIdx);
-          if (parsedEntityIdx < this.entities.length)
-          {
+          if (parsedEntityIdx < this.entities.length) {
             return this.entities[parsedEntityIdx];
-          }
-          else
-          {
+          } else {
             console.log('CMloArchetypeDef: getting portals ... invalid ref', entityIdx, parsedEntityIdx);
           }
         });

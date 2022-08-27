@@ -71,13 +71,15 @@ export default class AudioOcclusion {
 
       archetypeNameHash = parseInt(hexString, 16);
     } else {
-      archetypeNameHash = joaat(this.interior.name, true);
+      archetypeNameHash = joaat(this.interior.name);
     }
 
-    return archetypeNameHash ^ 
+    return (
+      archetypeNameHash ^
       pos.x.times(100).round(0, Big.roundDown).toNumber() ^
       pos.y.times(100).round(0, Big.roundDown).toNumber() ^
-      pos.z.times(100).round(0, Big.roundDown).toNumber();
+      pos.z.times(100).round(0, Big.roundDown).toNumber()
+    );
   }
 
   private getPortalsEntities(): PortalEntity[][] {

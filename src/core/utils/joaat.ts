@@ -1,20 +1,21 @@
-// Thanks to VPagani.
+// Adapted from FxDK
 
-export function joaat(input: string, unsigned: boolean = false): number {
-  let hash = 0;
-  let len = input.length;
+export function joaat(key: string): number {
+  key = key.toLowerCase();
 
-  const lowerCaseInput = input.toLowerCase();
+  const hash = new Uint32Array(1);
 
-  for (let i = 0; i < len; i++) {
-    hash += lowerCaseInput.charCodeAt(i);
-    hash += hash << 10;
-    hash ^= hash >>> 6;
-  }
+  const chars = [...key];
 
-  hash += hash << 3;
-  hash ^= hash >>> 11;
-  hash += hash << 15;
+  chars.forEach((_char, i) => {
+    hash[0] += key.charCodeAt(i);
+    hash[0] += hash[0] << 10;
+    hash[0] ^= hash[0] >>> 6;
+  });
 
-  return unsigned ? hash >>> 0 : hash;
+  hash[0] += hash[0] << 3;
+  hash[0] ^= hash[0] >>> 11;
+  hash[0] += hash[0] << 15;
+
+  return hash[0];
 }

@@ -1,16 +1,24 @@
 # gtav-audio-occlusion
 
-A tool for generating Audio Occlusion for GTA V custom interiors.
+An "eh" tool for generating audio occlusion for V MLO's.
 
-The tool reads and writes CodeWalker XML files.
+If you don't understand how audio occlusion works on V, I suggest you read [Nikez's documentation](https://github.com/nikez/gtav_audio_occlusion_documentation) and the [rage.re topic](https://rage.re/docs?topic=40) about it.
 
-If you don't know how to use the generated files, I suggest you read Nikez's documentation about Audio Occlusion.
+The tool uses the CodeWalker XML format, so you need to extract/import game files with [CodeWalker](https://github.com/dexyfex/CodeWalker) before using the generated files.
 
-Even that you can generate and customize the basics of interior audio, there is still a lot of features missing.
+## Disclaimer
 
-If you feel comfortable, please contribute.
+This repository is not maintained anymore, but may receive sporadic updates.
+
+Also, the tool was not designed for public use, but my own. I made it public to incentivize and make the transition to using [FiveM](https://fivem.net/)'s native audio system easier for the community.
+
+That said, feel free to fork this repository and change it to suit you the best.
+
+If you're totally unsatisfied with this tool, there is another public audio occlusion tool you can try [here](https://github.com/tangerinenuistance5/OcclusionGenerator).
 
 ## Preview
+
+The screenshots below are not updated and **do not** represent exactly how the tool looks or works.
 
 ![Tool Preview](https://i.imgur.com/F2FtY6u.png 'Tool Preview')
 ![Tool Preview](https://i.imgur.com/H9khmSb.png 'Tool Preview')
@@ -41,5 +49,4 @@ Get the latest version of the tool from the releases section.
 ## Credits
 
 - [Nikez](https://github.com/nikez/gtav_audio_occlusion_documentation) for the original documentation about audio occlusion.
-- [appricotflower821](https://github.com/tangerinenuistance5/OcclusionGenerator) for the path nodes generation algorithm and discovering unknow hashes.
-- [VPagani](https://github.com/VPagani) for the joaat function.
+- [appricotflower821](https://github.com/tangerinenuistance5) for the path nodes generation algorithm and discovering unknow hashes.

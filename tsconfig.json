@@ -6,7 +6,7 @@
     },
     "outDir": "./dist",
     "noImplicitAny": true,
-    "target": "es5",
+    "target": "es6",
     "allowJs": true,
     "jsx": "react",
     "emitDecoratorMetadata": true,

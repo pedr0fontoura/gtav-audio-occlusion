@@ -21,7 +21,7 @@ export default class Node {
   constructor(room: MloRoom, occlusionHash: number) {
     this.index = room.index;
     this.name = room.name;
-    this.key = room.name === 'limbo' ? joaat('outside', true) : occlusionHash ^ joaat(room.name, true);
+    this.key = room.name === 'limbo' ? joaat('outside') : occlusionHash ^ joaat(room.name);
 
     this.portals = [];
     this.edges = [];
