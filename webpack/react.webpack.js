@@ -8,6 +8,9 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     mainFields: ['main', 'module', 'browser'],
+    alias: {
+      '@': path.resolve(root, 'src'),
+    },
   },
   entry: path.resolve(root, 'src', 'web', 'App.tsx'),
   target: 'electron-renderer',
