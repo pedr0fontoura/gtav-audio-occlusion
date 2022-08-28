@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { ConsoleProvider } from './hooks/useConsole';
 import Routes from './routes';
 
-import { GlobalStyle } from './styles/GlobalStyles';
-import colors from './styles/colors';
+import { GlobalStyle } from './styles/global';
+import { theme } from './styles/theme';
 
 import Sidebar from './components/Sidebar';
 import Console from './components/Console';
@@ -19,7 +19,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: stretch;
 
-  background: ${colors.bgColor};
+  background: ${({ theme }) => theme.colors.background.primary};
 `;
 
 const HorizontalContainer = styled.div`
@@ -50,19 +50,21 @@ const RoutesContainer = styled.div`
 
 const App = () => {
   return (
-    <ConsoleProvider>
-      <Container>
-        <Router>
-          <HorizontalContainer>
-            <Sidebar />
-            <RoutesContainer>
-              <Routes />
-            </RoutesContainer>
-          </HorizontalContainer>
-        </Router>
-        <Console />
-      </Container>
-    </ConsoleProvider>
+    <ThemeProvider theme={theme}>
+      <ConsoleProvider>
+        <Container>
+          <Router>
+            <HorizontalContainer>
+              <Sidebar />
+              <RoutesContainer>
+                <Routes />
+              </RoutesContainer>
+            </HorizontalContainer>
+          </Router>
+          <Console />
+        </Container>
+      </ConsoleProvider>
+    </ThemeProvider>
   );
 };
 

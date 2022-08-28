@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import colors from '../../styles/colors';
-
 interface ISectionLinkProps {
   current: string;
 }
@@ -16,8 +14,8 @@ export const Container = styled.div`
 
   padding: 16px;
 
-  background: ${colors.primaryColor};
-  border-right: 2px solid ${colors.secondaryColor};
+  background: ${({ theme }) => theme.colors.primary};
+  border-right: 2px solid ${({ theme }) => theme.colors.secondary};
 `;
 
 export const Section = styled.div`
@@ -31,7 +29,7 @@ export const Section = styled.div`
   & + div {
     margin-top: 16px;
     padding-top: 16px;
-    border-top: 1px solid ${colors.secondaryColor};
+    border-top: 1px solid ${({ theme }) => theme.colors.secondary};
   }
 `;
 
