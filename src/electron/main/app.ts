@@ -1,17 +1,17 @@
 import { BrowserWindow, dialog, ipcMain, IpcMainEvent } from 'electron';
 import path from 'path';
 
-import { CodeWalkerEncoder, CodeWalkerFile } from '../../core/files/codewalker';
-import { CMapData } from '../../core/files/codewalker/ymap';
-import { CMloArchetypeDef } from '../../core/files/codewalker/ytyp';
+import { CodeWalkerEncoder, CodeWalkerFile } from '@/core/files/codewalker';
+import { CMapData } from '@/core/files/codewalker/ymap';
+import { CMloArchetypeDef } from '@/core/files/codewalker/ytyp';
 
-import Interior from '../../core/classes/interior';
-import AudioOcclusion, { PortalEntity, PortalInfo } from '../../core/classes/audioOcclusion';
-import AudioDynamixData from '../../core/classes/audioDynamixData';
-import AudioGameData from '../../core/classes/audioGameData';
-import Node from '../../core/classes/audioOcclusion/node';
+import Interior from '@/core/classes/interior';
+import AudioOcclusion, { PortalEntity, PortalInfo } from '@/core/classes/audioOcclusion';
+import AudioDynamixData from '@/core/classes/audioDynamixData';
+import AudioGameData from '@/core/classes/audioGameData';
+import Node from '@/core/classes/audioOcclusion/node';
 
-import * as XML from '../../core/types/xml';
+import * as XML from '@/core/types/xml';
 
 import UserInterfaceLogger from './logger';
 

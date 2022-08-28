@@ -2,7 +2,8 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "*": ["types/*"]
+      "*": ["types/*"],
+      "@/*": ["*"]
     },
     "outDir": "./dist",
     "noImplicitAny": true,

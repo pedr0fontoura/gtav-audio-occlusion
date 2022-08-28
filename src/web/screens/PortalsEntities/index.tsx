@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 
-import { PortalEntity } from '../../../core/classes/audioOcclusion';
+import { PortalEntity } from '@/core/classes/audioOcclusion';
 
 import { TableContainer } from './styles';
 
