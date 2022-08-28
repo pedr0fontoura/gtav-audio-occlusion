@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 
-import { PortalInfo } from '../../../../core/classes/audioOcclusion';
+import { PortalInfo } from '../../../core/classes/audioOcclusion';
 
 import { TableContainer } from './styles';
 
@@ -18,7 +18,7 @@ const PortalEntries = () => {
     setPortalEntries(updatedPortalEntries);
 
     ipcRenderer.send('updatePortalEntry', index, enabled);
-  }
+  };
 
   useEffect(() => {
     (async () => {
@@ -49,23 +49,24 @@ const PortalEntries = () => {
             </tr>
           </thead>
           <tbody>
-            {portalEntries && portalEntries.map(portalEntry => (
-              <tr key={portalEntry.infoIdx}>
-                <td>{portalEntry.index}</td>
-                <td>{portalEntry.roomIdx}</td>
-                <td>{portalEntry.destRoomIdx}</td>
-                <td>{portalEntry.roomPortalIdx}</td>
-                <td>{portalEntry.interiorProxyHash}</td>
-                <td>{portalEntry.destInteriorHash}</td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={portalEntry.enabled}
-                    onChange={e => updatePortalEntry(portalEntry.infoIdx, e.target.checked)}
-                  />
-                </td>
-              </tr>
-            ))}
+            {portalEntries &&
+              portalEntries.map(portalEntry => (
+                <tr key={portalEntry.infoIdx}>
+                  <td>{portalEntry.index}</td>
+                  <td>{portalEntry.roomIdx}</td>
+                  <td>{portalEntry.destRoomIdx}</td>
+                  <td>{portalEntry.roomPortalIdx}</td>
+                  <td>{portalEntry.interiorProxyHash}</td>
+                  <td>{portalEntry.destInteriorHash}</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={portalEntry.enabled}
+                      onChange={e => updatePortalEntry(portalEntry.infoIdx, e.target.checked)}
+                    />
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </TableContainer>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 
-import Node from '../../../../core/classes/audioOcclusion/node';
+import Node from '../../../core/classes/audioOcclusion/node';
 
 import { TableContainer, LinksWrapper, LinkContainer } from './styles';
 

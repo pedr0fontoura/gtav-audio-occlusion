@@ -28,6 +28,8 @@ export interface FilesDTO {
   dat151: File;
 }
 
+const WEB_ENTRY_PATH = path.resolve(__dirname, '..', '..', 'web', 'index.html');
+
 export default class AudioOcclusionTool {
   private mainWindow: BrowserWindow;
 
@@ -110,7 +112,7 @@ export default class AudioOcclusionTool {
     if (process.env.NODE_ENV === 'development') {
       this.mainWindow.loadURL('http://localhost:4000');
     } else {
-      this.mainWindow.loadFile(path.join(__dirname, './renderer/index.html'));
+      this.mainWindow.loadFile(WEB_ENTRY_PATH);
     }
 
     this.mainWindow.on('page-title-updated', e => {
@@ -335,7 +337,7 @@ export default class AudioOcclusionTool {
   }
 
   private refreshAudioOcclusionNodes(event: IpcMainEvent): void {
-    console.log("Refreshing occlusion nodes");
+    console.log('Refreshing occlusion nodes');
 
     this.audioOcclusion?.refreshNodes();
   }

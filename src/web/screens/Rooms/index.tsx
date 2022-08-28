@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 
-import AudioGameData, { InteriorRoom } from '../../../../core/classes/audioGameData';
+import AudioGameData, { InteriorRoom } from '../../../core/classes/audioGameData';
 
 import { TableContainer } from './styles';
 

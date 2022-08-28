@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 
-import { PortalEntity } from '../../../../core/classes/audioOcclusion';
+import { PortalEntity } from '../../../core/classes/audioOcclusion';
 
 import { TableContainer } from './styles';
 
@@ -19,9 +19,11 @@ const PortalsEntities = () => {
       data.maxOcclusion = 0.0;
     }
 
-    const updatedPortalsEntities = portalsEntities.map(portal => {
-      return portal.map(entity => {
-        if (entityHash !== entity.entityModelHashkey) return entity;
+    const updatedPortalsEntities = portalsEntities.map((portal, portalIndex) => {
+      return portal.map((entity, entityIndex) => {
+        if (portalIndex !== pRoomPortalIdx) return entity;
+
+        if (entityIndex !== pEntityIdx) return entity;
 
         return {
           ...entity,
@@ -83,7 +85,9 @@ const PortalsEntities = () => {
                       />
                     </td>
                     <td>{entity.name ? entity.name : null}</td>
-                    <td>{((entity.entityModelHashkey)>>>0).toString(16).toUpperCase()} ({((entity.entityModelHashkey)>>>0)})</td>
+                    <td>
+                      {(entity.entityModelHashkey >>> 0).toString(16).toUpperCase()} ({entity.entityModelHashkey >>> 0})
+                    </td>
                     <td>
                       <input
                         type="checkbox"

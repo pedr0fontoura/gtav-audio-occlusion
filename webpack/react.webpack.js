@@ -9,7 +9,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
     mainFields: ['main', 'module', 'browser'],
   },
-  entry: path.resolve(root, 'src', 'electron', 'renderer', 'App.tsx'),
+  entry: path.resolve(root, 'src', 'web', 'App.tsx'),
   target: 'electron-renderer',
   devtool: 'source-map',
   module: {
@@ -24,7 +24,7 @@ module.exports = {
     ],
   },
   devServer: {
-    contentBase: path.resolve(root, 'dist', 'renderer'),
+    contentBase: path.resolve(root, 'dist', 'web'),
     historyApiFallback: true,
     compress: true,
     hot: true,
@@ -33,13 +33,13 @@ module.exports = {
     publicPath: '/',
   },
   output: {
-    path: path.resolve(root, 'dist', 'renderer'),
+    path: path.resolve(root, 'dist', 'web'),
     filename: 'js/[name].js',
     publicPath: './',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(root, 'src', 'electron', 'renderer', 'index.html'),
+      template: path.resolve(root, 'src', 'web', 'index.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
