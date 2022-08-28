@@ -1,10 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import styled, { ThemeProvider } from 'styled-components';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { ConsoleProvider } from './hooks/useConsole';
-import Routes from './routes';
+import { ApplicationRoutes } from './routes';
 
 import { GlobalStyle } from './styles/global';
 import { theme } from './styles/theme';
@@ -57,7 +57,7 @@ const App = () => {
             <HorizontalContainer>
               <Sidebar />
               <RoutesContainer>
-                <Routes />
+                <ApplicationRoutes />
               </RoutesContainer>
             </HorizontalContainer>
           </Router>
@@ -68,10 +68,9 @@ const App = () => {
   );
 };
 
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <GlobalStyle />
     <App />
   </React.StrictMode>,
-  document.getElementById('root'),
 );
