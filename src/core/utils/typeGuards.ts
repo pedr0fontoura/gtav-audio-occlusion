@@ -10,10 +10,23 @@ export const isXMLCEntityDef = (variableToCheck: any): variableToCheck is XML.CE
   return !!XMLCEntityDef.$.type && !!XMLCEntityDef.archetypeName && !!XMLCEntityDef.position;
 };
 
-export function isCMloArchetypeDef(variableToCheck: any): variableToCheck is XML.CMloArchetypeDef {
-  return (variableToCheck as XML.CMloArchetypeDef).$.type === 'CMloArchetypeDef';
-}
+export const isXMLCArchetypeDef = (variableToCheck: any): variableToCheck is XML.Archetype => {
+  const XMLArchetypeDef = variableToCheck as XML.Archetype;
 
-export function isCMloInstanceDef(variableToCheck: any): variableToCheck is XML.CMloInstanceDef {
-  return (variableToCheck as XML.CMloInstanceDef).$.type === 'CMloInstanceDef';
-}
+  return !!XMLArchetypeDef.$.type && !!XMLArchetypeDef.name && !!XMLArchetypeDef.flags;
+};
+
+export const isXMLCMloArchetypeDef = (variableToCheck: any): variableToCheck is XML.CMloArchetypeDef => {
+  const XMLCMloArchetypeDef = variableToCheck as XML.CMloArchetypeDef;
+
+  return (
+    isXMLCArchetypeDef(XMLCMloArchetypeDef) &&
+    !!XMLCMloArchetypeDef.entities &&
+    !!XMLCMloArchetypeDef.rooms &&
+    !!XMLCMloArchetypeDef.portals
+  );
+};
+
+export const isXMLCMapTypes = (variableToCheck: any): variableToCheck is XML.Ytyp => {
+  return !!(variableToCheck as XML.Ytyp).CMapTypes;
+};
