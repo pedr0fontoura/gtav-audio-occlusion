@@ -20,7 +20,7 @@ export class CMapData {
     throw new Error(`Couldn't parse raw CMapData`);
   }
 
-  fromXMLCMapData(data: RawCMapData): void {
+  private fromXMLCMapData(data: RawCMapData): void {
     if (!isXMLCMapData(data)) return;
 
     const entitiesExtentsMin = data.CMapData.entitiesExtentsMin.$;

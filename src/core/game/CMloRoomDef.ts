@@ -17,7 +17,7 @@ export class CMloRoomDef {
     throw new Error(`Couldn't parse raw CMloRoomDef`);
   }
 
-  fromXMLCMloRoomDef(data: RawCMloRoomDef): void {
+  private fromXMLCMloRoomDef(data: RawCMloRoomDef): void {
     if (!isXMLCMloRoomDef(data)) return;
 
     const name = data.name;

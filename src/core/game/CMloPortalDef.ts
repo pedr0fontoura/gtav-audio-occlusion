@@ -19,7 +19,7 @@ export class CMloPortalDef {
     throw new Error(`Couldn't parse raw CMloPortalDef`);
   }
 
-  fromXMLCMloPortalDef(data: RawCMloPortalDef): void {
+  private fromXMLCMloPortalDef(data: RawCMloPortalDef): void {
     if (!isXMLCMloPortalDef(data)) return;
 
     const roomFrom = data.roomFrom.$.value;

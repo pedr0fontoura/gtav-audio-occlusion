@@ -12,7 +12,7 @@ type RawCMloArchetypeDef = XML.CMloArchetypeDef;
 export class CMloArchetypeDef extends CBaseArchetypeDef {
   public entities: CEntityDef[];
   public rooms: CMloRoomDef[];
-  public portals: unknown[];
+  public portals: CMloPortalDef[];
 
   constructor(raw: RawCMloArchetypeDef) {
     super(raw);
@@ -25,7 +25,7 @@ export class CMloArchetypeDef extends CBaseArchetypeDef {
     throw new Error(`Couldn't parse raw CMloArchetypeDef`);
   }
 
-  fromXMLCMloArchetypeDef(data: RawCMloArchetypeDef): void {
+  private fromXMLCMloArchetypeDef(data: RawCMloArchetypeDef): void {
     if (!isXMLCMloArchetypeDef(data)) return;
 
     const entityOrEntities = data.entities.Item;

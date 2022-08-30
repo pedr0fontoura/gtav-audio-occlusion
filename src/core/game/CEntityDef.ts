@@ -18,7 +18,7 @@ export class CEntityDef {
     throw new Error(`Couldn't parse raw CEntityDef`);
   }
 
-  fromXMLCEntityDef(data: RawCEntityDef): void {
+  private fromXMLCEntityDef(data: RawCEntityDef): void {
     if (!isXMLCEntityDef(data)) return;
 
     const type = data.$.type;

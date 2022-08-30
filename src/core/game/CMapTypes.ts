@@ -21,17 +21,17 @@ export class CMapTypes {
     throw new Error(`Couldn't parse raw CMapTypes`);
   }
 
-  parseCMapTypesArchetype(data: XML.Archetype): Archetype {
+  private parseCMapTypesArchetype(data: XML.Archetype): Archetype {
     return isXMLCMloArchetypeDef(data) ? new CMloArchetypeDef(data) : new CBaseArchetypeDef(data);
   }
 
-  parseCMapTypesArchetypes(data: XML.Archetype[]): Archetype[] {
+  private parseCMapTypesArchetypes(data: XML.Archetype[]): Archetype[] {
     return data
       .filter(archetype => isXMLCArchetypeDef(archetype))
       .map(archetype => this.parseCMapTypesArchetype(archetype));
   }
 
-  fromXMLCMapTypes(data: RawCMapTypes): void {
+  private fromXMLCMapTypes(data: RawCMapTypes): void {
     if (!isXMLCMapTypes(data)) return;
 
     const archetypeOrArchetypes = data.CMapTypes.archetypes.Item;

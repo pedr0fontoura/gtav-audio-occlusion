@@ -17,7 +17,7 @@ export class CBaseArchetypeDef {
     throw new Error(`Couldn't parse raw CBaseArchetypeDef`);
   }
 
-  fromXMLCBaseArchetypeDef(data: RawCBaseArchetypeDef): void {
+  private fromXMLCBaseArchetypeDef(data: RawCBaseArchetypeDef): void {
     if (!isXMLCArchetypeDef(data)) return;
 
     const type = data.$.type;
