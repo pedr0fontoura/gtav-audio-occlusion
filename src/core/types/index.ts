@@ -1,9 +1,11 @@
 import { Big } from 'big.js';
 
+export * as XML from './xml';
+
 declare global {
   interface Vector3 {
-    x: Big;
-    y: Big;
-    z: Big;
+    x: BigInt;
+    y: BigInt;
+    z: BigInt;
   }
 }
