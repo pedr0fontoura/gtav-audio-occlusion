@@ -30,3 +30,20 @@ export const isXMLCMloArchetypeDef = (variableToCheck: any): variableToCheck is 
 export const isXMLCMapTypes = (variableToCheck: any): variableToCheck is XML.Ytyp => {
   return !!(variableToCheck as XML.Ytyp).CMapTypes;
 };
+
+export const isXMLCMloRoomDef = (variableToCheck: any): variableToCheck is XML.CMloRoomDef => {
+  const XMLCMloRoomDef = variableToCheck as XML.CMloRoomDef;
+
+  return !!XMLCMloRoomDef.name && !!XMLCMloRoomDef.portalCount;
+};
+
+export const isXMLCMloPortalDef = (variableToCheck: any): variableToCheck is XML.CMloPortalDef => {
+  const XMLCMloPortalDef = variableToCheck as XML.CMloPortalDef;
+
+  return (
+    !!XMLCMloPortalDef.roomFrom &&
+    !!XMLCMloPortalDef.roomTo &&
+    !!XMLCMloPortalDef.attachedObjects &&
+    !!XMLCMloPortalDef.flags
+  );
+};
