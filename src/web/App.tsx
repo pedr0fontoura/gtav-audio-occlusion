@@ -3,14 +3,12 @@ import ReactDOM from 'react-dom/client';
 import styled, { ThemeProvider } from 'styled-components';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { ConsoleProvider } from './hooks/useConsole';
 import { ApplicationRoutes } from './routes';
 
 import { GlobalStyle } from './styles/global';
 import { theme } from './styles/theme';
 
 import Sidebar from './components/Sidebar';
-import Console from './components/Console';
 
 const Container = styled.div`
   height: 100vh;
@@ -51,19 +49,16 @@ const RoutesContainer = styled.div`
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <ConsoleProvider>
-        <Container>
-          <Router>
-            <HorizontalContainer>
-              <Sidebar />
-              <RoutesContainer>
-                <ApplicationRoutes />
-              </RoutesContainer>
-            </HorizontalContainer>
-          </Router>
-          <Console />
-        </Container>
-      </ConsoleProvider>
+      <Container>
+        <Router>
+          <HorizontalContainer>
+            <Sidebar />
+            <RoutesContainer>
+              <ApplicationRoutes />
+            </RoutesContainer>
+          </HorizontalContainer>
+        </Router>
+      </Container>
     </ThemeProvider>
   );
 };
