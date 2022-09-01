@@ -28,9 +28,9 @@ export class CEntityDef {
     this.type = type;
     this.archetypeName = archetypeName;
     this.position = {
-      x: BigInt(position.x),
-      y: BigInt(position.y),
-      z: BigInt(position.z),
+      x: Number(position.x),
+      y: Number(position.y),
+      z: Number(position.z),
     };
   }
 }

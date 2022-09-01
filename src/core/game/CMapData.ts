@@ -28,15 +28,15 @@ export class CMapData {
     const entityOrEntities = data.CMapData.entities.Item;
 
     this.entitiesExtentsMin = {
-      x: BigInt(entitiesExtentsMin.x),
-      y: BigInt(entitiesExtentsMin.y),
-      z: BigInt(entitiesExtentsMin.z),
+      x: Number(entitiesExtentsMin.x),
+      y: Number(entitiesExtentsMin.y),
+      z: Number(entitiesExtentsMin.z),
     };
 
     this.entitiesExtentsMax = {
-      x: BigInt(entitiesExtentsMax.x),
-      y: BigInt(entitiesExtentsMax.y),
-      z: BigInt(entitiesExtentsMax.z),
+      x: Number(entitiesExtentsMax.x),
+      y: Number(entitiesExtentsMax.y),
+      z: Number(entitiesExtentsMax.z),
     };
 
     if (Array.isArray(entityOrEntities)) {
