@@ -13,7 +13,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": ["dom", "es2015", "es2016", "es2017"],
-    "types": ["@types/node"],
+    "types": ["@types/node", "@types/jest"],
     "module": "commonjs",
     "esModuleInterop": true
   },

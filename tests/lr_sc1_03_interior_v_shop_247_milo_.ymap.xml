@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CMapData>
+ <name>lr_sc1_03_interior_v_shop_247_milo_</name>
+ <parent>lr_sc1_03</parent>
+ <flags value="0" />
+ <contentFlags value="73" />
+ <streamingExtentsMin x="17.12259" y="-1357.528" z="18.01022" />
+ <streamingExtentsMax x="41.12259" y="-1333.528" z="42.01022" />
+ <entitiesExtentsMin x="23.25998" y="-1349.257" z="28.49305" />
+ <entitiesExtentsMax x="34.74685" y="-1338.109" z="32.05328" />
+ <entities>
+  <Item type="CMloInstanceDef">
+   <archetypeName>v_shop_247</archetypeName>
+   <flags value="1572872" />
+   <guid value="1030618451" />
+   <position x="27.24852" y="-1343.679" z="28.49696" />
+   <rotation x="0" y="0" z="0" w="1" />
+   <scaleXY value="1" />
+   <scaleZ value="1" />
+   <parentIndex value="5" />
+   <lodDist value="12" />
+   <childLodDist value="0" />
+   <lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+   <numChildren value="0" />
+   <priorityLevel>PRI_REQUIRED</priorityLevel>
+   <extensions />
+   <ambientOcclusionMultiplier value="255" />
+   <artificialAmbientOcclusion value="255" />
+   <tintValue value="0" />
+   <groupId value="0" />
+   <floorId value="0" />
+   <defaultEntitySets />
+   <numExitPortals value="5" />
+   <MLOInstflags value="0" />
+  </Item>
+ </entities>
+ <containerLods itemType="rage__fwContainerLodDef" />
+ <boxOccluders itemType="BoxOccluder" />
+ <occludeModels itemType="OccludeModel" />
+ <physicsDictionaries>
+  <Item>v_shop_247</Item>
+ </physicsDictionaries>
+ <instancedData>
+  <ImapLink />
+  <PropInstanceList itemType="rage__fwPropInstanceListDef" />
+  <GrassInstanceList itemType="rage__fwGrassInstanceListDef" />
+ </instancedData>
+ <timeCycleModifiers itemType="CTimeCycleModifier" />
+ <carGenerators itemType="CCarGen" />
+ <LODLightsSOA>
+  <direction itemType="FloatXYZ" />
+  <falloff />
+  <falloffExponent />
+  <timeAndStateFlags />
+  <hash />
+  <coneInnerAngle />
+  <coneOuterAngleOrCapExt />
+  <coronaIntensity />
+ </LODLightsSOA>
+ <DistantLODLightsSOA>
+  <position itemType="FloatXYZ" />
+  <RGBI />
+  <numStreetLights value="0" />
+  <category value="0" />
+ </DistantLODLightsSOA>
+ <block>
+  <version value="0" />
+  <flags value="0" />
+  <name></name>
+  <exportedBy></exportedBy>
+  <owner></owner>
+  <time></time>
+ </block>
+</CMapData>
