@@ -1,4 +1,3 @@
-import { Big } from 'big.js';
 import { XMLDataEntry } from './index';
 
 interface AmbientZoneList {
@@ -26,8 +25,8 @@ interface AmbientZone {
   Flags0: XMLDataEntry<{ value: string }>;
   Shape: string;
   Flags1: XMLDataEntry<{ value: string }>;
-  OuterPos: XMLDataEntry<{ x: string | Big; y: string | Big; z: string | Big }>;
-  OuterSize: XMLDataEntry<{ x: string | Big; y: string | Big; z: string | Big }>;
+  OuterPos: XMLDataEntry<{ x: string | number; y: string | number; z: string | number }>;
+  OuterSize: XMLDataEntry<{ x: string | number; y: string | number; z: string | number }>;
   OuterVec1: XMLDataEntry<{
     x: string | number;
     y: string | number;
@@ -42,8 +41,8 @@ interface AmbientZone {
   }>;
   OuterAngle: XMLDataEntry<{ value: string | number }>;
   OuterVec3: XMLDataEntry<{ x: string | number; y: string | number; z: string | number }>;
-  InnerPos: XMLDataEntry<{ x: string | Big; y: string | Big; z: string | Big }>;
-  InnerSize: XMLDataEntry<{ x: string | Big; y: string | Big; z: string | Big }>;
+  InnerPos: XMLDataEntry<{ x: string | number; y: string | number; z: string | number }>;
+  InnerSize: XMLDataEntry<{ x: string | number; y: string | number; z: string | number }>;
   InnerVec1: XMLDataEntry<{
     x: string | number;
     y: string | number;

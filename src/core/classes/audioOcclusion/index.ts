@@ -1,5 +1,3 @@
-import { Big } from 'big.js';
-
 import { joaat, isBitSet } from '../../utils';
 
 import Interior from '../interior';
@@ -74,12 +72,7 @@ export default class AudioOcclusion {
       archetypeNameHash = joaat(this.interior.name);
     }
 
-    return (
-      archetypeNameHash ^
-      pos.x.times(100).round(0, Big.roundDown).toNumber() ^
-      pos.y.times(100).round(0, Big.roundDown).toNumber() ^
-      pos.z.times(100).round(0, Big.roundDown).toNumber()
-    );
+    return archetypeNameHash ^ (pos.x * 100) ^ (pos.y * 100) ^ (pos.z * 100);
   }
 
   private getPortalsEntities(): PortalEntity[][] {
