@@ -5,7 +5,7 @@ import { XML } from '../src/core/types';
 import { isXMLCMapTypes } from '../src/core/utils';
 import { CMapTypes } from '../src/core/game';
 
-const YTYP_FILE_PATH = path.resolve('tests', 'v_int_66.ytyp.xml');
+const YTYP_FILE_PATH = path.resolve('tests', 'data', 'v_int_66.ytyp.xml');
 
 let codeWalkerParser: CodeWalker;
 
@@ -20,7 +20,7 @@ describe('Parse YTYP file', () => {
     expect(isXMLCMapTypes(data)).toBeTruthy();
   });
 
-  it('should be able to instanciate a CMapTypes using data from an ytyp.xml file', async () => {
+  it('should be able to instantiate a CMapTypes using data from an ytyp.xml file', async () => {
     const data = await codeWalkerParser.readFile<XML.Ytyp>(YTYP_FILE_PATH);
 
     const cMapTypes = new CMapTypes(data);

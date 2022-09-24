@@ -2,10 +2,9 @@ import path from 'path';
 
 import { CodeWalker } from '../src/core/formats/codewalker';
 import { XML } from '../src/core/types';
-import { isXMLCMapTypes } from '../src/core/utils';
 import { CMapTypes, CMloArchetypeDef, isCMloArchetypeDef } from '../src/core/game';
 
-const YTYP_FILE_PATH = path.resolve('tests', 'v_int_66.ytyp.xml');
+const YTYP_FILE_PATH = path.resolve('tests', 'data', 'v_int_66.ytyp.xml');
 
 let codeWalkerParser: CodeWalker;
 let cMloArchetypeDef: CMloArchetypeDef;
