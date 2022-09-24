@@ -1,16 +1,16 @@
 import path from 'path';
 
 import { CodeWalker } from '../src/core/formats/codewalker';
-import { XML } from '../src/core/types/';
-import { isXMLCMapData } from '../src/core/utils/';
-import { CMapData } from '../src/core/game/';
+import { XML } from '../src/core/types';
+import { isXMLCMapData } from '../src/core/utils';
+import { CMapData } from '../src/core/game';
 
 const YMAP_FILE_PATH = path.resolve('tests', 'lr_sc1_03_interior_v_shop_247_milo_.ymap.xml');
 
 let codeWalkerParser: CodeWalker;
 
 describe('Parse YMAP file', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     codeWalkerParser = new CodeWalker();
   });
 
