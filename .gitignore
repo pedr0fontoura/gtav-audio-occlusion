@@ -3,4 +3,3 @@ dist/
 output/
 packages/
 yarn.lock
-*.xml
