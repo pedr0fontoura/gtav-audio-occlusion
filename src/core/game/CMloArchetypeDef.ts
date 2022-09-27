@@ -39,26 +39,28 @@ export class CMloArchetypeDef extends CBaseArchetypeDef {
     }
 
     if (Array.isArray(roomOrRooms)) {
-      this.rooms = roomOrRooms.map(room => new CMloRoomDef(room));
+      this.rooms = roomOrRooms.map(room => new CMloRoomDef(this, room));
     } else {
-      this.rooms = [new CMloRoomDef(roomOrRooms)];
+      this.rooms = [new CMloRoomDef(this, roomOrRooms)];
     }
 
     if (Array.isArray(portalOrPortals)) {
-      this.portals = portalOrPortals.map(portal => new CMloPortalDef(portal));
+      this.portals = portalOrPortals.map(portal => new CMloPortalDef(this, portal));
     } else {
-      this.portals = [new CMloPortalDef(portalOrPortals)];
+      this.portals = [new CMloPortalDef(this, portalOrPortals)];
     }
   }
+
+  public getEntity = (entity: number): CEntityDef => {
+    if (entity < 0 || entity >= this.entities.length) return;
+
+    return this.entities[entity];
+  };
 
   public getRoom = (room: number): CMloRoomDef => {
     if (room < 0 || room >= this.rooms.length) return;
 
     return this.rooms[room];
-  };
-
-  public getRoomPortals = (room: number): CMloPortalDef[] => {
-    return this.portals.filter(portal => portal.roomFrom === room).sort((a, b) => a.roomFrom - b.roomFrom);
   };
 }
 

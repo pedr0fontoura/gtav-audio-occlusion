@@ -51,9 +51,7 @@ export class naOcclusionInteriorMetadata {
     if (!archetype) return;
     if (!isCMloArchetypeDef(archetype)) return;
 
-    const portalEntities = portal.getPortalEntities(archetype.entities);
-
-    return portalEntities.map(entity => new naOcclusionPortalEntityMetadata({ linkType: 1, entity }));
+    return portal.attachedEntities.map(entity => new naOcclusionPortalEntityMetadata({ linkType: 1, entity }));
   };
 
   public getPortalInfoList = (): naOcclusionPortalInfoMetadata[] => {
@@ -65,7 +63,7 @@ export class naOcclusionInteriorMetadata {
     let portalInfoList: naOcclusionPortalInfoMetadata[] = [];
 
     archetype.rooms.forEach((room, roomIdx) => {
-      const roomPortals = archetype.getRoomPortals(roomIdx);
+      const roomPortals = room.portals;
 
       const roomPortalInfoList = roomPortals
         .filter(portal => !isBitSet(portal.flags, 2))
@@ -75,8 +73,8 @@ export class naOcclusionInteriorMetadata {
               interiorProxyHash: this.interiorProxyHash,
               destInteriorHash: this.interiorProxyHash,
               portalIdx,
-              roomIdx: portal.roomFrom,
-              destRoomIdx: portal.roomTo,
+              roomIdx: portal.roomFrom.index,
+              destRoomIdx: portal.roomTo.index,
               portalEntityList: this.getPortalEntityMetadata(portal),
             }),
         );
