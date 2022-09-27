@@ -50,6 +50,16 @@ export class CMloArchetypeDef extends CBaseArchetypeDef {
       this.portals = [new CMloPortalDef(portalOrPortals)];
     }
   }
+
+  public getRoom = (room: number): CMloRoomDef => {
+    if (room < 0 || room >= this.rooms.length) return;
+
+    return this.rooms[room];
+  };
+
+  public getRoomPortals = (room: number): CMloPortalDef[] => {
+    return this.portals.filter(portal => portal.roomFrom === room).sort((a, b) => a.roomFrom - b.roomFrom);
+  };
 }
 
 export const isCMloArchetypeDef = (archetype: CBaseArchetypeDef): archetype is CMloArchetypeDef =>

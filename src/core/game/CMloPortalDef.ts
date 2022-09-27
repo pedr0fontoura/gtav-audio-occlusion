@@ -1,6 +1,7 @@
 import { XML } from '../types';
 
 import { isXMLCMloPortalDef } from '../utils';
+import { CEntityDef } from './CEntityDef';
 
 type RawCMloPortalDef = XML.CMloPortalDef;
 
@@ -35,4 +36,8 @@ export class CMloPortalDef {
       .filter(entity => !!entity)
       .map(entity => Number(entity));
   }
+
+  public getPortalEntities = (entities: CEntityDef[]): CEntityDef[] => {
+    return this.attachedEntities.map(entity => entities[entity]);
+  };
 }
