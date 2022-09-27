@@ -2,11 +2,9 @@ import { joaat, isBitSet } from '../../utils';
 
 import { naOcclusionPortalInfoMetadata } from './naOcclusionPortalInfoMetadata';
 import { naOcclusionPathNodeMetadata } from './naOcclusionPathNodeMetadata';
-import { naOcclusionPortalEntityMetadata } from './naOcclusionPortalEntityMetadata';
 
 import { isCMloArchetypeDef } from '../CMloArchetypeDef';
 import type { CMloInstanceDef } from '../CMloInstanceDef';
-import type { CMloPortalDef } from '../CMloPortalDef';
 
 type naOcclusionInteriorMetadataConstructor = {
   interior: CMloInstanceDef;
@@ -45,15 +43,6 @@ export class naOcclusionInteriorMetadata {
     return joaat(archetype.name) ^ (position.x * 100) ^ (position.y * 100) ^ ((position.z * 100) & 0xffffffff);
   };
 
-  public getPortalEntityMetadata = (portal: CMloPortalDef): naOcclusionPortalEntityMetadata[] => {
-    const { archetype } = this.interior;
-
-    if (!archetype) return;
-    if (!isCMloArchetypeDef(archetype)) return;
-
-    return portal.attachedEntities.map(entity => new naOcclusionPortalEntityMetadata({ linkType: 1, entity }));
-  };
-
   public getPortalInfoList = (): naOcclusionPortalInfoMetadata[] => {
     const { archetype } = this.interior;
 
@@ -62,22 +51,12 @@ export class naOcclusionInteriorMetadata {
 
     let portalInfoList: naOcclusionPortalInfoMetadata[] = [];
 
-    archetype.rooms.forEach((room, roomIdx) => {
+    archetype.rooms.forEach(room => {
       const roomPortals = room.portals;
 
       const roomPortalInfoList = roomPortals
         .filter(portal => !isBitSet(portal.flags, 2))
-        .map(
-          (portal, portalIdx) =>
-            new naOcclusionPortalInfoMetadata({
-              interiorProxyHash: this.interiorProxyHash,
-              destInteriorHash: this.interiorProxyHash,
-              portalIdx,
-              roomIdx: portal.roomFrom.index,
-              destRoomIdx: portal.roomTo.index,
-              portalEntityList: this.getPortalEntityMetadata(portal),
-            }),
-        );
+        .map((portal, portalIdx) => new naOcclusionPortalInfoMetadata(this, portal, portalIdx));
 
       portalInfoList.push(...roomPortalInfoList);
     });

@@ -1,15 +1,11 @@
+import { CMloPortalDef } from '../CMloPortalDef';
+
+import { naOcclusionInteriorMetadata } from './naOcclusionInteriorMetadata';
 import { naOcclusionPortalEntityMetadata } from './naOcclusionPortalEntityMetadata';
 
-type naOcclusionPortalInfoMetadataConstructor = {
-  interiorProxyHash: number;
-  portalIdx: number;
-  roomIdx: number;
-  destInteriorHash: number;
-  destRoomIdx: number;
-  portalEntityList: naOcclusionPortalEntityMetadata[];
-};
-
 export class naOcclusionPortalInfoMetadata {
+  private portal: CMloPortalDef;
+
   public interiorProxyHash: number;
 
   public portalIdx: number;
@@ -20,20 +16,19 @@ export class naOcclusionPortalInfoMetadata {
 
   public portalEntityList: naOcclusionPortalEntityMetadata[];
 
-  // The constructor should only receive an CMloPortalDef
-  constructor({
-    interiorProxyHash,
-    portalIdx,
-    roomIdx,
-    destInteriorHash,
-    destRoomIdx,
-    portalEntityList,
-  }: naOcclusionPortalInfoMetadataConstructor) {
-    this.interiorProxyHash = interiorProxyHash;
+  constructor(interiorMetadata: naOcclusionInteriorMetadata, portal: CMloPortalDef, portalIdx: number) {
+    this.portal = portal;
+
     this.portalIdx = portalIdx;
-    this.roomIdx = roomIdx;
-    this.destInteriorHash = destInteriorHash;
-    this.destRoomIdx = destRoomIdx;
-    this.portalEntityList = portalEntityList;
+
+    this.interiorProxyHash = interiorMetadata.interiorProxyHash;
+    this.roomIdx = this.portal.roomFrom.index;
+
+    this.destInteriorHash = this.interiorProxyHash;
+    this.destRoomIdx = this.portal.roomTo.index;
+
+    this.portalEntityList = this.portal.attachedEntities.map(
+      entity => new naOcclusionPortalEntityMetadata({ linkType: 1, entity }),
+    );
   }
 }
