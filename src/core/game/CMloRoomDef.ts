@@ -28,7 +28,7 @@ export class CMloRoomDef {
   get portals(): CMloPortalDef[] {
     if (!this._portals) {
       this._portals = this.interior.portals
-        .filter(portal => portal.roomFrom.index === this.index)
+        .filter(portal => portal.roomFrom.index === this.index || portal.roomTo.index === this.index)
         .sort((a, b) => a.roomFrom.index - b.roomFrom.index);
     }
 

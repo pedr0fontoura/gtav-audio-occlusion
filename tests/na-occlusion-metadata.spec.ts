@@ -40,5 +40,7 @@ describe('Generate interior audio cclusion', () => {
     const occlusion = createNaOcclusionInteriorMetadata(instance);
 
     console.log(occlusion);
+
+    console.log(occlusion.getNodes());
   });
 });

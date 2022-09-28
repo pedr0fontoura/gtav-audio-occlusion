@@ -2,6 +2,7 @@ import { joaat, isBitSet } from '../../utils';
 
 import { naOcclusionPortalInfoMetadata } from './naOcclusionPortalInfoMetadata';
 import { naOcclusionPathNodeMetadata } from './naOcclusionPathNodeMetadata';
+import { Node } from './node';
 
 import { isCMloArchetypeDef } from '../CMloArchetypeDef';
 import type { CMloInstanceDef } from '../CMloInstanceDef';
@@ -62,5 +63,36 @@ export class naOcclusionInteriorMetadata {
     });
 
     return portalInfoList;
+  };
+
+  public getNodes = (): Node[] => {
+    const { archetype } = this.interior;
+
+    if (!archetype) return;
+    if (!isCMloArchetypeDef(archetype)) return;
+
+    const nodes = archetype.rooms.map(room => new Node(this, room));
+
+    for (const node of nodes) {
+      const edges = new Set<Node>();
+
+      node.room.portals.forEach(portal => {
+        if (portal.roomFrom.index === node.index) {
+          return edges.add(nodes.find(node => node.index === portal.roomTo.index));
+        }
+
+        if (portal.roomTo.index === node.index) {
+          return edges.add(nodes.find(node => node.index === portal.roomFrom.index));
+        }
+      });
+
+      node.edges = Array.from(edges);
+    }
+
+    return nodes;
+  };
+
+  public getPathNodeList = (): naOcclusionPathNodeMetadata[] => {
+    return [];
   };
 }
