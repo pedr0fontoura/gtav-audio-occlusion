@@ -1,4 +1,4 @@
-import * as XML from '../types/xml';
+import * as XML from '../../types/xml';
 
 const hasProperties = <T>(object: T, properties: (keyof T)[]): boolean => {
   const keys = Object.keys(object);

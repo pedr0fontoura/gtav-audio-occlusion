@@ -1,7 +1,8 @@
 import fs from 'fs/promises';
 import { Parser, Builder } from 'xml2js';
 
-import type { XML } from '../types';
+import type { XML } from '../../types';
+
 import {
   CMapData,
   CEntityDef,
@@ -11,7 +12,8 @@ import {
   CMapTypes,
   CMloRoomDef,
   CMloPortalDef,
-} from '../game';
+} from '../../game';
+
 import {
   isXMLCEntityDef,
   isXMLCMapData,
@@ -20,7 +22,7 @@ import {
   isXMLCMloArchetypeDef,
   isXMLCMapTypes,
   isXMLCMloPortalDef,
-} from '../utils';
+} from './typeGuards';
 
 export class CodeWalker {
   private parser: Parser;
