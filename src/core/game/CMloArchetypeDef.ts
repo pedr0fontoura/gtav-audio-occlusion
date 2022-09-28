@@ -3,60 +3,25 @@ import { CEntityDef } from './CEntityDef';
 import { CMloRoomDef } from './CMloRoomDef';
 import { CMloPortalDef } from './CMloPortalDef';
 
+type CMloArchetypeDefConstructor = CBaseArchetypeDefConstructor & {
+  entities: CEntityDef[];
+  rooms: CMloRoomDef[];
+  portals: CMloPortalDef[];
+};
+
 export class CMloArchetypeDef extends CBaseArchetypeDef {
-  private _entities: CEntityDef[];
+  public entities: CEntityDef[];
+  public rooms: CMloRoomDef[];
+  public portals: CMloPortalDef[];
 
-  public get entities(): CEntityDef[] {
-    if (!this._entities) {
-      console.warn('CMloArchetypeDef entities not set yet');
-      return [];
-    }
-
-    return this._entities;
-  }
-
-  public set entities(entities: CEntityDef[]) {
-    if (this._entities) return;
-
-    this._entities = entities;
-  }
-
-  private _rooms: CMloRoomDef[];
-
-  public get rooms(): CMloRoomDef[] {
-    if (!this._rooms) {
-      console.warn('CMloArchetypeDef rooms not set yet');
-      return [];
-    }
-
-    return this._rooms;
-  }
-
-  public set rooms(rooms: CMloRoomDef[]) {
-    if (this._rooms) return;
-
-    this._rooms = rooms;
-  }
-
-  private _portals: CMloPortalDef[];
-
-  public get portals(): CMloPortalDef[] {
-    if (!this._portals) {
-      console.warn('CMloArchetypeDef portals not set yet');
-      return [];
-    }
-
-    return this._portals;
-  }
-
-  public set portals(portals: CMloPortalDef[]) {
-    if (this._portals) return;
-
-    this._portals = portals;
-  }
-
-  constructor(data: CBaseArchetypeDefConstructor) {
+  constructor(data: CMloArchetypeDefConstructor) {
     super(data);
+
+    const { entities, rooms, portals } = data;
+
+    this.entities = entities;
+    this.rooms = rooms;
+    this.portals = portals;
   }
 
   public getEntity = (entity: number): CEntityDef => {
@@ -69,6 +34,24 @@ export class CMloArchetypeDef extends CBaseArchetypeDef {
     if (room < 0 || room >= this.rooms.length) return;
 
     return this.rooms[room];
+  };
+
+  public getRoomPortals = (room: number): CMloPortalDef[] => {
+    if (room < 0 || room >= this.rooms.length) return [];
+
+    return this.portals
+      .filter(portal => portal.roomFrom === room || portal.roomTo === room)
+      .sort((a, b) => a.roomFrom - b.roomFrom)
+      .map(portal => {
+        if (portal.roomFrom === room) return portal;
+
+        return new CMloPortalDef({
+          roomFrom: portal.roomTo,
+          roomTo: portal.roomFrom,
+          flags: portal.flags,
+          attachedEntities: portal.attachedEntities,
+        });
+      });
   };
 }
 

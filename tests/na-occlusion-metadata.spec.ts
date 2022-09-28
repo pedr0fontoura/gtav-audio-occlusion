@@ -39,8 +39,6 @@ describe('Generate interior audio cclusion', () => {
     instance.setArchetypeDef(archetype);
 
     interiorMetadata = createNaOcclusionInteriorMetadata(instance);
-
-    console.log(JSON.parse(JSON.stringify(interiorMetadata)));
   });
 
   it('should be able to generate v_shop_247 path nodes correctly', async () => {

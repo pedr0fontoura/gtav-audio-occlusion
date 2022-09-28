@@ -110,7 +110,7 @@ export class CodeWalker {
     return new CBaseArchetypeDef({ type, name });
   }
 
-  public parseCMloRoomDef(interior: CMloArchetypeDef, data: XML.CMloRoomDef): CMloRoomDef {
+  public parseCMloRoomDef(data: XML.CMloRoomDef): CMloRoomDef {
     if (!isXMLCMloRoomDef(data)) {
       throw new Error(`Couldn't parse CodeWalker's CMloRoomDef`);
     }
@@ -118,10 +118,10 @@ export class CodeWalker {
     const name = data.name;
     const portalCount = Number(data.portalCount.$.value);
 
-    return new CMloRoomDef({ interior, name, portalCount });
+    return new CMloRoomDef({ name, portalCount });
   }
 
-  public parseCMloPortalDef(interior: CMloArchetypeDef, data: XML.CMloPortalDef): CMloPortalDef {
+  public parseCMloPortalDef(data: XML.CMloPortalDef): CMloPortalDef {
     if (!isXMLCMloPortalDef(data)) {
       throw new Error(`Couldn't parse CodeWalker's CMloPortalDef`);
     }
@@ -134,7 +134,7 @@ export class CodeWalker {
       .filter(entity => !!entity)
       .map(entity => Number(entity));
 
-    return new CMloPortalDef({ interior, roomFrom, roomTo, flags, attachedEntities });
+    return new CMloPortalDef({ roomFrom, roomTo, flags, attachedEntities });
   }
 
   public parseCMloArchetypeDef(data: XML.Archetype): CMloArchetypeDef {
@@ -145,31 +145,33 @@ export class CodeWalker {
     const type = data.$.type;
     const name = data.name;
 
-    const archetype = new CMloArchetypeDef({ type, name });
-
     const entityOrEntities = data.entities.Item;
     const roomOrRooms = data.rooms.Item;
     const portalOrPortals = data.portals.Item;
 
+    let entities: CEntityDef[];
+    let rooms: CMloRoomDef[];
+    let portals: CMloPortalDef[];
+
     if (Array.isArray(entityOrEntities)) {
-      archetype.entities = entityOrEntities.map(entity => this.parseCEntityDef(entity));
+      entities = entityOrEntities.map(entity => this.parseCEntityDef(entity));
     } else {
-      archetype.entities = [this.parseCEntityDef(entityOrEntities)];
+      entities = [this.parseCEntityDef(entityOrEntities)];
     }
 
     if (Array.isArray(roomOrRooms)) {
-      archetype.rooms = roomOrRooms.map(room => this.parseCMloRoomDef(archetype, room));
+      rooms = roomOrRooms.map(room => this.parseCMloRoomDef(room));
     } else {
-      archetype.rooms = [this.parseCMloRoomDef(archetype, roomOrRooms)];
+      rooms = [this.parseCMloRoomDef(roomOrRooms)];
     }
 
     if (Array.isArray(portalOrPortals)) {
-      archetype.portals = portalOrPortals.map(portal => this.parseCMloPortalDef(archetype, portal));
+      portals = portalOrPortals.map(portal => this.parseCMloPortalDef(portal));
     } else {
-      archetype.portals = [this.parseCMloPortalDef(archetype, portalOrPortals)];
+      portals = [this.parseCMloPortalDef(portalOrPortals)];
     }
 
-    return archetype;
+    return new CMloArchetypeDef({ type, name, entities, rooms, portals });
   }
 
   public parseCArchetypeDef(data: XML.Archetype): CArchetypeDef {

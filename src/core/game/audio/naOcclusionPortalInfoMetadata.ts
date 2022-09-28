@@ -21,14 +21,16 @@ export class naOcclusionPortalInfoMetadata {
 
     this.portalIdx = portalIdx;
 
-    this.interiorProxyHash = interiorMetadata.interiorProxyHash;
-    this.roomIdx = this.portal.roomFrom.index;
+    const { interiorProxyHash, interior } = interiorMetadata;
+
+    this.interiorProxyHash = interiorProxyHash;
+    this.roomIdx = this.portal.roomFrom;
 
     this.destInteriorHash = this.interiorProxyHash;
-    this.destRoomIdx = this.portal.roomTo.index;
+    this.destRoomIdx = this.portal.roomTo;
 
     this.portalEntityList = this.portal.attachedEntities.map(
-      entity => new naOcclusionPortalEntityMetadata({ linkType: 1, entity }),
+      entity => new naOcclusionPortalEntityMetadata({ linkType: 1, entity: interior.archetype.getEntity(entity) }),
     );
   }
 }

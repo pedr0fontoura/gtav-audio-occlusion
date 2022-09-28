@@ -55,8 +55,8 @@ export class naOcclusionInteriorMetadata {
 
     let portalInfoList: naOcclusionPortalInfoMetadata[] = [];
 
-    archetype.rooms.forEach(room => {
-      const roomPortals = room.portals;
+    archetype.rooms.forEach((room, roomIndex) => {
+      const roomPortals = archetype.getRoomPortals(roomIndex);
 
       const roomPortalInfoList = roomPortals
         .filter(portal => !isBitSet(portal.flags, 2))
@@ -71,18 +71,18 @@ export class naOcclusionInteriorMetadata {
   public getNodes = (): Node[] => {
     const { archetype } = this.interior;
 
-    const nodes = archetype.rooms.map(room => new Node(this, room));
+    const nodes = archetype.rooms.map((room, index) => new Node(this, room, index));
 
     for (const node of nodes) {
       const edges = new Set<Node>();
 
-      node.room.portals.forEach(portal => {
-        if (portal.roomFrom.index === node.index) {
-          return edges.add(nodes.find(node => node.index === portal.roomTo.index));
+      archetype.getRoomPortals(node.index).forEach(portal => {
+        if (portal.roomFrom === node.index) {
+          return edges.add(nodes.find(node => node.index === portal.roomTo));
         }
 
-        if (portal.roomTo.index === node.index) {
-          return edges.add(nodes.find(node => node.index === portal.roomFrom.index));
+        if (portal.roomTo === node.index) {
+          return edges.add(nodes.find(node => node.index === portal.roomFrom));
         }
       });
 

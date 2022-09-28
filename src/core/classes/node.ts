@@ -7,6 +7,7 @@ import { naOcclusionPortalInfoMetadata } from '../game/audio/naOcclusionPortalIn
 
 export class Node {
   public interiorProxyHash: number;
+
   public room: CMloRoomDef;
 
   public index: number;
@@ -16,12 +17,12 @@ export class Node {
 
   public edges: Node[];
 
-  constructor(interiorMetadata: naOcclusionInteriorMetadata, room: CMloRoomDef) {
+  constructor(interiorMetadata: naOcclusionInteriorMetadata, room: CMloRoomDef, index: number) {
     this.interiorProxyHash = interiorMetadata.interiorProxyHash;
 
     this.room = room;
 
-    this.index = this.room.index;
+    this.index = index;
     this.key = this.room.name === 'limbo' ? joaat('outside') : this.interiorProxyHash ^ joaat(this.room.name);
 
     this.portalInfoList = interiorMetadata.portalInfoList.filter(
