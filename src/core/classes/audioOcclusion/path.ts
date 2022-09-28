@@ -1,7 +1,7 @@
 import Node from './node';
 import PathNodeItem from './pathNodeitem';
 import PathNodeChildItem from './pathNodeChildItem';
-import Pair from './pair';
+import Pair from '../pair';
 
 export default class Path {
   public static getPaths(nodes: Node[]): PathNodeItem[] {

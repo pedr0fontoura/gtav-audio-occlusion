@@ -1,9 +1,9 @@
-import { joaat } from '../../utils';
+import { joaat } from '../utils';
 
-import { CMloRoomDef } from '../CMloRoomDef';
+import { CMloRoomDef } from '../game/CMloRoomDef';
 
-import { naOcclusionInteriorMetadata } from './naOcclusionInteriorMetadata';
-import { naOcclusionPortalInfoMetadata } from './naOcclusionPortalInfoMetadata';
+import { naOcclusionInteriorMetadata } from '../game/audio/naOcclusionInteriorMetadata';
+import { naOcclusionPortalInfoMetadata } from '../game/audio/naOcclusionPortalInfoMetadata';
 
 export class Node {
   public interiorProxyHash: number;
@@ -30,4 +30,8 @@ export class Node {
 
     this.edges = [];
   }
+
+  public findRelevantPortalInfoList = (nodeTo: Node): naOcclusionPortalInfoMetadata[] => {
+    return this.portalInfoList.filter(portalInfo => portalInfo.destRoomIdx === nodeTo.index);
+  };
 }

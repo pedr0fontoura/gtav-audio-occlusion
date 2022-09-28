@@ -2,7 +2,7 @@ import { convertToInt32 } from '../../utils';
 
 import { naOcclusionPathNodeChildMetadata } from './naOcclusionPathNodeChildMetadata';
 import { naOcclusionPortalInfoMetadata } from './naOcclusionPortalInfoMetadata';
-import { Node } from './node';
+import { Node } from '../../classes/node';
 
 export class naOcclusionPathNodeMetadata {
   public nodeFrom: Node;
@@ -25,6 +25,10 @@ export class naOcclusionPathNodeMetadata {
     this.pathNodeChildList = [];
   }
 
+  public isRelevant = (nodeFrom: Node, nodeTo: Node): boolean => {
+    return this.nodeFrom.index === nodeFrom.index && this.nodeTo.index === nodeTo.index;
+  };
+
   public addChild(nodeFrom: Node, nodeTo: Node, pathType: number, portalInfo: naOcclusionPortalInfoMetadata): void {
     const pathNodeChild = new naOcclusionPathNodeChildMetadata(
       new naOcclusionPathNodeMetadata(nodeFrom, nodeTo, pathType),
@@ -33,4 +37,10 @@ export class naOcclusionPathNodeMetadata {
 
     this.pathNodeChildList.push(pathNodeChild);
   }
+
+  public addChildFromRelevantPortals = (nodeFrom: Node, nodeTo: Node, pathType: number): void => {
+    for (const relevantPortalInfo of nodeFrom.findRelevantPortalInfoList(nodeTo)) {
+      this.addChild(nodeFrom, nodeTo, pathType, relevantPortalInfo);
+    }
+  };
 }

@@ -1,11 +1,15 @@
-import { joaat, isBitSet } from '../../utils';
+import { Node } from '../../classes/node';
+import { Pair } from '../../classes/pair';
 
-import { naOcclusionPortalInfoMetadata } from './naOcclusionPortalInfoMetadata';
-import { naOcclusionPathNodeMetadata } from './naOcclusionPathNodeMetadata';
-import { Node } from './node';
+import { joaat, isBitSet } from '../../utils';
 
 import { isCMloArchetypeDef } from '../CMloArchetypeDef';
 import type { CMloInstanceDef } from '../CMloInstanceDef';
+
+import { naOcclusionPortalInfoMetadata } from './naOcclusionPortalInfoMetadata';
+import { naOcclusionPathNodeMetadata } from './naOcclusionPathNodeMetadata';
+
+import { findPathNode, addPathNodeToList, hasPathAlreadyBeenFound } from './utils';
 
 type naOcclusionInteriorMetadataConstructor = {
   interior: CMloInstanceDef;
@@ -88,9 +92,71 @@ export class naOcclusionInteriorMetadata {
     return nodes;
   };
 
-  private getPathsOfType = (pathType: number, childPathType: number): naOcclusionPathNodeMetadata[] => {
-    const pathNodes: naOcclusionPathNodeMetadata[] = [];
+  private getPathNodes = (
+    pathNodeList: naOcclusionPathNodeMetadata[],
+    nodeFrom: Node,
+    nodeTo: Node,
+    pathType: number,
+    childPathType: number,
+  ): void => {
+    const existingPathNode = findPathNode(pathNodeList, nodeFrom, nodeTo, pathType);
 
+    if (!existingPathNode) {
+      const createdPathNode = new naOcclusionPathNodeMetadata(nodeFrom, nodeTo, pathType);
+
+      createdPathNode.addChildFromRelevantPortals(nodeFrom, nodeTo, childPathType);
+
+      addPathNodeToList(pathNodeList, createdPathNode);
+    } else {
+      existingPathNode.addChildFromRelevantPortals(nodeFrom, nodeTo, pathType);
+    }
+  };
+
+  private getRoutesBetweenNodes = (
+    pathNodeList: naOcclusionPathNodeMetadata[],
+    nodeFrom: Node,
+    nodeTo: Node,
+    pathType: number,
+    childPathType: number,
+  ): void => {
+    const isLimboPair = nodeFrom.index === 0 || nodeTo.index === 0;
+
+    const edges = isLimboPair ? nodeFrom.edges : nodeFrom.edges.filter(node => node.index !== 0);
+
+    const filteredPathNodeList = pathNodeList.filter(pathNode => pathNode.pathType === childPathType);
+
+    for (const pathNode of filteredPathNodeList) {
+      if (pathType === 1 || pathType === 2 || pathType === 3) {
+        if (pathNode.isRelevant(nodeFrom, nodeTo)) {
+          this.getPathNodes(pathNodeList, nodeFrom, nodeTo, pathType, childPathType);
+        } else {
+          for (const edge of edges) {
+            if (pathNode.isRelevant(edge, nodeTo)) {
+              this.getPathNodes(pathNodeList, edge, nodeTo, pathType, childPathType);
+            }
+          }
+        }
+      }
+
+      if (pathType === 4 || pathType === 5) {
+        for (const edge of edges) {
+          if (pathNode.isRelevant(edge, nodeTo)) {
+            const hasBeenFound = hasPathAlreadyBeenFound(pathNodeList, edge, nodeTo);
+
+            if (hasBeenFound) continue;
+
+            this.getPathNodes(pathNodeList, edge, nodeTo, pathType, childPathType);
+          }
+        }
+      }
+    }
+  };
+
+  private getPathsOfType = (
+    pathNodeList: naOcclusionPathNodeMetadata[],
+    pathType: number,
+    childPathType: number,
+  ): void => {
     // Link node to edges through portal (direct link)
     if (pathType === 1) {
       for (const node of this.nodes) {
@@ -103,15 +169,28 @@ export class naOcclusionInteriorMetadata {
             }
           }
 
-          pathNodes.push(pathNode);
+          addPathNodeToList(pathNodeList, pathNode);
         }
       }
-    }
+    } else {
+      const pairs = Pair.getPairs(this.nodes);
 
-    return pathNodes;
+      for (const pair of pairs) {
+        this.getRoutesBetweenNodes(pathNodeList, pair.nodeFrom, pair.nodeTo, pathType, childPathType);
+        this.getRoutesBetweenNodes(pathNodeList, pair.nodeTo, pair.nodeFrom, pathType, childPathType);
+      }
+    }
   };
 
   public getPathNodeList = (): naOcclusionPathNodeMetadata[] => {
-    return [...this.getPathsOfType(1, 0)];
+    const pathNodeList: naOcclusionPathNodeMetadata[] = [];
+
+    this.getPathsOfType(pathNodeList, 1, 0);
+    this.getPathsOfType(pathNodeList, 2, 1);
+    this.getPathsOfType(pathNodeList, 3, 2);
+    this.getPathsOfType(pathNodeList, 4, 2);
+    this.getPathsOfType(pathNodeList, 5, 4);
+
+    return pathNodeList;
   };
 }
