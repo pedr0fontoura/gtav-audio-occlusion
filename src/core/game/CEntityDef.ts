@@ -1,46 +1,26 @@
-import type { XML } from '../types';
+import type { CArchetypeDef } from './CMapTypes';
 
-import { isXMLCEntityDef } from '../utils';
-
-import type { CBaseArchetypeDef } from './CBaseArchetypeDef';
-import type { CMloArchetypeDef } from './CMloArchetypeDef';
-
-type RawCEntityDef = XML.CEntityDef;
+type CEntityDefConstructor = {
+  type: string;
+  archetypeName: string;
+  position: Vector3;
+};
 
 export class CEntityDef {
   public type: string;
 
   public archetypeName: string;
-  public archetype: CBaseArchetypeDef | CMloArchetypeDef | undefined;
+  public archetype: CArchetypeDef | undefined;
 
   public position: Vector3;
 
-  constructor(raw: RawCEntityDef) {
-    if (isXMLCEntityDef(raw)) {
-      this.fromXMLCEntityDef(raw);
-      return;
-    }
-
-    throw new Error(`Couldn't parse raw CEntityDef`);
-  }
-
-  private fromXMLCEntityDef(data: RawCEntityDef): void {
-    if (!isXMLCEntityDef(data)) return;
-
-    const type = data.$.type;
-    const archetypeName = data.archetypeName;
-    const position = data.position.$;
-
+  constructor({ type, archetypeName, position }: CEntityDefConstructor) {
     this.type = type;
     this.archetypeName = archetypeName;
-    this.position = {
-      x: Number(position.x),
-      y: Number(position.y),
-      z: Number(position.z),
-    };
+    this.position = position;
   }
 
-  public setArchetypeDef(archetype: CBaseArchetypeDef): void {
+  public setArchetypeDef(archetype: CArchetypeDef): void {
     if (this.archetype) {
       return console.warn('Entity already have an archetype');
     }

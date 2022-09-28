@@ -23,7 +23,7 @@ describe('Parse YMAP file', () => {
   it('should be able to instantiate a CMapData using data from an ymap.xml file', async () => {
     const data = await codeWalkerParser.readFile<XML.Ymap>(YMAP_FILE_PATH);
 
-    const cMapData = new CMapData(data);
+    const cMapData = codeWalkerParser.parseCMapData(data);
 
     expect(cMapData).toBeInstanceOf(CMapData);
   });

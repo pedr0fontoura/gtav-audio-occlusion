@@ -1,54 +1,62 @@
-import { XML } from '../types';
-
-import { isXMLCMloArchetypeDef } from '../utils';
-
-import { CBaseArchetypeDef } from './CBaseArchetypeDef';
+import { CBaseArchetypeDefConstructor, CBaseArchetypeDef } from './CBaseArchetypeDef';
 import { CEntityDef } from './CEntityDef';
 import { CMloRoomDef } from './CMloRoomDef';
 import { CMloPortalDef } from './CMloPortalDef';
 
-type RawCMloArchetypeDef = XML.CMloArchetypeDef;
-
 export class CMloArchetypeDef extends CBaseArchetypeDef {
-  public entities: CEntityDef[];
-  public rooms: CMloRoomDef[];
-  public portals: CMloPortalDef[];
+  private _entities: CEntityDef[];
 
-  constructor(raw: RawCMloArchetypeDef) {
-    super(raw);
-
-    if (isXMLCMloArchetypeDef(raw)) {
-      this.fromXMLCMloArchetypeDef(raw);
-      return;
+  public get entities(): CEntityDef[] {
+    if (!this._entities) {
+      console.warn('CMloArchetypeDef entities not set yet');
+      return [];
     }
 
-    throw new Error(`Couldn't parse raw CMloArchetypeDef`);
+    return this._entities;
   }
 
-  private fromXMLCMloArchetypeDef(data: RawCMloArchetypeDef): void {
-    if (!isXMLCMloArchetypeDef(data)) return;
+  public set entities(entities: CEntityDef[]) {
+    if (this._entities) return;
 
-    const entityOrEntities = data.entities.Item;
-    const roomOrRooms = data.rooms.Item;
-    const portalOrPortals = data.portals.Item;
+    this._entities = entities;
+  }
 
-    if (Array.isArray(entityOrEntities)) {
-      this.entities = entityOrEntities.map(entity => new CEntityDef(entity));
-    } else {
-      this.entities = [new CEntityDef(entityOrEntities)];
+  private _rooms: CMloRoomDef[];
+
+  public get rooms(): CMloRoomDef[] {
+    if (!this._rooms) {
+      console.warn('CMloArchetypeDef rooms not set yet');
+      return [];
     }
 
-    if (Array.isArray(roomOrRooms)) {
-      this.rooms = roomOrRooms.map(room => new CMloRoomDef(this, room));
-    } else {
-      this.rooms = [new CMloRoomDef(this, roomOrRooms)];
+    return this._rooms;
+  }
+
+  public set rooms(rooms: CMloRoomDef[]) {
+    if (this._rooms) return;
+
+    this._rooms = rooms;
+  }
+
+  private _portals: CMloPortalDef[];
+
+  public get portals(): CMloPortalDef[] {
+    if (!this._portals) {
+      console.warn('CMloArchetypeDef portals not set yet');
+      return [];
     }
 
-    if (Array.isArray(portalOrPortals)) {
-      this.portals = portalOrPortals.map(portal => new CMloPortalDef(this, portal));
-    } else {
-      this.portals = [new CMloPortalDef(this, portalOrPortals)];
-    }
+    return this._portals;
+  }
+
+  public set portals(portals: CMloPortalDef[]) {
+    if (this._portals) return;
+
+    this._portals = portals;
+  }
+
+  constructor(data: CBaseArchetypeDefConstructor) {
+    super(data);
   }
 
   public getEntity = (entity: number): CEntityDef => {

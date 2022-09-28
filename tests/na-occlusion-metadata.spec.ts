@@ -22,10 +22,11 @@ describe('Generate interior audio cclusion', () => {
     const rawMapData = await codeWalkerParser.readFile<XML.Ymap>(YMAP_FILE_PATH);
     const rawMapTypes = await codeWalkerParser.readFile<XML.Ytyp>(YTYP_FILE_PATH);
 
-    const mapData = new CMapData(rawMapData);
-    const mapTypes = new CMapTypes(rawMapTypes);
+    const mapData = codeWalkerParser.parseCMapData(rawMapData);
+    const mapTypes = codeWalkerParser.parseCMapTypes(rawMapTypes);
 
     const archetype = mapTypes.archetypes.find(isCMloArchetypeDef);
+
     if (!archetype) {
       throw new Error(`Couldn't find a CMloArchetypeDef`);
     }
@@ -40,7 +41,5 @@ describe('Generate interior audio cclusion', () => {
     const occlusion = createNaOcclusionInteriorMetadata(instance);
 
     console.log(occlusion);
-
-    console.log(occlusion.getNodes());
   });
 });

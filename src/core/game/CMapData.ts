@@ -1,48 +1,19 @@
-import type { XML } from '../types';
-
-import { isXMLCMapData } from '../utils';
-
 import { CEntityDef } from './CEntityDef';
 
-type RawCMapData = XML.Ymap;
+type CMapDataConstructor = {
+  entitiesExtentsMin: Vector3;
+  entitiesExtentsMax: Vector3;
+  entities: CEntityDef[];
+};
 
 export class CMapData {
   public entitiesExtentsMin: Vector3;
   public entitiesExtentsMax: Vector3;
   public entities: CEntityDef[];
 
-  constructor(raw: RawCMapData) {
-    if (isXMLCMapData(raw)) {
-      this.fromXMLCMapData(raw);
-      return;
-    }
-
-    throw new Error(`Couldn't parse raw CMapData`);
-  }
-
-  private fromXMLCMapData(data: RawCMapData): void {
-    if (!isXMLCMapData(data)) return;
-
-    const entitiesExtentsMin = data.CMapData.entitiesExtentsMin.$;
-    const entitiesExtentsMax = data.CMapData.entitiesExtentsMin.$;
-    const entityOrEntities = data.CMapData.entities.Item;
-
-    this.entitiesExtentsMin = {
-      x: Number(entitiesExtentsMin.x),
-      y: Number(entitiesExtentsMin.y),
-      z: Number(entitiesExtentsMin.z),
-    };
-
-    this.entitiesExtentsMax = {
-      x: Number(entitiesExtentsMax.x),
-      y: Number(entitiesExtentsMax.y),
-      z: Number(entitiesExtentsMax.z),
-    };
-
-    if (Array.isArray(entityOrEntities)) {
-      this.entities = entityOrEntities.map(entity => new CEntityDef(entity));
-    } else {
-      this.entities = [new CEntityDef(entityOrEntities)];
-    }
+  constructor({ entitiesExtentsMin, entitiesExtentsMax, entities }: CMapDataConstructor) {
+    this.entitiesExtentsMin = entitiesExtentsMin;
+    this.entitiesExtentsMax = entitiesExtentsMax;
+    this.entities = entities;
   }
 }

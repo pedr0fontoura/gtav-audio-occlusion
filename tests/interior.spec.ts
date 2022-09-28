@@ -14,7 +14,7 @@ describe('Example interior is the 24/7 shop', () => {
     codeWalkerParser = new CodeWalker();
 
     const data = await codeWalkerParser.readFile<XML.Ytyp>(YTYP_FILE_PATH);
-    const cMapTypes = new CMapTypes(data);
+    const cMapTypes = codeWalkerParser.parseCMapTypes(data);
 
     const archetype = cMapTypes.archetypes.find(isCMloArchetypeDef);
 

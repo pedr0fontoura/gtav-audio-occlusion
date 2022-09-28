@@ -23,7 +23,7 @@ describe('Parse YTYP file', () => {
   it('should be able to instantiate a CMapTypes using data from an ytyp.xml file', async () => {
     const data = await codeWalkerParser.readFile<XML.Ytyp>(YTYP_FILE_PATH);
 
-    const cMapTypes = new CMapTypes(data);
+    const cMapTypes = codeWalkerParser.parseCMapTypes(data);
 
     expect(cMapTypes).toBeInstanceOf(CMapTypes);
   });

@@ -1,10 +1,11 @@
-import { XML } from '../types';
-import { isXMLCMloRoomDef } from '../utils';
-
 import { CMloArchetypeDef } from './CMloArchetypeDef';
 import { CMloPortalDef } from './CMloPortalDef';
 
-type RawCMloRoomDef = XML.CMloRoomDef;
+type CMloRoomDefConstructor = {
+  interior: CMloArchetypeDef;
+  name: string;
+  portalCount: number;
+};
 
 export class CMloRoomDef {
   private interior: CMloArchetypeDef;
@@ -29,34 +30,31 @@ export class CMloRoomDef {
     if (!this._portals) {
       this._portals = this.interior.portals
         .filter(portal => portal.roomFrom.index === this.index || portal.roomTo.index === this.index)
-        .sort((a, b) => a.roomFrom.index - b.roomFrom.index);
+        .sort((a, b) => a.roomFrom.index - b.roomFrom.index)
+        .map(portal => {
+          if (portal.roomFrom.index === this.index) return portal;
+
+          return new CMloPortalDef({
+            interior: this.interior,
+            roomFrom: portal.roomTo,
+            roomTo: portal.roomFrom,
+            flags: portal.flags,
+            attachedEntities: portal.attachedEntities,
+          });
+        });
     }
 
     return this._portals;
   }
 
-  constructor(interior: CMloArchetypeDef, raw: RawCMloRoomDef) {
+  constructor({ interior, name, portalCount }: CMloRoomDefConstructor) {
     if (!interior) {
       throw new Error('A CMloRoomDef needs a parent CMloArchetypeDef');
     }
 
     this.interior = interior;
 
-    if (isXMLCMloRoomDef(raw)) {
-      this.fromXMLCMloRoomDef(raw);
-      return;
-    }
-
-    throw new Error(`Couldn't parse raw CMloRoomDef`);
-  }
-
-  private fromXMLCMloRoomDef(data: RawCMloRoomDef): void {
-    if (!isXMLCMloRoomDef(data)) return;
-
-    const name = data.name;
-    const portalCount = data.portalCount.$.value;
-
     this.name = name;
-    this.portalCount = Number(portalCount);
+    this.portalCount = portalCount;
   }
 }

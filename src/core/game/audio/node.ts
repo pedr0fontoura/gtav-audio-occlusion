@@ -5,7 +5,7 @@ import { CMloRoomDef } from '../CMloRoomDef';
 import { naOcclusionInteriorMetadata } from './naOcclusionInteriorMetadata';
 
 export class Node {
-  public interiorMetadata: naOcclusionInteriorMetadata;
+  public interiorProxyHash: number;
 
   public room: CMloRoomDef;
 
@@ -15,14 +15,12 @@ export class Node {
   public edges: Node[];
 
   constructor(interiorMetadata: naOcclusionInteriorMetadata, room: CMloRoomDef) {
-    this.interiorMetadata = interiorMetadata;
+    this.interiorProxyHash = interiorMetadata.interiorProxyHash;
 
     this.room = room;
 
-    const { interiorProxyHash } = this.interiorMetadata;
-
     this.index = this.room.index;
-    this.key = this.room.name === 'limbo' ? joaat('outside') : interiorProxyHash ^ joaat(this.room.name);
+    this.key = this.room.name === 'limbo' ? joaat('outside') : this.interiorProxyHash ^ joaat(this.room.name);
 
     this.edges = [];
   }

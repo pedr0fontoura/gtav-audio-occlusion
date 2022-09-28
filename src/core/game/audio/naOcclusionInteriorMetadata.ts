@@ -16,6 +16,8 @@ export class naOcclusionInteriorMetadata {
 
   public interiorProxyHash: number;
 
+  public nodes: Node[];
+
   public portalInfoList: naOcclusionPortalInfoMetadata[];
   public pathNodeList: naOcclusionPathNodeMetadata[];
 
@@ -32,23 +34,20 @@ export class naOcclusionInteriorMetadata {
 
     this.interiorProxyHash = naOcclusionInteriorMetadata.getInteriorProxyHash(this.interior);
 
+    this.nodes = this.getNodes();
+
     this.portalInfoList = this.getPortalInfoList();
+    this.pathNodeList = this.getPathNodeList();
   }
 
   static getInteriorProxyHash = (interior: CMloInstanceDef): number => {
     const { archetype, position } = interior;
-
-    if (!archetype) return;
-    if (!isCMloArchetypeDef(archetype)) return;
 
     return joaat(archetype.name) ^ (position.x * 100) ^ (position.y * 100) ^ ((position.z * 100) & 0xffffffff);
   };
 
   public getPortalInfoList = (): naOcclusionPortalInfoMetadata[] => {
     const { archetype } = this.interior;
-
-    if (!archetype) return;
-    if (!isCMloArchetypeDef(archetype)) return;
 
     let portalInfoList: naOcclusionPortalInfoMetadata[] = [];
 
@@ -67,9 +66,6 @@ export class naOcclusionInteriorMetadata {
 
   public getNodes = (): Node[] => {
     const { archetype } = this.interior;
-
-    if (!archetype) return;
-    if (!isCMloArchetypeDef(archetype)) return;
 
     const nodes = archetype.rooms.map(room => new Node(this, room));
 
