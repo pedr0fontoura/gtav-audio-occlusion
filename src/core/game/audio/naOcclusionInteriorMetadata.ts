@@ -16,9 +16,9 @@ export class naOcclusionInteriorMetadata {
 
   public interiorProxyHash: number;
 
-  public nodes: Node[];
-
   public portalInfoList: naOcclusionPortalInfoMetadata[];
+
+  public nodes: Node[];
   public pathNodeList: naOcclusionPathNodeMetadata[];
 
   constructor({ interior }: naOcclusionInteriorMetadataConstructor) {
@@ -34,9 +34,9 @@ export class naOcclusionInteriorMetadata {
 
     this.interiorProxyHash = naOcclusionInteriorMetadata.getInteriorProxyHash(this.interior);
 
-    this.nodes = this.getNodes();
-
     this.portalInfoList = this.getPortalInfoList();
+
+    this.nodes = this.getNodes();
     this.pathNodeList = this.getPathNodeList();
   }
 
@@ -88,7 +88,30 @@ export class naOcclusionInteriorMetadata {
     return nodes;
   };
 
+  private getPathsOfType = (pathType: number, childPathType: number): naOcclusionPathNodeMetadata[] => {
+    const pathNodes: naOcclusionPathNodeMetadata[] = [];
+
+    // Link node to edges through portal (direct link)
+    if (pathType === 1) {
+      for (const node of this.nodes) {
+        for (const edge of node.edges) {
+          const pathNode = new naOcclusionPathNodeMetadata(node, edge, pathType);
+
+          for (const portalInfo of node.portalInfoList) {
+            if (portalInfo.destRoomIdx === edge.index) {
+              pathNode.addChild(node, node, childPathType, portalInfo);
+            }
+          }
+
+          pathNodes.push(pathNode);
+        }
+      }
+    }
+
+    return pathNodes;
+  };
+
   public getPathNodeList = (): naOcclusionPathNodeMetadata[] => {
-    return [];
+    return [...this.getPathsOfType(1, 0)];
   };
 }

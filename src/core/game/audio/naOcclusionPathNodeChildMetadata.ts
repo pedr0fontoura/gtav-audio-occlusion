@@ -1,4 +1,12 @@
+import { naOcclusionPathNodeMetadata } from './naOcclusionPathNodeMetadata';
+import { naOcclusionPortalInfoMetadata } from './naOcclusionPortalInfoMetadata';
+
 export class naOcclusionPathNodeChildMetadata {
-  public pathNodeKey: number;
-  public portalInfoIdx: number;
+  public pathNode: naOcclusionPathNodeMetadata;
+  public portalInfo: naOcclusionPortalInfoMetadata;
+
+  constructor(pathNode: naOcclusionPathNodeMetadata, portalInfo: naOcclusionPortalInfoMetadata) {
+    this.pathNode = pathNode;
+    this.portalInfo = portalInfo;
+  }
 }

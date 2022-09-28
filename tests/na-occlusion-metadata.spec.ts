@@ -39,7 +39,5 @@ describe('Generate interior audio cclusion', () => {
     instance.setArchetypeDef(archetype);
 
     const occlusion = createNaOcclusionInteriorMetadata(instance);
-
-    console.log(occlusion);
   });
 });
