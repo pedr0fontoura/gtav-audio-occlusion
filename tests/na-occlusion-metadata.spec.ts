@@ -63,15 +63,7 @@ describe('Generate interior audio cclusion', () => {
 
     const pathNodesKeys = interiorMetadata.pathNodeList.map(pathNode => pathNode.key);
 
-    console.log(`Generated paths: ${pathNodesKeys}`);
-
     const includesAllPathNodes = expectedPathNodes.every(pathNode => pathNodesKeys.includes(pathNode));
-
-    if (!includesAllPathNodes) {
-      const missingPaths = expectedPathNodes.filter(pathNode => !pathNodesKeys.includes(pathNode));
-
-      console.warn(`Missing paths: ${missingPaths}`);
-    }
 
     expect(includesAllPathNodes).toBeTruthy();
   });

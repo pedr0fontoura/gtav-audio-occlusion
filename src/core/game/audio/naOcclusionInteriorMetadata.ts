@@ -44,13 +44,13 @@ export class naOcclusionInteriorMetadata {
     this.pathNodeList = this.getPathNodeList();
   }
 
-  static getInteriorProxyHash = (interior: CMloInstanceDef): number => {
+  static getInteriorProxyHash(interior: CMloInstanceDef): number {
     const { archetype, position } = interior;
 
     return joaat(archetype.name) ^ (position.x * 100) ^ (position.y * 100) ^ ((position.z * 100) & 0xffffffff);
-  };
+  }
 
-  public getPortalInfoList = (): naOcclusionPortalInfoMetadata[] => {
+  public getPortalInfoList(): naOcclusionPortalInfoMetadata[] {
     const { archetype } = this.interior;
 
     let portalInfoList: naOcclusionPortalInfoMetadata[] = [];
@@ -66,9 +66,9 @@ export class naOcclusionInteriorMetadata {
     });
 
     return portalInfoList;
-  };
+  }
 
-  public getNodes = (): Node[] => {
+  public getNodes(): Node[] {
     const { archetype } = this.interior;
 
     const nodes = archetype.rooms.map((room, index) => new Node(this, room, index));
@@ -90,15 +90,15 @@ export class naOcclusionInteriorMetadata {
     }
 
     return nodes;
-  };
+  }
 
-  private getPathNodes = (
+  private getPathNodes(
     pathNodeList: naOcclusionPathNodeMetadata[],
     nodeFrom: Node,
     nodeTo: Node,
     pathType: number,
     childPathType: number,
-  ): void => {
+  ): void {
     const existingPathNode = findPathNode(pathNodeList, nodeFrom, nodeTo, pathType);
 
     if (!existingPathNode) {
@@ -110,15 +110,15 @@ export class naOcclusionInteriorMetadata {
     } else {
       existingPathNode.addChildFromRelevantPortals(nodeFrom, nodeTo, pathType);
     }
-  };
+  }
 
-  private getRoutesBetweenNodes = (
+  private getRoutesBetweenNodes(
     pathNodeList: naOcclusionPathNodeMetadata[],
     nodeFrom: Node,
     nodeTo: Node,
     pathType: number,
     childPathType: number,
-  ): void => {
+  ): void {
     const isLimboPair = nodeFrom.index === 0 || nodeTo.index === 0;
 
     const edges = isLimboPair ? nodeFrom.edges : nodeFrom.edges.filter(node => node.index !== 0);
@@ -150,24 +150,16 @@ export class naOcclusionInteriorMetadata {
         }
       }
     }
-  };
+  }
 
-  private getPathsOfType = (
-    pathNodeList: naOcclusionPathNodeMetadata[],
-    pathType: number,
-    childPathType: number,
-  ): void => {
+  private getPathsOfType(pathNodeList: naOcclusionPathNodeMetadata[], pathType: number, childPathType: number): void {
     // Link node to edges through portal (direct link)
     if (pathType === 1) {
       for (const node of this.nodes) {
         for (const edge of node.edges) {
           const pathNode = new naOcclusionPathNodeMetadata(node, edge, pathType);
 
-          for (const portalInfo of node.portalInfoList) {
-            if (portalInfo.destRoomIdx === edge.index) {
-              pathNode.addChild(node, node, childPathType, portalInfo);
-            }
-          }
+          pathNode.addChildFromRelevantPortals(node, node, childPathType);
 
           addPathNodeToList(pathNodeList, pathNode);
         }
@@ -180,9 +172,9 @@ export class naOcclusionInteriorMetadata {
         this.getRoutesBetweenNodes(pathNodeList, pair.nodeTo, pair.nodeFrom, pathType, childPathType);
       }
     }
-  };
+  }
 
-  public getPathNodeList = (): naOcclusionPathNodeMetadata[] => {
+  public getPathNodeList(): naOcclusionPathNodeMetadata[] {
     const pathNodeList: naOcclusionPathNodeMetadata[] = [];
 
     this.getPathsOfType(pathNodeList, 1, 0);
@@ -192,5 +184,5 @@ export class naOcclusionInteriorMetadata {
     this.getPathsOfType(pathNodeList, 5, 4);
 
     return pathNodeList;
-  };
+  }
 }

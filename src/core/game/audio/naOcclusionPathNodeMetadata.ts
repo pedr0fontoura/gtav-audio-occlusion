@@ -25,9 +25,9 @@ export class naOcclusionPathNodeMetadata {
     this.pathNodeChildList = [];
   }
 
-  public isRelevant = (nodeFrom: Node, nodeTo: Node): boolean => {
+  public isRelevant(nodeFrom: Node, nodeTo: Node): boolean {
     return this.nodeFrom.index === nodeFrom.index && this.nodeTo.index === nodeTo.index;
-  };
+  }
 
   public addChild(nodeFrom: Node, nodeTo: Node, pathType: number, portalInfo: naOcclusionPortalInfoMetadata): void {
     const pathNodeChild = new naOcclusionPathNodeChildMetadata(
@@ -38,9 +38,9 @@ export class naOcclusionPathNodeMetadata {
     this.pathNodeChildList.push(pathNodeChild);
   }
 
-  public addChildFromRelevantPortals = (nodeFrom: Node, nodeTo: Node, pathType: number): void => {
+  public addChildFromRelevantPortals(nodeFrom: Node, nodeTo: Node, pathType: number): void {
     for (const relevantPortalInfo of nodeFrom.findRelevantPortalInfoList(nodeTo)) {
       this.addChild(nodeFrom, nodeTo, pathType, relevantPortalInfo);
     }
-  };
+  }
 }
