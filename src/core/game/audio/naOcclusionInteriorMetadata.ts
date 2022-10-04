@@ -132,7 +132,7 @@ export class naOcclusionInteriorMetadata {
         } else {
           for (const edge of edges) {
             if (pathNode.isRelevant(edge, nodeTo)) {
-              this.getPathNodes(pathNodeList, edge, nodeTo, pathType, childPathType);
+              this.getPathNodes(pathNodeList, nodeFrom, nodeTo, pathType, childPathType);
             }
           }
         }

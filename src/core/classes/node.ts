@@ -32,7 +32,7 @@ export class Node {
     this.edges = [];
   }
 
-  public findRelevantPortalInfoList = (nodeTo: Node): naOcclusionPortalInfoMetadata[] => {
+  public findRelevantPortalInfoList(nodeTo: Node): naOcclusionPortalInfoMetadata[] {
     return this.portalInfoList.filter(portalInfo => portalInfo.destRoomIdx === nodeTo.index);
-  };
+  }
 }
