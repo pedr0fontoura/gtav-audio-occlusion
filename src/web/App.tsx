@@ -17,7 +17,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: stretch;
 
-  background: ${({ theme }) => theme.colors.background.primary};
+  background: ${({ theme }) => theme.colors.gray[800]};
 `;
 
 const HorizontalContainer = styled.div`

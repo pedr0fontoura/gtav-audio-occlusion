@@ -14,8 +14,12 @@ export const Container = styled.div`
 
   padding: 16px;
 
-  background: ${({ theme }) => theme.colors.primary};
-  border-right: 2px solid ${({ theme }) => theme.colors.secondary};
+  background: ${({ theme }) => theme.colors.gray[900]};
+  border-right: 2px solid ${({ theme }) => theme.colors.gray[900]};
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 `;
 
 export const Section = styled.div`
@@ -25,12 +29,12 @@ export const Section = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+`;
 
-  & + div {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid ${({ theme }) => theme.colors.secondary};
-  }
+export const TopSection = styled(Section)``;
+
+export const BottomSection = styled(Section)`
+  margin-top: auto;
 `;
 
 export const SectionLink = styled(Link)<ISectionLinkProps>`
@@ -48,7 +52,7 @@ export const SectionLink = styled(Link)<ISectionLinkProps>`
   color: #fff;
   text-decoration: none;
 
-  background: ${({ to, current }) => (to === current ? 'rgba(255, 255, 255, 0.1)' : 'transparent')};
+  background: ${({ to, current }) => (to === current ? 'rgba(0, 0, 0, 0.3)' : 'transparent')};
 
   transition: ease-in-out 0.1s;
 
