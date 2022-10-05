@@ -185,4 +185,14 @@ export class naOcclusionInteriorMetadata {
 
     return pathNodeList;
   }
+
+  public findPortalInfoIdx(portalInfo: naOcclusionPortalInfoMetadata): number {
+    return this.portalInfoList.findIndex(
+      ({ interiorProxyHash, portalIdx, roomIdx, destRoomIdx }) =>
+        interiorProxyHash === portalInfo.interiorProxyHash &&
+        portalIdx === portalInfo.portalIdx &&
+        roomIdx === portalInfo.roomIdx &&
+        destRoomIdx === portalInfo.destRoomIdx,
+    );
+  }
 }

@@ -1,20 +1,20 @@
 import path from 'path';
 
-import { CodeWalker } from '../src/core/formats/codewalker';
+import { CodeWalkerFormat } from '../src/core/formats/codewalker';
 import { XML } from '../src/core/types';
-import { CMapTypes, CMloArchetypeDef, isCMloArchetypeDef } from '../src/core/game';
+import { CMloArchetypeDef, isCMloArchetypeDef } from '../src/core/game';
 
 const YTYP_FILE_PATH = path.resolve('tests', 'data', 'v_int_66.ytyp.xml');
 
-let codeWalkerParser: CodeWalker;
+let codeWalkerFormat: CodeWalkerFormat;
 let cMloArchetypeDef: CMloArchetypeDef;
 
 describe('Example interior is the 24/7 shop', () => {
   beforeAll(async () => {
-    codeWalkerParser = new CodeWalker();
+    codeWalkerFormat = new CodeWalkerFormat();
 
-    const data = await codeWalkerParser.readFile<XML.Ytyp>(YTYP_FILE_PATH);
-    const cMapTypes = codeWalkerParser.parseCMapTypes(data);
+    const data = await codeWalkerFormat.readFile<XML.Ytyp>(YTYP_FILE_PATH);
+    const cMapTypes = codeWalkerFormat.parseCMapTypes(data);
 
     const archetype = cMapTypes.archetypes.find(isCMloArchetypeDef);
 

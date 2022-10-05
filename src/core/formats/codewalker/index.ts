@@ -23,8 +23,11 @@ import {
   isXMLCMapTypes,
   isXMLCMloPortalDef,
 } from './typeGuards';
+import { naOcclusionInteriorMetadata } from '@/core/game/audio';
 
-export class CodeWalker {
+export * from './typeGuards';
+
+export class CodeWalkerFormat {
   private parser: Parser;
   private builder: Builder;
 
@@ -206,7 +209,93 @@ export class CodeWalker {
     return new CMapTypes({ archetypes });
   }
 
-  public async writeFile(filePath: string, data: any): Promise<void> {
+  public writeNaOcclusionInteriorMetadata(filePath: string, interiorMetadata: naOcclusionInteriorMetadata): void {
+    const { portalInfoList, pathNodeList } = interiorMetadata;
+
+    const portalInfoListObject: XML.PortalInfo[] = portalInfoList.map(portalInfo => {
+      const { portalEntityList } = portalInfo;
+
+      const portalEntityListObject = portalEntityList.map(portalEntity => ({
+        LinkType: {
+          $: { value: portalEntity.linkType },
+        },
+        MaxOcclusion: {
+          $: { value: portalEntity.maxOcclusion },
+        },
+        EntityModelHashkey: {
+          $: { value: portalEntity.entityModelHashKey },
+        },
+        IsDoor: {
+          $: { value: portalEntity.isDoor },
+        },
+        IsGlass: {
+          $: { value: portalEntity.isGlass },
+        },
+      }));
+
+      return {
+        InteriorProxyHash: {
+          $: { value: portalInfo.interiorProxyHash },
+        },
+        PortalIdx: {
+          $: { value: portalInfo.portalIdx },
+        },
+        RoomIdx: {
+          $: { value: portalInfo.roomIdx },
+        },
+        DestInteriorHash: {
+          $: { value: portalInfo.destInteriorHash },
+        },
+        DestRoomIdx: {
+          $: { value: portalInfo.destRoomIdx },
+        },
+        PortalEntityList: {
+          $: { itemType: 'naOcclusionPortalEntityMetadata' },
+          Item: portalEntityListObject,
+        },
+      };
+    });
+
+    const pathNodeListObject: XML.PathNode[] = pathNodeList.map(pathNode => {
+      const pathNodeChildListObject = {
+        $: { itemType: 'hash_892CF74F' },
+        Item: pathNode.pathNodeChildList.map(pathNodeChild => {
+          return {
+            PathNodeKey: {
+              $: { value: pathNodeChild.pathNode.key },
+            },
+            PortalInfoIdx: {
+              $: { value: interiorMetadata.findPortalInfoIdx(pathNodeChild.portalInfo) },
+            },
+          };
+        }),
+      };
+
+      return {
+        Key: {
+          $: { value: pathNode.key },
+        },
+        PathNodeChildList: pathNodeChildListObject,
+      };
+    });
+
+    const naOcclusionInteriorMetadataObject: XML.AudioOcclusionInteriorMetadata = {
+      naOcclusionInteriorMetadata: {
+        PortalInfoList: {
+          $: { itemType: 'naOcclusionPortalInfoMetadata' },
+          Item: portalInfoListObject,
+        },
+        PathNodeList: {
+          $: { itemType: 'hash_771E3577' },
+          Item: pathNodeListObject,
+        },
+      },
+    };
+
+    this.writeFile(filePath, naOcclusionInteriorMetadataObject);
+  }
+
+  private async writeFile(filePath: string, data: any): Promise<void> {
     if (!filePath.includes('.xml')) {
       throw new Error('Can only write xml files');
     }

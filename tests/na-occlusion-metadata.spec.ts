@@ -1,9 +1,11 @@
 import path from 'path';
+import fs from 'fs/promises';
 
-import { CodeWalker } from '../src/core/formats/codewalker';
+import { CodeWalkerFormat } from '../src/core/formats/codewalker';
 import type { XML } from '../src/core/types';
 import { naOcclusionInteriorMetadata } from '../src/core/game/audio';
 import { isCMloArchetypeDef, isCMloInstanceDef } from '../src/core/game';
+import { convertToInt32 } from '../src/core/utils';
 
 import { createNaOcclusionInteriorMetadata } from '../src/core';
 
@@ -12,18 +14,28 @@ const TESTS_DATA_PATH = path.resolve('tests', 'data');
 const YMAP_FILE_PATH = path.resolve(TESTS_DATA_PATH, 'lr_sc1_03_interior_v_shop_247_milo_.ymap.xml');
 const YTYP_FILE_PATH = path.resolve(TESTS_DATA_PATH, 'v_int_66.ytyp.xml');
 
-let codeWalkerParser: CodeWalker;
+let codeWalkerFormat: CodeWalkerFormat;
 let interiorMetadata: naOcclusionInteriorMetadata;
 
-describe('Generate interior audio cclusion', () => {
+const doesFileExist = async (filePath: string) => {
+  try {
+    await fs.access(filePath);
+
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+describe('Interior audio occlusion', () => {
   beforeAll(async () => {
-    codeWalkerParser = new CodeWalker();
+    codeWalkerFormat = new CodeWalkerFormat();
 
-    const rawMapData = await codeWalkerParser.readFile<XML.Ymap>(YMAP_FILE_PATH);
-    const rawMapTypes = await codeWalkerParser.readFile<XML.Ytyp>(YTYP_FILE_PATH);
+    const rawMapData = await codeWalkerFormat.readFile<XML.Ymap>(YMAP_FILE_PATH);
+    const rawMapTypes = await codeWalkerFormat.readFile<XML.Ytyp>(YTYP_FILE_PATH);
 
-    const mapData = codeWalkerParser.parseCMapData(rawMapData);
-    const mapTypes = codeWalkerParser.parseCMapTypes(rawMapTypes);
+    const mapData = codeWalkerFormat.parseCMapData(rawMapData);
+    const mapTypes = codeWalkerFormat.parseCMapTypes(rawMapTypes);
 
     const archetype = mapTypes.archetypes.find(isCMloArchetypeDef);
 
@@ -66,5 +78,15 @@ describe('Generate interior audio cclusion', () => {
     const includesAllPathNodes = expectedPathNodes.every(pathNode => pathNodesKeys.includes(pathNode));
 
     expect(includesAllPathNodes).toBeTruthy();
+  });
+
+  it('should be able to write the interior audio occlusion metadata', async () => {
+    const filePath = path.resolve('tests', `${convertToInt32(interiorMetadata.interiorProxyHash)}.ymt.pso.xml`);
+
+    codeWalkerFormat.writeNaOcclusionInteriorMetadata(filePath, interiorMetadata);
+
+    expect(await doesFileExist(filePath)).toBeTruthy();
+
+    await fs.unlink(filePath);
   });
 });
