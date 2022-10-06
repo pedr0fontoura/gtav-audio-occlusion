@@ -13,6 +13,9 @@ import {
   CMloRoomDef,
   CMloPortalDef,
 } from '../../game';
+import { convertToInt32 } from '../../utils';
+
+import { naOcclusionInteriorMetadata } from '../../game/audio';
 
 import {
   isXMLCEntityDef,
@@ -23,7 +26,6 @@ import {
   isXMLCMapTypes,
   isXMLCMloPortalDef,
 } from './typeGuards';
-import { naOcclusionInteriorMetadata } from '@/core/game/audio';
 
 export * from './typeGuards';
 
@@ -223,7 +225,7 @@ export class CodeWalkerFormat {
           $: { value: portalEntity.maxOcclusion },
         },
         EntityModelHashkey: {
-          $: { value: portalEntity.entityModelHashKey },
+          $: { value: convertToInt32(portalEntity.entityModelHashKey) },
         },
         IsDoor: {
           $: { value: portalEntity.isDoor },
@@ -235,7 +237,7 @@ export class CodeWalkerFormat {
 
       return {
         InteriorProxyHash: {
-          $: { value: portalInfo.interiorProxyHash },
+          $: { value: convertToInt32(portalInfo.interiorProxyHash) },
         },
         PortalIdx: {
           $: { value: portalInfo.portalIdx },
@@ -244,7 +246,7 @@ export class CodeWalkerFormat {
           $: { value: portalInfo.roomIdx },
         },
         DestInteriorHash: {
-          $: { value: portalInfo.destInteriorHash },
+          $: { value: convertToInt32(portalInfo.destInteriorHash) },
         },
         DestRoomIdx: {
           $: { value: portalInfo.destRoomIdx },
@@ -262,10 +264,14 @@ export class CodeWalkerFormat {
         Item: pathNode.pathNodeChildList.map(pathNodeChild => {
           return {
             PathNodeKey: {
-              $: { value: pathNodeChild.pathNode.key },
+              $: {
+                value: convertToInt32(pathNodeChild.pathNode.key),
+              },
             },
             PortalInfoIdx: {
-              $: { value: interiorMetadata.findPortalInfoIdx(pathNodeChild.portalInfo) },
+              $: {
+                value: interiorMetadata.findPortalInfoIdx(pathNodeChild.portalInfo),
+              },
             },
           };
         }),
@@ -273,7 +279,9 @@ export class CodeWalkerFormat {
 
       return {
         Key: {
-          $: { value: pathNode.key },
+          $: {
+            value: convertToInt32(pathNode.key),
+          },
         },
         PathNodeChildList: pathNodeChildListObject,
       };

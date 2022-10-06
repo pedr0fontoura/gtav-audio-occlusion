@@ -81,7 +81,7 @@ describe('Interior audio occlusion', () => {
   });
 
   it('should be able to write the interior audio occlusion metadata', async () => {
-    const filePath = path.resolve('tests', `${convertToInt32(interiorMetadata.interiorProxyHash)}.ymt.pso.xml`);
+    const filePath = path.resolve('tests', `${interiorMetadata.interiorProxyHash}.ymt.pso.xml`);
 
     codeWalkerFormat.writeNaOcclusionInteriorMetadata(filePath, interiorMetadata);
 
