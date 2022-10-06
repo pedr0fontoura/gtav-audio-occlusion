@@ -26,6 +26,8 @@ export class naOcclusionPortalEntityMetadata {
     this.isDoor = this.entity.archetypeName.includes('door');
     this.isGlass = this.entity.archetypeName.includes('glass') || this.entity.archetypeName.includes('window');
 
+    this.maxOcclusion = 0;
+
     if (this.isDoor) {
       this.maxOcclusion = 0.7;
     }
