@@ -260,7 +260,7 @@ export class CodeWalkerFormat {
 
     const pathNodeListObject: XML.PathNode[] = pathNodeList.map(pathNode => {
       const pathNodeChildListObject = {
-        $: { itemType: 'hash_892CF74F' },
+        $: { itemType: 'naOcclusionPathNodeChildMetadata' },
         Item: pathNode.pathNodeChildList.map(pathNodeChild => {
           return {
             PathNodeKey: {
@@ -294,7 +294,7 @@ export class CodeWalkerFormat {
           Item: portalInfoListObject,
         },
         PathNodeList: {
-          $: { itemType: 'hash_771E3577' },
+          $: { itemType: 'naOcclusionPathNodeMetadata' },
           Item: pathNodeListObject,
         },
       },
