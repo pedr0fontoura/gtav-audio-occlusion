@@ -48,7 +48,7 @@ export class naOcclusionInteriorMetadata {
   static getInteriorProxyHash(interior: CMloInstanceDef): number {
     const { archetype, position } = interior;
 
-    return joaat(archetype.name) ^ (position.x * 100) ^ (position.y * 100) ^ ((position.z * 100) & 0xffffffff);
+    return (joaat(archetype.name) ^ (position.x * 100) ^ (position.y * 100) ^ (position.z * 100)) & 0xffffffff;
   }
 
   public getPortalInfoList(): naOcclusionPortalInfoMetadata[] {
