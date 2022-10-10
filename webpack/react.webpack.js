@@ -12,7 +12,7 @@ module.exports = {
       '@': path.resolve(root, 'src'),
     },
   },
-  entry: path.resolve(root, 'src', 'web', 'App.tsx'),
+  entry: path.resolve(root, 'src', 'web', 'index.tsx'),
   target: 'electron-renderer',
   devtool: 'source-map',
   module: {

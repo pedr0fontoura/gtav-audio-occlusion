@@ -11,29 +11,29 @@ const Sidebar = () => {
     <Container>
       <TopSection>
         <SectionLink to="/" current={pathname}>
-          <FaHome size={20} />
+          <FaHome size={18} />
           Home
         </SectionLink>
         <SectionLink to="/portals" current={pathname}>
-          <FaDoorOpen size={20} />
+          <FaDoorOpen size={18} />
           Portals
         </SectionLink>
         <SectionLink to="/entities" current={pathname}>
-          <FaCubes size={20} />
+          <FaCubes size={18} />
           Entities
         </SectionLink>
         <SectionLink to="/nodes" current={pathname}>
-          <FaShareAlt size={20} />
+          <FaShareAlt size={18} />
           Nodes
         </SectionLink>
         <SectionLink to="/rooms" current={pathname}>
-          <FaProjectDiagram size={20} />
+          <FaProjectDiagram size={18} />
           Rooms
         </SectionLink>
       </TopSection>
       <BottomSection>
         <SectionLink to="/settings" current={pathname}>
-          <FaWrench size={20} />
+          <FaWrench size={18} />
           Settings
         </SectionLink>
       </BottomSection>

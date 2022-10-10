@@ -12,7 +12,7 @@ export const Container = styled.div`
 
   flex-shrink: 0;
 
-  padding: 16px;
+  padding: 16px 8px;
 
   background: ${({ theme }) => theme.colors.gray[900]};
   border-right: 2px solid ${({ theme }) => theme.colors.gray[900]};
@@ -39,6 +39,7 @@ export const BottomSection = styled(Section)`
 
 export const SectionLink = styled(Link)<ISectionLinkProps>`
   width: 100%;
+  height: 40px;
 
   display: flex;
   align-items: center;
@@ -66,6 +67,6 @@ export const SectionLink = styled(Link)<ISectionLinkProps>`
   }
 
   > svg {
-    margin-right: 8px;
+    margin-right: 16px;
   }
 `;

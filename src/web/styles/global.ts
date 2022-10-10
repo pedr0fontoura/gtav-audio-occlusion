@@ -5,6 +5,10 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+    &:focus {
+      outline: unset;
+    }
   }
 
   html, body {
@@ -12,9 +16,17 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
     font-size: 16px;
     color: #FFF;
+  }
+
+  button {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   h1 {
