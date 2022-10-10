@@ -1,14 +1,14 @@
 import React, { useState, DragEvent } from 'react';
 import { FaFileImport } from 'react-icons/fa';
 
-interface IFileImporter {
-  onFileImport: (file: File) => void;
-}
+import { useProject } from '../../context';
 
-import { Container, ImportButton } from './styles';
+import { Container, Button, CallToAction, Description } from './styles';
 
-const FileImporter = ({ onFileImport }: IFileImporter) => {
+export const FileImporter = () => {
   const [isDraggingOver, setIsDraggingOver] = useState(0);
+
+  const { setCreateModalOpen } = useProject();
 
   const dragOver = (event: DragEvent): void => {
     event.preventDefault();
@@ -42,11 +42,7 @@ const FileImporter = ({ onFileImport }: IFileImporter) => {
     return isFileValid;
   };
 
-  const handleFile = (file: File): void => {
-    if (validateFile(file)) {
-      onFileImport(file);
-    }
-  };
+  const handleFile = (file: File): void => {};
 
   const dragDrop = (event: DragEvent): void => {
     event.preventDefault();
@@ -70,13 +66,11 @@ const FileImporter = ({ onFileImport }: IFileImporter) => {
       onDragLeave={dragLeave}
       onDrop={dragDrop}
     >
-      <ImportButton>
-        <FaFileImport size={40} />
-      </ImportButton>
-      <b>Drop Files</b>
-      <span>.ymap.xml, .ytyp.xml</span>
+      <Button onClick={() => setCreateModalOpen(true)}>
+        <FaFileImport size={60} />
+      </Button>
+      <CallToAction>Create new project</CallToAction>
+      <Description>or drag #map and #typ CodeWalker XML files</Description>
     </Container>
   );
 };
-
-export default FileImporter;

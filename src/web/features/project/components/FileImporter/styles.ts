@@ -6,14 +6,13 @@ interface IContainerProps {
 
 export const Container = styled.div<IContainerProps>`
   width: 100%;
-  height: 250px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  flex-shrink: 0;
+  flex-grow: 1;
 
   padding: 12px 4px;
 
@@ -37,10 +36,6 @@ export const Container = styled.div<IContainerProps>`
   > svg {
     flex-shrink: 0;
   }
-
-  > b {
-    margin-top: 16px;
-  }
 `;
 
 export const Text = styled.div`
@@ -52,7 +47,7 @@ export const Text = styled.div`
   overflow: hidden;
 `;
 
-export const ImportButton = styled.button`
+export const Button = styled.button`
   display: flex;
   align-items: center;
 
@@ -73,3 +68,12 @@ export const ImportButton = styled.button`
     margin-right: 10px;
   }
 `;
+
+export const CallToAction = styled.h1`
+  margin-top: 16px;
+
+  font-size: 1.5em;
+  font-weight: bold;
+`;
+
+export const Description = styled.p``;

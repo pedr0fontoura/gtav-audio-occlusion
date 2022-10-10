@@ -15,15 +15,17 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 
-  body {
+  body, input, button {
     font-family: 'Inter', Arial, Helvetica, sans-serif;
+  }
+
+  body {
+    
     font-size: 16px;
     color: #FFF;
   }
 
   button {
-    font-family: 'Inter', Arial, Helvetica, sans-serif;
-
     &:hover {
       cursor: pointer;
     }
