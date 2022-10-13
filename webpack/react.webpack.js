@@ -12,7 +12,7 @@ module.exports = {
       '@': path.resolve(root, 'src'),
     },
   },
-  entry: path.resolve(root, 'src', 'web', 'index.tsx'),
+  entry: path.resolve(root, 'src', 'electron', 'renderer', 'index.tsx'),
   target: 'electron-renderer',
   devtool: 'source-map',
   module: {
@@ -27,7 +27,7 @@ module.exports = {
     ],
   },
   devServer: {
-    contentBase: path.resolve(root, 'dist', 'web'),
+    contentBase: path.resolve(root, 'dist', 'electron', 'renderer'),
     historyApiFallback: true,
     compress: true,
     hot: true,
@@ -36,13 +36,13 @@ module.exports = {
     publicPath: '/',
   },
   output: {
-    path: path.resolve(root, 'dist', 'web'),
+    path: path.resolve(root, 'dist', 'electron', 'renderer'),
     filename: 'js/[name].js',
     publicPath: './',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(root, 'src', 'web', 'index.html'),
+      template: path.resolve(root, 'src', 'electron', 'renderer', 'index.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],

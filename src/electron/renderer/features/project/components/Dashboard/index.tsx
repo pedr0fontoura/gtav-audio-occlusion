@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Title } from '@/web/components/Screen';
+import { Container, Title } from '../../../../components/Screen';
 
 import { ProjectProvider } from '../../context';
 
