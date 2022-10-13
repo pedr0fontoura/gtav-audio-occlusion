@@ -53,13 +53,15 @@ export const SectionLink = styled(Link)<ISectionLinkProps>`
   color: #fff;
   text-decoration: none;
 
-  background: ${({ to, current }) => (to === current ? 'rgba(0, 0, 0, 0.3)' : 'transparent')};
+  background: ${({ to, current, theme }) => (to === current ? theme.colors.rose[600] : 'transparent')};
 
   transition: ease-in-out 0.1s;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.3);
+    background: ${({ theme }) => theme.colors.rose[600]};
     cursor: pointer;
+
+    opacity: 0.8;
   }
 
   & + & {

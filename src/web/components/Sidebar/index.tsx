@@ -14,25 +14,25 @@ const Sidebar = () => {
           <FaHome size={18} />
           Home
         </SectionLink>
-        <SectionLink to="/portals" current={pathname}>
+        <SectionLink to="/#" current={pathname}>
           <FaDoorOpen size={18} />
           Portals
         </SectionLink>
-        <SectionLink to="/entities" current={pathname}>
+        <SectionLink to="/#" current={pathname}>
           <FaCubes size={18} />
           Entities
         </SectionLink>
-        <SectionLink to="/nodes" current={pathname}>
+        <SectionLink to="/#" current={pathname}>
           <FaShareAlt size={18} />
           Nodes
         </SectionLink>
-        <SectionLink to="/rooms" current={pathname}>
+        <SectionLink to="/#" current={pathname}>
           <FaProjectDiagram size={18} />
           Rooms
         </SectionLink>
       </TopSection>
       <BottomSection>
-        <SectionLink to="/settings" current={pathname}>
+        <SectionLink to="/#" current={pathname}>
           <FaWrench size={18} />
           Settings
         </SectionLink>
