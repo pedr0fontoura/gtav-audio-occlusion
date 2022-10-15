@@ -1,4 +1,6 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, app } from 'electron';
+
+import { ProjectManager } from './project-manager';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -6,12 +8,16 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 export class Application {
   private mainWindow: BrowserWindow;
 
+  public projectManager: ProjectManager;
+
   constructor() {}
 
   public init() {
     if (this.mainWindow) {
       return;
     }
+
+    this.projectManager = new ProjectManager();
 
     this.mainWindow = new BrowserWindow({
       height: 700,

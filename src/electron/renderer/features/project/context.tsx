@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useCallback } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 
 import { CreateProjectModalState } from './types';
 
@@ -9,6 +9,10 @@ interface IProjectProvider {
 interface IProjectContext {
   createModalState: CreateProjectModalState;
   setCreateModalOpen: (open: boolean) => void;
+  setCreateModalName: (name: string) => void;
+  setCreateModalInterior: (interior: string) => void;
+  setCreateModalMapDataFile: (mapDataFile: string) => void;
+  setCreateModalMapTypesFile: (mapTypesFile: string) => void;
 }
 
 const createModalinitialState: CreateProjectModalState = {
@@ -25,17 +29,40 @@ const projectContext = createContext<IProjectContext>({} as IProjectContext);
 const useProjectProvider = (): IProjectContext => {
   const [createModalState, setCreateModalState] = useState<CreateProjectModalState>(createModalinitialState);
 
-  const setCreateModalOpen = (open: boolean) => {
+  const setCreateModalOpen = (open: boolean): void => {
     setCreateModalState(state => ({ ...state, open }));
   };
 
-  return { createModalState, setCreateModalOpen };
+  const setCreateModalName = (name: string): void => {
+    setCreateModalState(state => ({ ...state, name }));
+  };
+
+  const setCreateModalInterior = (interior: string): void => {
+    setCreateModalState(state => ({ ...state, interior }));
+  };
+
+  const setCreateModalMapDataFile = (mapDataFile: string): void => {
+    setCreateModalState(state => ({ ...state, mapDataFile }));
+  };
+
+  const setCreateModalMapTypesFile = (mapTypesFile: string): void => {
+    setCreateModalState(state => ({ ...state, mapTypesFile }));
+  };
+
+  return {
+    createModalState,
+    setCreateModalOpen,
+    setCreateModalName,
+    setCreateModalInterior,
+    setCreateModalMapDataFile,
+    setCreateModalMapTypesFile,
+  };
 };
 
 export const ProjectProvider = ({ children }: IProjectProvider) => {
-  const auth = useProjectProvider();
+  const project = useProjectProvider();
 
-  return <projectContext.Provider value={auth}>{children}</projectContext.Provider>;
+  return <projectContext.Provider value={project}>{children}</projectContext.Provider>;
 };
 
 export const useProject = () => {
