@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
     "target": "es6",
     "module": "commonjs",
     "lib": ["dom", "es2015", "es2016", "es2017"],
@@ -7,7 +8,9 @@
     "jsx": "react-jsx",
     "sourceMap": true,
     "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": ["*"]
+    }
   }
 }
