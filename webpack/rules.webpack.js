@@ -23,4 +23,11 @@ module.exports = [
       loader: 'babel-loader',
     },
   },
+  {
+    test: /\.(png|jpe?g|gif|ttf)$/i,
+    loader: 'file-loader',
+    options: {
+      name: '[path][name].[ext]',
+    },
+  },
 ];
