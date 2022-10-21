@@ -64,7 +64,7 @@ export const CreateModal = () => {
         <Content>
           <Header>
             <Title>New project</Title>
-            <Close asChild onClick={() => setCreateModalOpen(false)}>
+            <Close onClick={() => setCreateModalOpen(false)}>
               <FaTimes size={18} />
             </Close>
           </Header>
