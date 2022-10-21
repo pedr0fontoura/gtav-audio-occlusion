@@ -5,7 +5,7 @@ import { Container, Title } from '../../../../components/Screen';
 import { ProjectProvider } from '../../context';
 
 import { CreateModal } from '../CreateModal';
-import { FileImporter } from '../FileImporter';
+import { ProjectFileImporter } from '../ProjectFileImporter';
 
 export const Dashboard = () => {
   return (
@@ -13,7 +13,7 @@ export const Dashboard = () => {
       <CreateModal />
       <Container>
         <Title>Dashboard</Title>
-        <FileImporter />
+        <ProjectFileImporter />
       </Container>
     </ProjectProvider>
   );

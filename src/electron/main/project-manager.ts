@@ -2,10 +2,9 @@ import { ipcMain } from 'electron';
 
 import { err, ok } from '@/electron/common';
 import { ProjectAPI } from '@/electron/common/types/project';
+import { isXMLFilePath, isMapDataFilePath, isMapTypesFilePath } from '@/electron/common/utils/files';
 
 import { selectFiles } from './files';
-
-import { isXMLFilePath, isMapDataFilePath, isMapTypesFilePath } from './utils/files';
 
 const MAP_DATA_FILE_FILTERS = [{ name: '#map files', extensions: ['ymap.xml'] }];
 const MAP_TYPES_FILE_FILTERS = [{ name: '#typ files', extensions: ['ytyp.xml'] }];

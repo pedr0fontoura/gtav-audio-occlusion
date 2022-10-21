@@ -1,14 +1,16 @@
 import React, { useState, DragEvent } from 'react';
 import { FaFileImport } from 'react-icons/fa';
 
-import { useProject } from '../../context';
-
 import { Container, Button, CallToAction, Description } from './styles';
 
-export const FileImporter = () => {
-  const [isDraggingOver, setIsDraggingOver] = useState(0);
+type FileImporterProps = {
+  validateFile?: (files: File) => boolean;
+  onFileImport?: (files: File[]) => void;
+  onButtonClick?: () => void;
+};
 
-  const { setCreateModalOpen } = useProject();
+export const FileImporter = ({ validateFile, onFileImport, onButtonClick }: FileImporterProps) => {
+  const [isDraggingOver, setIsDraggingOver] = useState(0);
 
   const dragOver = (event: DragEvent): void => {
     event.preventDefault();
@@ -16,43 +18,31 @@ export const FileImporter = () => {
 
   const dragEnter = (event: DragEvent): void => {
     event.preventDefault();
+
     setIsDraggingOver(value => value + 1);
   };
 
   const dragLeave = (event: DragEvent): void => {
     event.preventDefault();
+
     setIsDraggingOver(value => value - 1);
   };
-
-  const validateFile = (file: File): boolean => {
-    if (file.type !== 'text/xml') {
-      return false;
-    }
-
-    const acceptedFileExtensions = ['ytyp.xml', 'ymap.xml'];
-
-    let isFileValid = false;
-
-    acceptedFileExtensions.forEach(fileExtension => {
-      if (file.name.includes(fileExtension)) {
-        isFileValid = true;
-      }
-    });
-
-    return isFileValid;
-  };
-
-  const handleFile = (file: File): void => {};
 
   const dragDrop = (event: DragEvent): void => {
     event.preventDefault();
 
     const files = event.dataTransfer.files;
 
-    if (files.length) {
+    if (files.length && onFileImport) {
+      const fileList: File[] = [];
+
       for (let i = 0; i < files.length; i++) {
-        handleFile(files[i]);
+        if (validateFile && !validateFile(files[i])) continue;
+
+        fileList.push(files[i]);
       }
+
+      onFileImport(fileList);
     }
 
     setIsDraggingOver(0);
@@ -66,7 +56,7 @@ export const FileImporter = () => {
       onDragLeave={dragLeave}
       onDrop={dragDrop}
     >
-      <Button onClick={() => setCreateModalOpen(true)}>
+      <Button onClick={onButtonClick}>
         <FaFileImport size={60} />
       </Button>
       <CallToAction>Create new project</CallToAction>
