@@ -38,7 +38,7 @@ export const HeaderRight = styled.div`
   gap: 8px;
 `;
 
-export const AddMapButton = styled.button`
+export const Button = styled.button`
   height: 24px;
 
   display: flex;

@@ -7,16 +7,17 @@ type InteriorProps = {
   identifier: string;
   mapDataFilePath: string;
   mapTypesFilePath: string;
+  canRemove?: boolean;
 };
 
-export const Interior = ({ index, identifier, mapDataFilePath, mapTypesFilePath }: InteriorProps) => {
+export const Interior = ({ index, identifier, mapDataFilePath, mapTypesFilePath, canRemove }: InteriorProps) => {
   return (
     <Container>
       <Header>
         <Title>
           <span>{index + 1}.</span>"{identifier}"
         </Title>
-        <RemoveInteriorButton type="button">remove interior</RemoveInteriorButton>
+        {canRemove && <RemoveInteriorButton type="button">remove interior</RemoveInteriorButton>}
       </Header>
       <Content>
         <div>
@@ -25,17 +26,14 @@ export const Interior = ({ index, identifier, mapDataFilePath, mapTypesFilePath 
             <tr>
               <th>Type</th>
               <th>Path</th>
-              <th>Action</th>
             </tr>
             <tr>
               <td>#map</td>
               <td>{mapDataFilePath}</td>
-              <td></td>
             </tr>
             <tr>
               <td>#typ</td>
-              <td>{mapDataFilePath}</td>
-              <td></td>
+              <td>{mapTypesFilePath}</td>
             </tr>
           </Table>
         </div>

@@ -30,6 +30,7 @@ export class ProjectManager {
 
     ipcMain.handle(ProjectAPI.CREATE_PROJECT, this.createProject.bind(this));
     ipcMain.handle(ProjectAPI.GET_CURRENT_PROJECT, this.getCurrentProject.bind(this));
+    ipcMain.handle(ProjectAPI.CLOSE_PROJECT, this.closeProject.bind(this));
     ipcMain.handle(ProjectAPI.SELECT_MAP_DATA_FILE, this.selectMapDataFile.bind(this));
     ipcMain.handle(ProjectAPI.SELECT_MAP_TYPES_FILE, this.selectMapTypesFile.bind(this));
   }
@@ -119,6 +120,12 @@ export class ProjectManager {
     if (isErr(result)) {
       return result;
     }
+
+    return ok(true);
+  }
+
+  public closeProject(): Result<string, boolean> {
+    this.currentProject = undefined;
 
     return ok(true);
   }

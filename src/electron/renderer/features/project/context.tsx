@@ -14,6 +14,8 @@ interface IProjectProvider {
 interface IProjectContext {
   state: ProjectState;
   fetchProject: () => Promise<void>;
+  createProject: () => Promise<void>;
+  closeProject: () => Promise<void>;
 
   createModalState: CreateProjectModalState;
   setCreateModalOpen: (open: boolean) => void;
@@ -54,6 +56,38 @@ const useProjectProvider = (): IProjectContext => {
     setState(project);
   };
 
+  const createProject = async (): Promise<void> => {
+    const { name, path, interior, mapDataFilePath, mapTypesFilePath } = createModalState;
+
+    const result: Result<string, SerializedProject> = await API.invoke(ProjectAPI.CREATE_PROJECT, {
+      name,
+      path,
+      interior: {
+        name: interior,
+        mapDataFilePath,
+        mapTypesFilePath,
+      },
+    });
+
+    if (isErr(result)) {
+      return console.warn(unwrapResult(result));
+    }
+
+    await fetchProject();
+
+    setCreateModalState(state => createModalinitialState);
+  };
+
+  const closeProject = async (): Promise<void> => {
+    const result: Result<string, boolean> = await API.invoke(ProjectAPI.CLOSE_PROJECT);
+
+    if (isErr(result)) {
+      return console.warn(unwrapResult(result));
+    }
+
+    setState(undefined);
+  };
+
   const setCreateModalOpen = (open: boolean): void => {
     setCreateModalState(state => ({ ...state, open }));
   };
@@ -77,6 +111,8 @@ const useProjectProvider = (): IProjectContext => {
   return {
     state,
     fetchProject,
+    createProject,
+    closeProject,
 
     createModalState,
     setCreateModalOpen,

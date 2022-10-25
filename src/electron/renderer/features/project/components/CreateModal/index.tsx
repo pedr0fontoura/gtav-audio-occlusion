@@ -31,7 +31,7 @@ const { API } = window;
 
 export const CreateModal = () => {
   const {
-    fetchProject,
+    createProject,
     createModalState: state,
     setCreateModalOpen,
     setCreateModalName,
@@ -58,28 +58,6 @@ export const CreateModal = () => {
     }
 
     setCreateModalMapTypesFile(unwrapResult(result));
-  };
-
-  const createProject = async (): Promise<void> => {
-    const { name, path, interior, mapDataFilePath, mapTypesFilePath } = state;
-
-    const result: Result<string, SerializedProject> = await API.invoke(ProjectAPI.CREATE_PROJECT, {
-      name,
-      path,
-      interior: {
-        name: interior,
-        mapDataFilePath,
-        mapTypesFilePath,
-      },
-    });
-
-    if (isErr(result)) {
-      return console.warn(unwrapResult(result));
-    }
-
-    await fetchProject();
-
-    setCreateModalOpen(false);
   };
 
   return (
