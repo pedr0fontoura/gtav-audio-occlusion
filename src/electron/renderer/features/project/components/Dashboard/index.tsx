@@ -28,13 +28,16 @@ export const Dashboard = () => {
             <Header>
               <HeaderLeft>
                 <ProjectTitle>
-                  "{state.name}"<span>{state.interiors.length} Maps added</span>
+                  "{state.name}"
+                  <span>
+                    {state.interiors.length} {state.interiors.length > 1 ? 'Interiors' : 'Interior'} added
+                  </span>
                 </ProjectTitle>
               </HeaderLeft>
               <HeaderRight>
                 <AddMapButton>
                   <FaPlusCircle />
-                  Add map
+                  Add interior
                 </AddMapButton>
               </HeaderRight>
             </Header>
