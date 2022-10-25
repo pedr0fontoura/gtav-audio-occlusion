@@ -1,12 +1,20 @@
 import React, { createContext, useState, useContext } from 'react';
 
-import { CreateProjectModalState } from './types';
+import { isErr, isOk, unwrapResult } from '@/electron/common';
+
+import { ProjectAPI } from '@/electron/common/types/project';
+import type { SerializedProject } from '@/electron/common/types/project';
+
+import { ProjectState, CreateProjectModalState } from './types';
 
 interface IProjectProvider {
   children: React.ReactNode;
 }
 
 interface IProjectContext {
+  state: ProjectState;
+  fetchProject: () => Promise<void>;
+
   createModalState: CreateProjectModalState;
   setCreateModalOpen: (open: boolean) => void;
   setCreateModalName: (name: string) => void;
@@ -15,19 +23,36 @@ interface IProjectContext {
   setCreateModalMapTypesFile: (mapTypesFile: string) => void;
 }
 
+const { API } = window;
+
 const createModalinitialState: CreateProjectModalState = {
   open: false,
   name: '',
   path: '',
   interior: '',
-  mapDataFile: 'C:/User/Documents/filename.ymap.xml',
-  mapTypesFile: 'C:/User/Documents/filename.ytyp.xml',
+  mapDataFilePath: 'C:/User/Documents/filename.ymap.xml',
+  mapTypesFilePath: 'C:/User/Documents/filename.ytyp.xml',
 };
 
 const projectContext = createContext<IProjectContext>({} as IProjectContext);
 
 const useProjectProvider = (): IProjectContext => {
+  const [state, setState] = useState<ProjectState>();
   const [createModalState, setCreateModalState] = useState<CreateProjectModalState>(createModalinitialState);
+
+  const fetchProject = async (): Promise<void> => {
+    const result: Result<string, SerializedProject | undefined> = await API.invoke(ProjectAPI.GET_CURRENT_PROJECT);
+
+    if (isErr(result)) {
+      return console.warn(unwrapResult(result));
+    }
+
+    const project = unwrapResult(result);
+
+    if (!project) return;
+
+    setState(project);
+  };
 
   const setCreateModalOpen = (open: boolean): void => {
     setCreateModalState(state => ({ ...state, open }));
@@ -41,15 +66,18 @@ const useProjectProvider = (): IProjectContext => {
     setCreateModalState(state => ({ ...state, interior }));
   };
 
-  const setCreateModalMapDataFile = (mapDataFile: string): void => {
-    setCreateModalState(state => ({ ...state, mapDataFile }));
+  const setCreateModalMapDataFile = (mapDataFilePath: string): void => {
+    setCreateModalState(state => ({ ...state, mapDataFilePath }));
   };
 
-  const setCreateModalMapTypesFile = (mapTypesFile: string): void => {
-    setCreateModalState(state => ({ ...state, mapTypesFile }));
+  const setCreateModalMapTypesFile = (mapTypesFilePath: string): void => {
+    setCreateModalState(state => ({ ...state, mapTypesFilePath }));
   };
 
   return {
+    state,
+    fetchProject,
+
     createModalState,
     setCreateModalOpen,
     setCreateModalName,
