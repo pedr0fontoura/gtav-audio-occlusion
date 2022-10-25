@@ -1,12 +1,12 @@
+import { SerializedProject } from '@/electron/common/types/project';
+
+export type ProjectState = SerializedProject;
+
 export type CreateProjectModalState = {
   open: boolean;
   name: string;
   path: string;
   interior: string;
-  mapDataFile: string;
-  mapTypesFile: string;
-};
-
-export type ProjectState = {
-  modalState: CreateProjectModalState;
+  mapDataFilePath: string;
+  mapTypesFilePath: string;
 };

@@ -6,6 +6,7 @@ import { GlobalStyle } from './styles/global';
 
 import Sidebar from './components/Sidebar';
 
+import { AppProvider } from './hooks';
 import { ApplicationRoutes } from './routes';
 
 const Container = styled.div`
@@ -30,7 +31,7 @@ const HorizontalContainer = styled.div`
 
 export const App = () => {
   return (
-    <>
+    <AppProvider>
       <GlobalStyle />
       <Container>
         <Router>
@@ -40,6 +41,6 @@ export const App = () => {
           </HorizontalContainer>
         </Router>
       </Container>
-    </>
+    </AppProvider>
   );
 };

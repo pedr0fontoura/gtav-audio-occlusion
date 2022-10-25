@@ -2,7 +2,9 @@ import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 
 import { isErr, isOk, unwrapResult } from '@/electron/common';
+
 import { ProjectAPI } from '@/electron/common/types/project';
+import type { SerializedProject } from '@/electron/common/types/project';
 
 import { useProject } from '../../context';
 
@@ -29,6 +31,7 @@ const { API } = window;
 
 export const CreateModal = () => {
   const {
+    fetchProject,
     createModalState: state,
     setCreateModalOpen,
     setCreateModalName,
@@ -55,6 +58,28 @@ export const CreateModal = () => {
     }
 
     setCreateModalMapTypesFile(unwrapResult(result));
+  };
+
+  const createProject = async (): Promise<void> => {
+    const { name, path, interior, mapDataFilePath, mapTypesFilePath } = state;
+
+    const result: Result<string, SerializedProject> = await API.invoke(ProjectAPI.CREATE_PROJECT, {
+      name,
+      path,
+      interior: {
+        name: interior,
+        mapDataFilePath,
+        mapTypesFilePath,
+      },
+    });
+
+    if (isErr(result)) {
+      return console.warn(unwrapResult(result));
+    }
+
+    await fetchProject();
+
+    setCreateModalOpen(false);
   };
 
   return (
@@ -98,7 +123,7 @@ export const CreateModal = () => {
                 <label>#map path:</label>
                 <Input>
                   <FileInput>
-                    <FilePath>{state.mapDataFile}</FilePath>
+                    <FilePath>{state.mapDataFilePath}</FilePath>
                     <SelectFileButton type="button" onClick={selectMapData}>
                       Select file
                     </SelectFileButton>
@@ -109,7 +134,7 @@ export const CreateModal = () => {
                 <label>#typ path:</label>
                 <Input>
                   <FileInput>
-                    <FilePath>{state.mapTypesFile}</FilePath>
+                    <FilePath>{state.mapTypesFilePath}</FilePath>
                     <SelectFileButton type="button" onClick={selectMapTypes}>
                       Select file
                     </SelectFileButton>
@@ -117,7 +142,9 @@ export const CreateModal = () => {
                 </Input>
               </Entry>
             </Group>
-            <CreateButton type="button">Create project</CreateButton>
+            <CreateButton type="button" onClick={createProject}>
+              Create project
+            </CreateButton>
           </Form>
         </Content>
       </Portal>
