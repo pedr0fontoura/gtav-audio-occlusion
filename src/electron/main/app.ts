@@ -1,4 +1,6 @@
-import { BrowserWindow, app } from 'electron';
+import { BrowserWindow } from 'electron';
+
+import { CodeWalkerFormat } from '@/core/formats/codewalker';
 
 import { ProjectManager } from './project-manager';
 
@@ -7,6 +9,8 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 export class Application {
   private mainWindow: BrowserWindow;
+
+  public codeWalkerFormat: CodeWalkerFormat;
 
   public projectManager: ProjectManager;
 
@@ -17,7 +21,9 @@ export class Application {
       return;
     }
 
-    this.projectManager = new ProjectManager();
+    this.codeWalkerFormat = new CodeWalkerFormat();
+
+    this.projectManager = new ProjectManager(this.codeWalkerFormat);
 
     this.mainWindow = new BrowserWindow({
       height: 700,
