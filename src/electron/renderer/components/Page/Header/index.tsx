@@ -10,8 +10,8 @@ type Option = {
 
 type HeaderProps = {
   title: string;
-  optionalText: string;
-  options: Option[];
+  optionalText?: string;
+  options?: Option[];
 };
 
 export const Header = ({ title, optionalText, options }: HeaderProps) => {
@@ -24,12 +24,13 @@ export const Header = ({ title, optionalText, options }: HeaderProps) => {
         </Title>
       </Left>
       <Right>
-        {options.map(option => (
-          <Button type="button" onClick={option.onClick}>
-            {option.icon}
-            {option.label}
-          </Button>
-        ))}
+        {options &&
+          options.map(option => (
+            <Button type="button" onClick={option.onClick}>
+              {option.icon}
+              {option.label}
+            </Button>
+          ))}
       </Right>
     </Container>
   );

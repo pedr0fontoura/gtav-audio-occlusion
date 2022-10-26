@@ -14,6 +14,13 @@ export const Container = styled.div`
   padding: 16px;
 `;
 
+export const Content = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+`;
+
 export const Title = styled.h1`
   margin-bottom: 8px;
 `;

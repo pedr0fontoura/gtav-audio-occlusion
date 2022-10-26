@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-import { Container, Header } from '../../../../components/Page';
+import { Container, Header, Content } from '../../../../components/Page';
 
 import { useProject } from '../../context';
 
@@ -10,7 +10,7 @@ import { ProjectFileImporter } from '../ProjectFileImporter';
 
 import { Interior } from './components/Interior';
 
-import { Content, Interiors } from './styles';
+import { Interiors } from './styles';
 
 export const Dashboard = () => {
   const { state, fetchProject, closeProject } = useProject();
@@ -50,8 +50,8 @@ export const Dashboard = () => {
     <>
       <CreateModal />
       <Container>
+        <Header title={headerTitle} optionalText={headerOptionalTitle} options={options} />
         <Content>
-          <Header title={headerTitle} optionalText={headerOptionalTitle} options={options} />
           <Interiors>
             {state.interiors.map((interior, index) => (
               <Interior
