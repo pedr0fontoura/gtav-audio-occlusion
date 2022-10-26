@@ -1,41 +1,35 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { FaHome, FaDoorOpen, FaShareAlt, FaCubes, FaProjectDiagram, FaWrench } from 'react-icons/fa';
+
+import { getActiveRoutes, RouteSidebarPosition } from '../../routes';
 
 import { Container, TopSection, BottomSection, SectionLink } from './styles';
 
 const Sidebar = () => {
   const { pathname } = useLocation();
 
+  const routes = getActiveRoutes();
+
+  const topRoutes = routes.filter(route => route.sidebarPosition === RouteSidebarPosition.Top);
+  const bottomRoutes = routes.filter(route => route.sidebarPosition === RouteSidebarPosition.Bottom);
+
   return (
     <Container>
       <TopSection>
-        <SectionLink to="/" current={pathname}>
-          <FaHome size={18} />
-          Home
-        </SectionLink>
-        <SectionLink to="/portals" current={pathname}>
-          <FaDoorOpen size={18} />
-          Portals
-        </SectionLink>
-        <SectionLink to="/#" current={pathname}>
-          <FaCubes size={18} />
-          Entities
-        </SectionLink>
-        <SectionLink to="/#" current={pathname}>
-          <FaShareAlt size={18} />
-          Nodes
-        </SectionLink>
-        <SectionLink to="/#" current={pathname}>
-          <FaProjectDiagram size={18} />
-          Rooms
-        </SectionLink>
+        {topRoutes.map(route => (
+          <SectionLink to={route.path} current={pathname}>
+            <route.icon size={18} />
+            {route.label}
+          </SectionLink>
+        ))}
       </TopSection>
       <BottomSection>
-        <SectionLink to="/#" current={pathname}>
-          <FaWrench size={18} />
-          Settings
-        </SectionLink>
+        {bottomRoutes.map(route => (
+          <SectionLink to={route.path} current={pathname}>
+            <route.icon size={18} />
+            {route.label}
+          </SectionLink>
+        ))}
       </BottomSection>
     </Container>
   );
