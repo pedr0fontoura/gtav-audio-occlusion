@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
-import { FaPlusCircle, FaTimes } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 
-import { Container } from '../../../../components/Screen';
+import { Container, Header } from '../../../../components/Page';
 
 import { useProject } from '../../context';
 
@@ -10,7 +10,7 @@ import { ProjectFileImporter } from '../ProjectFileImporter';
 
 import { Interior } from './components/Interior';
 
-import { Content, Header, HeaderLeft, ProjectTitle, HeaderRight, Button, Interiors } from './styles';
+import { Content, Interiors } from './styles';
 
 export const Dashboard = () => {
   const { state, fetchProject, closeProject } = useProject();
@@ -18,7 +18,7 @@ export const Dashboard = () => {
   const options = useMemo(
     () => [
       {
-        icon: FaTimes,
+        icon: <FaTimes />,
         label: 'Close project',
         onClick: closeProject,
       },
@@ -30,45 +30,41 @@ export const Dashboard = () => {
     fetchProject();
   }, []);
 
+  if (!state) {
+    return (
+      <>
+        <CreateModal />
+        <Container>
+          <ProjectFileImporter />
+        </Container>
+      </>
+    );
+  }
+
+  const headerTitle = `"${state.name}"`;
+  const headerOptionalTitle = `${state.interiors.length} ${
+    state.interiors.length > 1 ? 'Interiors' : 'Interior'
+  } added`;
+
   return (
     <>
       <CreateModal />
       <Container>
-        {state && (
-          <Content>
-            <Header>
-              <HeaderLeft>
-                <ProjectTitle>
-                  "{state.name}"
-                  <span>
-                    {state.interiors.length} {state.interiors.length > 1 ? 'Interiors' : 'Interior'} added
-                  </span>
-                </ProjectTitle>
-              </HeaderLeft>
-              <HeaderRight>
-                {options.map(option => (
-                  <Button type="button" onClick={option.onClick}>
-                    {option.icon && <option.icon />}
-                    {option.label}
-                  </Button>
-                ))}
-              </HeaderRight>
-            </Header>
-            <Interiors>
-              {state.interiors.map((interior, index) => (
-                <Interior
-                  key={interior.identifier}
-                  index={index}
-                  identifier={interior.identifier}
-                  mapDataFilePath={interior.mapDataFilePath}
-                  mapTypesFilePath={interior.mapTypesFilePath}
-                  canRemove={state.interiors.length > 1}
-                />
-              ))}
-            </Interiors>
-          </Content>
-        )}
-        {!state && <ProjectFileImporter />}
+        <Content>
+          <Header title={headerTitle} optionalText={headerOptionalTitle} options={options} />
+          <Interiors>
+            {state.interiors.map((interior, index) => (
+              <Interior
+                key={interior.identifier}
+                index={index}
+                identifier={interior.identifier}
+                mapDataFilePath={interior.mapDataFilePath}
+                mapTypesFilePath={interior.mapTypesFilePath}
+                canRemove={state.interiors.length > 1}
+              />
+            ))}
+          </Interiors>
+        </Content>
       </Container>
     </>
   );
