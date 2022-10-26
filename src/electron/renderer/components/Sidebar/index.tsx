@@ -14,7 +14,7 @@ const Sidebar = () => {
           <FaHome size={18} />
           Home
         </SectionLink>
-        <SectionLink to="/#" current={pathname}>
+        <SectionLink to="/portals" current={pathname}>
           <FaDoorOpen size={18} />
           Portals
         </SectionLink>
