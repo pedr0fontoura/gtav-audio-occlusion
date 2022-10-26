@@ -4,8 +4,7 @@ import fs from 'fs/promises';
 import { CodeWalkerFormat } from '../src/core/formats/codewalker';
 import type { XML } from '../src/core/types';
 import { naOcclusionInteriorMetadata } from '../src/core/game/audio';
-import { isCMloArchetypeDef, isCMloInstanceDef } from '../src/core/game';
-import { convertToInt32 } from '../src/core/utils';
+import { getCMloInstanceDef } from '../src/core/game';
 
 import { createNaOcclusionInteriorMetadata } from '../src/core';
 
@@ -37,18 +36,7 @@ describe('Interior audio occlusion', () => {
     const mapData = codeWalkerFormat.parseCMapData(rawMapData);
     const mapTypes = codeWalkerFormat.parseCMapTypes(rawMapTypes);
 
-    const archetype = mapTypes.archetypes.find(isCMloArchetypeDef);
-
-    if (!archetype) {
-      throw new Error(`Couldn't find a CMloArchetypeDef`);
-    }
-
-    const instance = mapData.entities.find(isCMloInstanceDef);
-    if (!instance) {
-      throw new Error(`Couldn't find a CMloInstanceDef`);
-    }
-
-    instance.setArchetypeDef(archetype);
+    const instance = getCMloInstanceDef(mapData, mapTypes);
 
     interiorMetadata = createNaOcclusionInteriorMetadata(instance);
   });

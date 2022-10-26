@@ -10,7 +10,7 @@ import { isXMLFilePath, isMapDataFilePath, isMapTypesFilePath } from '@/electron
 
 import { CodeWalkerFormat } from '@/core/formats/codewalker';
 import { Ymap, Ytyp } from '@/core/types/xml';
-import { isCMloInstanceDef } from '@/core/game';
+import { getCMloInstanceDef } from '@/core/game';
 
 import { Project } from './project';
 
@@ -92,7 +92,8 @@ export class ProjectManager {
 
     const mapData = this.codeWalkerFormat.parseCMapData(mapDataFile);
     const mapTypes = this.codeWalkerFormat.parseCMapTypes(mapTypesFile);
-    const mloInstance = mapData.entities.find(isCMloInstanceDef);
+
+    const mloInstance = getCMloInstanceDef(mapData, mapTypes);
 
     if (!mloInstance) {
       return err('C_MLO_INSTANCE_DEF_NOT_FOUND');
