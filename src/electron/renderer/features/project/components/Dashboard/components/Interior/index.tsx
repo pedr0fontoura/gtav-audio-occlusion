@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Container, Header, Title, RemoveInteriorButton, Content, Table } from './styles';
+import { Container, Header, Title, RemoveInteriorButton, Content } from './styles';
+
+import { Table } from '@/electron/renderer/components/Table';
 
 type InteriorProps = {
   index: number;
