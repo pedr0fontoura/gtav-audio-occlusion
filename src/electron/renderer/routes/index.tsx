@@ -1,9 +1,10 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { FaHome, FaDoorOpen, FaShareAlt, FaCubes, FaProjectDiagram, FaWrench } from 'react-icons/fa';
+import { FaHome, FaDoorOpen, FaCubes, FaShareAlt, FaProjectDiagram, FaWrench } from 'react-icons/fa';
 
 import { Dashboard as ProjectDashboard } from '../features/project';
 import { Portals } from '../features/portals';
+import { Entities } from '../features/entities';
 
 export enum RouteSidebarPosition {
   Top,
@@ -30,15 +31,15 @@ const ROUTES_CONFIG = [
   {
     path: '/entities',
     label: 'Entities',
-    icon: FaShareAlt,
-    element: null,
-    active: false,
+    icon: FaCubes,
+    element: <Entities />,
+    active: true,
     sidebarPosition: RouteSidebarPosition.Top,
   },
   {
     path: '/nodes',
     label: 'Nodes',
-    icon: FaCubes,
+    icon: FaShareAlt,
     element: null,
     active: false,
     sidebarPosition: RouteSidebarPosition.Top,

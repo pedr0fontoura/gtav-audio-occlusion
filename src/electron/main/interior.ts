@@ -54,6 +54,14 @@ export class Interior {
           roomIdx: portalInfo.roomIdx,
           destInteriorHash: portalInfo.destInteriorHash,
           destRoomIdx: portalInfo.destRoomIdx,
+          portalEntityList: portalInfo.portalEntityList.map(portalEntity => ({
+            entityModelName: portalEntity.entity.archetypeName,
+            entityModelHashKey: portalEntity.entityModelHashKey,
+            linkType: portalEntity.linkType,
+            maxOcclusion: portalEntity.maxOcclusion,
+            isDoor: portalEntity.isDoor,
+            isGlass: portalEntity.isGlass,
+          })),
         })),
       },
     };
