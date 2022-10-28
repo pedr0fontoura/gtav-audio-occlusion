@@ -17,7 +17,7 @@ const Sidebar = () => {
     <Container>
       <TopSection>
         {topRoutes.map(route => (
-          <SectionLink to={route.path} current={pathname}>
+          <SectionLink key={route.path} to={route.path} current={pathname}>
             <route.icon size={18} />
             {route.label}
           </SectionLink>
@@ -25,7 +25,7 @@ const Sidebar = () => {
       </TopSection>
       <BottomSection>
         {bottomRoutes.map(route => (
-          <SectionLink to={route.path} current={pathname}>
+          <SectionLink key={route.path} to={route.path} current={pathname}>
             <route.icon size={18} />
             {route.label}
           </SectionLink>
