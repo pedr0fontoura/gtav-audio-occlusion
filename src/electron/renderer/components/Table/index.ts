@@ -1,7 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { lighten } from 'polished';
 
-export const Table = styled.table`
+type TableProps = {
+  alternatedRowColors?: boolean;
+};
+
+export const Table = styled.table<TableProps>`
   width: 100%;
 
   border-collapse: collapse;
@@ -43,12 +47,6 @@ export const Table = styled.table`
   }
 
   tr {
-    &:nth-child(2n - 1) {
-      td {
-        background: ${({ theme }) => lighten(0.01, theme.colors.gray[900])};
-      }
-    }
-
     &:nth-last-child(1) {
       td {
         &:nth-child(1) {
@@ -59,6 +57,22 @@ export const Table = styled.table`
           border-radius: 0 0 8px 0;
         }
       }
+    }
+
+    ${({ alternatedRowColors = true }) =>
+      alternatedRowColors &&
+      css`
+        &:nth-child(odd) {
+          td {
+            background: ${({ theme }) => lighten(0.01, theme.colors.gray[900])};
+          }
+        }
+      `}
+  }
+
+  tr.odd {
+    td {
+      background: ${({ theme }) => lighten(0.01, theme.colors.gray[900])};
     }
   }
 `;
