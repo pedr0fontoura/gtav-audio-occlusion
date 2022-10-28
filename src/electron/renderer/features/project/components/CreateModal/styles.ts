@@ -162,8 +162,14 @@ export const FileInput = styled.div`
 `;
 
 export const FilePath = styled.p`
+  width: 80%;
+
   font-size: 0.9em;
   color: white;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const SelectFileButton = styled.button`
