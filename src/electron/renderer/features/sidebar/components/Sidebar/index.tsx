@@ -1,11 +1,11 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { getActiveRoutes, RouteSidebarPosition } from '../../routes';
+import { getActiveRoutes, RouteSidebarPosition } from '../../../../routes';
 
 import { Container, TopSection, BottomSection, SectionLink } from './styles';
 
-const Sidebar = () => {
+export const Sidebar = () => {
   const { pathname } = useLocation();
 
   const routes = getActiveRoutes();
@@ -34,5 +34,3 @@ const Sidebar = () => {
     </Container>
   );
 };
-
-export default Sidebar;

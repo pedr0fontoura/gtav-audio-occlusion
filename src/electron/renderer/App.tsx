@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { GlobalStyle } from './styles/global';
 
-import Sidebar from './components/Sidebar';
+import { Sidebar } from './features/sidebar';
 
 import { AppProvider } from './hooks';
 import { ApplicationRoutes } from './routes';
