@@ -3,6 +3,7 @@ import React from 'react';
 import { SerializedNaOcclusionPortalInfoMetadata } from '@/electron/common/types/naOcclusionInteriorMetadata';
 
 import { Table } from '@/electron/renderer/components/Table';
+import { Checkbox } from '@/electron/renderer/components/Checkbox';
 
 import { Container, Content } from './styles';
 
@@ -27,7 +28,7 @@ export const PortalInfoEntityList = ({ data }: PortalInfoEntityListProps) => {
       const rowSpan = portalEntityList.length;
 
       portalEntityList.forEach((portalEntity, portalEntityIndex) => {
-        const { linkType, maxOcclusion, entityModelName, entityModelHashKey, isDoor, isGlass } = portalEntity;
+        const { maxOcclusion, entityModelName, entityModelHashKey, isDoor, isGlass } = portalEntity;
 
         const isFirstEntity = portalEntityIndex === 0;
 
@@ -36,8 +37,8 @@ export const PortalInfoEntityList = ({ data }: PortalInfoEntityListProps) => {
             {isFirstEntity && <td rowSpan={rowSpan}>{portalInfoIndex}</td>}
             <td>{entityModelName ?? entityModelHashKey}</td>
             <td>{maxOcclusion}</td>
-            <td>{isDoor.toString()}</td>
-            <td>{isGlass.toString()}</td>
+            <td>{<Checkbox checked={isDoor} />}</td>
+            <td>{<Checkbox checked={isGlass} />}</td>
           </tr>,
         );
       });
