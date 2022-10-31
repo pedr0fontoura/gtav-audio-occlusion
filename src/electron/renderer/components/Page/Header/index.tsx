@@ -25,8 +25,8 @@ export const Header = ({ title, optionalText, options }: HeaderProps) => {
       </Left>
       <Right>
         {options &&
-          options.map(option => (
-            <Button type="button" onClick={option.onClick}>
+          options.map((option, index) => (
+            <Button key={index} type="button" onClick={option.onClick}>
               {option.icon}
               {option.label}
             </Button>

@@ -27,7 +27,7 @@ export const Portals = () => {
           const { portalInfoList } = naOcclusionInteriorMetadata;
 
           return (
-            <Interior index={index} name={identifier}>
+            <Interior key={identifier} index={index} name={identifier}>
               <Content>
                 <PortalInfoList data={portalInfoList} />
               </Content>

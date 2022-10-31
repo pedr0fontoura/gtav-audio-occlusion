@@ -1,10 +1,9 @@
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-import { isErr, isOk, unwrapResult } from '@/electron/common';
+import { isErr, unwrapResult } from '@/electron/common';
 
 import { ProjectAPI } from '@/electron/common/types/project';
-import type { SerializedProject } from '@/electron/common/types/project';
 
 import { useProject } from '../../context';
 

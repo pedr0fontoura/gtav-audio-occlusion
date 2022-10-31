@@ -25,33 +25,41 @@ export const Interior = ({ index, identifier, mapDataFilePath, mapTypesFilePath,
         <div>
           <h3>Source</h3>
           <Table>
-            <tr>
-              <th>Type</th>
-              <th>Path</th>
-            </tr>
-            <tr>
-              <td>#map</td>
-              <td>{mapDataFilePath}</td>
-            </tr>
-            <tr>
-              <td>#typ</td>
-              <td>{mapTypesFilePath}</td>
-            </tr>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Path</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#map</td>
+                <td>{mapDataFilePath}</td>
+              </tr>
+              <tr>
+                <td>#typ</td>
+                <td>{mapTypesFilePath}</td>
+              </tr>
+            </tbody>
           </Table>
         </div>
         <div>
           <h3>Generated</h3>
           <Table>
-            <tr>
-              <th>Type</th>
-              <th>Path</th>
-              <th>Action</th>
-            </tr>
-            <tr>
-              <td>naOcclusionInteriorMetadata</td>
-              <td>C:/User/Documents/filename.ymap.xml</td>
-              <td></td>
-            </tr>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Path</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>naOcclusionInteriorMetadata</td>
+                <td>C:/User/Documents/filename.ymap.xml</td>
+                <td></td>
+              </tr>
+            </tbody>
           </Table>
         </div>
       </Content>
