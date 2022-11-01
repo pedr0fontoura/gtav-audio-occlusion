@@ -15,22 +15,26 @@ export const PortalInfoList = ({ data }: PortalInfoListProps) => {
     <Container>
       <Content>
         <Table>
-          <tr>
-            <th>Index</th>
-            <th>Room from</th>
-            <th>Room to</th>
-            <th>Interior from</th>
-            <th>Interior to</th>
-          </tr>
-          {data.map((portalInfo, portalInfoIndex) => (
+          <thead>
             <tr>
-              <td>{portalInfoIndex}</td>
-              <td>{portalInfo.roomIdx}</td>
-              <td>{portalInfo.destRoomIdx}</td>
-              <td>{portalInfo.interiorProxyHash}</td>
-              <td>{portalInfo.destInteriorHash}</td>
+              <th>Index</th>
+              <th>Room from</th>
+              <th>Room to</th>
+              <th>Interior from</th>
+              <th>Interior to</th>
             </tr>
-          ))}
+          </thead>
+          <tbody>
+            {data.map((portalInfo, portalInfoIndex) => (
+              <tr key={portalInfoIndex}>
+                <td>{portalInfoIndex}</td>
+                <td>{portalInfo.roomIdx}</td>
+                <td>{portalInfo.destRoomIdx}</td>
+                <td>{portalInfo.interiorProxyHash}</td>
+                <td>{portalInfo.destInteriorHash}</td>
+              </tr>
+            ))}
+          </tbody>
         </Table>
       </Content>
     </Container>
