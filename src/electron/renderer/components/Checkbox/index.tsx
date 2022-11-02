@@ -7,7 +7,7 @@ import type { RootProps } from './styles';
 export const Checkbox = ({ ...props }: RootProps) => {
   return (
     <Root {...props}>
-      <Indicator>
+      <Indicator className="checkbox-indicator">
         <FaCheck />
       </Indicator>
     </Root>

@@ -5,10 +5,6 @@ export const Root = styled(Checkbox.Root)`
   height: 24px;
   width: 24px;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   border: 2px solid ${({ theme }) => theme.colors.rose[600]};
   border-radius: 4px;
 
@@ -20,6 +16,10 @@ export const Root = styled(Checkbox.Root)`
 `;
 
 export const Indicator = styled(Checkbox.Indicator)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   color: ${({ theme }) => theme.colors.gray[900]};
 `;
 

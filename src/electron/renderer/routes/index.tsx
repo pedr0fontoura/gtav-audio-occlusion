@@ -5,6 +5,7 @@ import { FaHome, FaDoorOpen, FaCubes, FaShareAlt, FaProjectDiagram, FaWrench } f
 import { Dashboard as ProjectDashboard } from '../features/project';
 import { Portals } from '../features/portals';
 import { Entities } from '../features/entities';
+import { Settings } from '../features/settings';
 
 export enum RouteSidebarPosition {
   Top,
@@ -56,7 +57,7 @@ const ROUTES_CONFIG = [
     path: '/settings',
     label: 'Settings',
     icon: FaWrench,
-    element: null,
+    element: <Settings />,
     active: true,
     sidebarPosition: RouteSidebarPosition.Bottom,
   },
@@ -64,7 +65,7 @@ const ROUTES_CONFIG = [
 
 export const getActiveRoutes = (): typeof ROUTES_CONFIG[number][] => ROUTES_CONFIG.filter(route => route.active);
 
-export const ApplicationRoutes = () => {
+export const ApplicationRoutes = (): JSX.Element => {
   const routes = getActiveRoutes();
 
   return (
