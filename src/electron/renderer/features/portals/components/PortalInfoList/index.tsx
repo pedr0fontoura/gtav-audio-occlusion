@@ -1,16 +1,20 @@
 import React from 'react';
 
-import { SerializedNaOcclusionPortalInfoMetadata } from '@/electron/common/types/naOcclusionInteriorMetadata';
-
 import { Table } from '@/electron/renderer/components/Table';
+
+import { useInterior } from '@/electron/renderer/features/interior';
 
 import { Container, Content } from './styles';
 
-type PortalInfoListProps = {
-  data: SerializedNaOcclusionPortalInfoMetadata[];
-};
+export const PortalInfoList = (): JSX.Element => {
+  const { interior } = useInterior();
 
-export const PortalInfoList = ({ data }: PortalInfoListProps) => {
+  if (!interior) {
+    return null;
+  }
+
+  const portalInfoList = interior.naOcclusionInteriorMetadata.portalInfoList;
+
   return (
     <Container>
       <Content>
@@ -25,7 +29,7 @@ export const PortalInfoList = ({ data }: PortalInfoListProps) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((portalInfo, portalInfoIndex) => (
+            {portalInfoList.map((portalInfo, portalInfoIndex) => (
               <tr key={portalInfoIndex}>
                 <td>{portalInfoIndex}</td>
                 <td>{portalInfo.roomIdx}</td>

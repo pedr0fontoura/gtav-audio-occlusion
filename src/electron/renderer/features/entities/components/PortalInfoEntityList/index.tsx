@@ -1,24 +1,18 @@
 import React from 'react';
 
-import { SerializedNaOcclusionPortalInfoMetadata } from '@/electron/common/types/naOcclusionInteriorMetadata';
-
 import { Table } from '@/electron/renderer/components/Table';
-
 import { Checkbox } from '@/electron/renderer/components/Checkbox';
 
-import { updatePortalEntity } from '../../../../index';
+import { useInterior } from '@/electron/renderer/features/interior';
+import { updatePortalEntity } from '@/electron/renderer/features/entities';
 
 import { Container, Content, SmallInput } from './styles';
-
-type PortalInfoEntityListProps = {
-  data: SerializedNaOcclusionPortalInfoMetadata[];
-};
 
 const MAX_OCCLUSION_MIN = 0;
 const MAX_OCCLUSION_MAX = 1;
 const MAX_OCCLUSION_STEP = 0.1;
 
-export const PortalInfoEntityList = ({ data }: PortalInfoEntityListProps) => {
+export const PortalInfoEntityList = (): JSX.Element => {
   const updateMaxOcclusion = (portalInfoIndex: number, entityIndex: number, maxOcclusion: string): void => {
     const parsedMaxOcclusion = Number(maxOcclusion);
 
@@ -35,12 +29,20 @@ export const PortalInfoEntityList = ({ data }: PortalInfoEntityListProps) => {
     updatePortalEntity(portalInfoIndex, entityIndex, { isGlass });
   };
 
+  const { interior } = useInterior();
+
+  if (!interior) {
+    return null;
+  }
+
+  const portalInfoList = interior.naOcclusionInteriorMetadata.portalInfoList;
+
   const renderEntities = (): React.ReactNode[] => {
     const rows = [];
 
     let renderedPortals = 0;
 
-    data.forEach((portalInfo, portalInfoIndex) => {
+    portalInfoList.forEach((portalInfo, portalInfoIndex) => {
       const { portalEntityList } = portalInfo;
 
       if (!portalEntityList.length) return;

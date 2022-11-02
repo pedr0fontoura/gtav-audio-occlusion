@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { Container, Content, Header } from '@/electron/renderer/components/Page';
-import { Interior } from '@/electron/renderer/components/Interior';
 
-import { useProject } from '../../../project';
+import { Interior } from '@/electron/renderer/features/interior';
+import { useProject } from '@/electron/renderer/features/project';
 
-import { PortalInfoEntityList } from './components/PortalInfoEntityList';
+import { PortalInfoEntityList } from '../PortalInfoEntityList';
 
 const HEADER_TITLE = 'Entities';
 
-export const Entities = () => {
+export const Entities = (): JSX.Element => {
   const { state } = useProject();
 
   if (!state) {
@@ -23,13 +23,12 @@ export const Entities = () => {
       <Header title={HEADER_TITLE} optionalText={headerOptionalText} />
       <Content>
         {state.interiors.map((interior, index) => {
-          const { identifier, naOcclusionInteriorMetadata } = interior;
-          const { portalInfoList } = naOcclusionInteriorMetadata;
+          const { identifier } = interior;
 
           return (
             <Interior key={identifier} index={index} name={identifier}>
               <Content>
-                <PortalInfoEntityList data={portalInfoList} />
+                <PortalInfoEntityList />
               </Content>
             </Interior>
           );
