@@ -3,6 +3,7 @@ import { BrowserWindow } from 'electron';
 import { CodeWalkerFormat } from '@/core/formats/codewalker';
 
 import { ProjectManager } from './project-manager';
+import { InteriorManager } from './interior-manager';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -13,17 +14,19 @@ export class Application {
   public codeWalkerFormat: CodeWalkerFormat;
 
   public projectManager: ProjectManager;
+  public interiorManager: InteriorManager;
 
   constructor() {}
 
-  public init() {
+  public init(): void {
     if (this.mainWindow) {
       return;
     }
 
     this.codeWalkerFormat = new CodeWalkerFormat();
 
-    this.projectManager = new ProjectManager(this.codeWalkerFormat);
+    this.projectManager = new ProjectManager(this);
+    this.interiorManager = new InteriorManager(this.projectManager);
 
     this.mainWindow = new BrowserWindow({
       height: 700,

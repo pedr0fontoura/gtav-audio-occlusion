@@ -12,3 +12,7 @@ export type SerializedInterior = {
   mapTypesFilePath: string;
   naOcclusionInteriorMetadata: SerializedNaOcclusionInteriorMetadata;
 };
+
+export enum InteriorAPI {
+  GET_INTERIOR = 'interior/get',
+}

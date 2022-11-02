@@ -3,12 +3,11 @@ import { ipcMain, Event } from 'electron';
 import { err, isErr, ok } from '@/electron/common';
 
 import { ProjectAPI } from '@/electron/common/types/project';
-import type { CreateProjectDTO, SerializedProject } from '@/electron/common/types/project';
+import type { CreateProjectDTO } from '@/electron/common/types/project';
 import type { CreateInteriorDTO } from '@/electron/common/types/interior';
 
 import { isXMLFilePath, isMapDataFilePath, isMapTypesFilePath } from '@/electron/common/utils/files';
 
-import { CodeWalkerFormat } from '@/core/formats/codewalker';
 import { Ymap, Ytyp } from '@/core/types/xml';
 import { getCMloInstanceDef } from '@/core/game';
 
@@ -16,31 +15,29 @@ import { Project } from './project';
 
 import { selectFiles } from './files';
 import { Interior } from './interior';
+import { Application } from './app';
+import { forwardSerializedResult } from './utils';
 
 const MAP_DATA_FILE_FILTERS = [{ name: '#map files', extensions: ['ymap.xml'] }];
 const MAP_TYPES_FILE_FILTERS = [{ name: '#typ files', extensions: ['ytyp.xml'] }];
 
 export class ProjectManager {
-  private codeWalkerFormat: CodeWalkerFormat;
+  private application: Application;
 
   public currentProject: Project | undefined;
 
-  constructor(codeWalkerFormat: CodeWalkerFormat) {
-    this.codeWalkerFormat = codeWalkerFormat;
+  constructor(application: Application) {
+    this.application = application;
 
     ipcMain.handle(ProjectAPI.CREATE_PROJECT, this.createProject.bind(this));
-    ipcMain.handle(ProjectAPI.GET_CURRENT_PROJECT, this.getCurrentProject.bind(this));
+    ipcMain.handle(ProjectAPI.GET_CURRENT_PROJECT, () => forwardSerializedResult(this.getCurrentProject()));
     ipcMain.handle(ProjectAPI.CLOSE_PROJECT, this.closeProject.bind(this));
     ipcMain.handle(ProjectAPI.SELECT_MAP_DATA_FILE, this.selectMapDataFile.bind(this));
     ipcMain.handle(ProjectAPI.SELECT_MAP_TYPES_FILE, this.selectMapTypesFile.bind(this));
   }
 
-  public getCurrentProject(): Result<string, SerializedProject | undefined> {
-    if (!this.currentProject) {
-      return ok(undefined);
-    }
-
-    return ok(this.currentProject.serialize());
+  public getCurrentProject(): Result<string, Project> {
+    return ok(this.currentProject);
   }
 
   public async selectMapDataFile(): Promise<Result<string, string>> {
@@ -79,19 +76,19 @@ export class ProjectManager {
     let mapTypesFile: Ytyp;
 
     try {
-      mapDataFile = await this.codeWalkerFormat.readFile<Ymap>(mapDataFilePath);
+      mapDataFile = await this.application.codeWalkerFormat.readFile<Ymap>(mapDataFilePath);
     } catch {
       return err('FAILED_READING_#MAP_FILE');
     }
 
     try {
-      mapTypesFile = await this.codeWalkerFormat.readFile<Ytyp>(mapTypesFilePath);
+      mapTypesFile = await this.application.codeWalkerFormat.readFile<Ytyp>(mapTypesFilePath);
     } catch {
       return err('FAILED_READING_#TYP_FILE');
     }
 
-    const mapData = this.codeWalkerFormat.parseCMapData(mapDataFile);
-    const mapTypes = this.codeWalkerFormat.parseCMapTypes(mapTypesFile);
+    const mapData = this.application.codeWalkerFormat.parseCMapData(mapDataFile);
+    const mapTypes = this.application.codeWalkerFormat.parseCMapTypes(mapTypesFile);
 
     const mloInstance = getCMloInstanceDef(mapData, mapTypes);
 
