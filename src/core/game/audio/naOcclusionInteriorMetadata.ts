@@ -10,7 +10,6 @@ import { naOcclusionPortalInfoMetadata } from './naOcclusionPortalInfoMetadata';
 import { naOcclusionPathNodeMetadata } from './naOcclusionPathNodeMetadata';
 
 import { findPathNode, addPathNodeToList, hasPathAlreadyBeenFound } from './utils';
-import { naOcclusionPathNodeChildMetadata } from './naOcclusionPathNodeChildMetadata';
 
 type naOcclusionInteriorMetadataConstructor = {
   interior: CMloInstanceDef;
@@ -54,7 +53,7 @@ export class naOcclusionInteriorMetadata {
   public getPortalInfoList(): naOcclusionPortalInfoMetadata[] {
     const { archetype } = this.interior;
 
-    let portalInfoList: naOcclusionPortalInfoMetadata[] = [];
+    const portalInfoList: naOcclusionPortalInfoMetadata[] = [];
 
     archetype.rooms.forEach((room, roomIndex) => {
       const roomPortals = archetype.getRoomPortals(roomIndex);

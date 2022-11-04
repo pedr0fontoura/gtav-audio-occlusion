@@ -1,5 +1,7 @@
 import { Node } from '../../classes/node';
 
+import { CMloRoomDef } from '../CMloRoomDef';
+
 import { naOcclusionPathNodeMetadata } from './naOcclusionPathNodeMetadata';
 
 export const findPathNode = (
@@ -33,3 +35,6 @@ export const hasPathAlreadyBeenFound = (
       pathNode.nodeFrom.index === nodeFrom.index && pathNode.nodeTo.index === nodeTo.index && pathNode.pathType === 3,
   );
 };
+
+export const getInteriorRoomName = (interiorName: string, cMloRoomDef: CMloRoomDef): string =>
+  `${interiorName}_${cMloRoomDef.name}`;
