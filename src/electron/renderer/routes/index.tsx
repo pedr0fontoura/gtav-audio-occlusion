@@ -6,6 +6,7 @@ import { Dashboard as ProjectDashboard } from '../features/project';
 import { Portals } from '../features/portals';
 import { Entities } from '../features/entities';
 import { Settings } from '../features/settings';
+import { Rooms } from '../features/rooms';
 
 export enum RouteSidebarPosition {
   Top,
@@ -49,8 +50,8 @@ const ROUTES_CONFIG = [
     path: '/rooms',
     label: 'Rooms',
     icon: FaProjectDiagram,
-    element: null,
-    active: false,
+    element: <Rooms />,
+    active: true,
     sidebarPosition: RouteSidebarPosition.Top,
   },
   {

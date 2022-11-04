@@ -1,4 +1,5 @@
 import { SerializedNaOcclusionInteriorMetadata } from './naOcclusionInteriorMetadata';
+import { SerializedInteriorAudioGameData, SerializedInteriorRoomAudioGameData } from './audioGameData';
 
 export type CreateInteriorDTO = {
   name: string;
@@ -11,6 +12,8 @@ export type SerializedInterior = {
   mapDataFilePath: string;
   mapTypesFilePath: string;
   naOcclusionInteriorMetadata: SerializedNaOcclusionInteriorMetadata;
+  interiorAudioGameData: SerializedInteriorAudioGameData;
+  interiorRoomAudioGameDataList: SerializedInteriorRoomAudioGameData[];
 };
 
 export enum InteriorAPI {

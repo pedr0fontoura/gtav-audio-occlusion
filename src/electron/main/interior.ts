@@ -1,6 +1,13 @@
 import { CMapData, CMapTypes, CMloInstanceDef } from '@/core/game';
 import { naOcclusionInteriorMetadata } from '@/core/game/audio';
-import { createNaOcclusionInteriorMetadata } from '@/core/';
+import { InteriorAudioGameData } from '@/core/game/audio/InteriorAudioGameData';
+import { InteriorRoomAudioGameData } from '@/core/game/audio/InteriorRoomAudioGameData';
+
+import {
+  createNaOcclusionInteriorMetadata,
+  createInteriorAudioGameData,
+  createInteriorRoomAudioGameDataList,
+} from '@/core';
 
 import { SerializedInterior } from '@/electron/common/types/interior';
 
@@ -23,7 +30,9 @@ export class Interior {
   public mapTypes: CMapTypes;
   public mloInstance: CMloInstanceDef;
 
-  public naOcclusionInteriorMetadata: naOcclusionInteriorMetadata | undefined;
+  public naOcclusionInteriorMetadata: naOcclusionInteriorMetadata;
+  public interiorAudioGameData: InteriorAudioGameData;
+  public interiorRoomAudioGameDataList: InteriorRoomAudioGameData[];
 
   constructor({ identifier, mapDataFilePath, mapTypesFilePath, mapData, mapTypes, mloInstance }: InteriorConstructor) {
     this.identifier = identifier;
@@ -36,10 +45,19 @@ export class Interior {
     this.mloInstance = mloInstance;
 
     this.naOcclusionInteriorMetadata = createNaOcclusionInteriorMetadata(mloInstance);
+    this.interiorAudioGameData = createInteriorAudioGameData(mloInstance);
+    this.interiorRoomAudioGameDataList = createInteriorRoomAudioGameDataList(mloInstance);
   }
 
   public serialize(): SerializedInterior {
-    const { identifier, mapDataFilePath, mapTypesFilePath, naOcclusionInteriorMetadata } = this;
+    const {
+      identifier,
+      mapDataFilePath,
+      mapTypesFilePath,
+      naOcclusionInteriorMetadata,
+      interiorAudioGameData,
+      interiorRoomAudioGameDataList,
+    } = this;
 
     const { interiorProxyHash, portalInfoList } = naOcclusionInteriorMetadata;
 
@@ -64,6 +82,8 @@ export class Interior {
           })),
         })),
       },
+      interiorAudioGameData,
+      interiorRoomAudioGameDataList,
     };
   }
 }

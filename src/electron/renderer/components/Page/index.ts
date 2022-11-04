@@ -20,6 +20,8 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
 
+  gap: 16px;
+
   padding: 0 24px 0 0;
 
   overflow-y: auto;
