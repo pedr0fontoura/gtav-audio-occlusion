@@ -11,7 +11,7 @@ export const createInteriorAudioGameData = (interior: CMloInstanceDef): Interior
   return new InteriorAudioGameData(interior.archetype);
 };
 
-export const createInteriorRoomsAudioGameData = (interior: CMloInstanceDef): InteriorRoomAudioGameData[] => {
+export const createInteriorRoomAudioGameDataList = (interior: CMloInstanceDef): InteriorRoomAudioGameData[] => {
   const { archetype } = interior;
 
   return archetype.rooms.map(room => new InteriorRoomAudioGameData(archetype, room));
