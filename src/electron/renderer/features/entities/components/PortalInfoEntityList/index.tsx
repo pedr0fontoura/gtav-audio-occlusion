@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Table } from '@/electron/renderer/components/Table';
+import { TableContainer, Table } from '@/electron/renderer/components/Table';
 import { Checkbox } from '@/electron/renderer/components/Checkbox';
 
 import { useInterior } from '@/electron/renderer/features/interior';
 import { updatePortalEntity } from '@/electron/renderer/features/entities';
 
-import { Container, Content, SmallInput } from './styles';
+import { SmallInput } from './styles';
 
 const MAX_OCCLUSION_MIN = 0;
 const MAX_OCCLUSION_MAX = 1;
@@ -91,21 +91,19 @@ export const PortalInfoEntityList = (): JSX.Element => {
   };
 
   return (
-    <Container>
-      <Content>
-        <Table alternatedRowColors={false}>
-          <thead>
-            <tr>
-              <th>Portal</th>
-              <th>Model</th>
-              <th>Max occlusion</th>
-              <th>Is door</th>
-              <th>Is glass</th>
-            </tr>
-          </thead>
-          <tbody>{renderEntities()}</tbody>
-        </Table>
-      </Content>
-    </Container>
+    <TableContainer>
+      <Table alternatedRowColors={false}>
+        <thead>
+          <tr>
+            <th>Portal</th>
+            <th>Model</th>
+            <th>Max occlusion</th>
+            <th>Is door</th>
+            <th>Is glass</th>
+          </tr>
+        </thead>
+        <tbody>{renderEntities()}</tbody>
+      </Table>
+    </TableContainer>
   );
 };

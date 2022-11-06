@@ -11,36 +11,36 @@ import { ApplicationRoutes } from './routes';
 
 const Container = styled.div`
   height: 100vh;
+  width: 100vw;
 
   display: flex;
   flex-direction: column;
   align-items: stretch;
 
   background: ${({ theme }) => theme.colors.gray[800]};
+
+  overflow: hidden;
 `;
 
 const HorizontalContainer = styled.div`
-  flex-grow: 1;
+  height: 100%;
+  width: 100%;
 
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  overflow-y: auto;
 `;
 
-export const App = () => {
+export const App = (): JSX.Element => {
   return (
     <AppProvider>
       <GlobalStyle />
-      <Container>
-        <Router>
+      <Router>
+        <Container>
           <HorizontalContainer>
             <Sidebar />
             <ApplicationRoutes />
           </HorizontalContainer>
-        </Router>
-      </Container>
+        </Container>
+      </Router>
     </AppProvider>
   );
 };

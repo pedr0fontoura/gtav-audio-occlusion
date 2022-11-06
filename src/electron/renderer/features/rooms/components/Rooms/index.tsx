@@ -27,9 +27,7 @@ export const Rooms = (): JSX.Element => {
 
           return (
             <Interior key={identifier} index={index} name={identifier}>
-              <Content>
-                <InteriorRoomAudioGameDataList />
-              </Content>
+              <InteriorRoomAudioGameDataList />
             </Interior>
           );
         })}

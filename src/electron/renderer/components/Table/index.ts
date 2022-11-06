@@ -5,6 +5,15 @@ type TableProps = {
   alternatedRowColors?: boolean;
 };
 
+export const TableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  overflow-x: auto;
+
+  border-radius: 8px;
+`;
+
 export const Table = styled.table<TableProps>`
   width: 100%;
 

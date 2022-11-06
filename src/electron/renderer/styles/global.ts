@@ -50,6 +50,7 @@ export const GlobalStyle = createGlobalStyle`
 
   html, body {
     height: 100%;
+    width: 100%;
   }
 
   body, input, button {
@@ -57,7 +58,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    
     font-size: 16px;
     color: #FFF;
   }

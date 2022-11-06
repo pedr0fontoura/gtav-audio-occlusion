@@ -27,9 +27,7 @@ export const Portals = (): JSX.Element => {
 
           return (
             <Interior key={identifier} index={index} name={identifier}>
-              <Content>
-                <PortalInfoList />
-              </Content>
+              <PortalInfoList />
             </Interior>
           );
         })}

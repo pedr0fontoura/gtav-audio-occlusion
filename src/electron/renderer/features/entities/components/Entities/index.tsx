@@ -27,9 +27,7 @@ export const Entities = (): JSX.Element => {
 
           return (
             <Interior key={identifier} index={index} name={identifier}>
-              <Content>
-                <PortalInfoEntityList />
-              </Content>
+              <PortalInfoEntityList />
             </Interior>
           );
         })}
