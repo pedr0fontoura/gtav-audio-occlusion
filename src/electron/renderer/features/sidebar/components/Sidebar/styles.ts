@@ -1,15 +1,22 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 interface ISectionLinkProps {
   current: string;
 }
 
-export const Container = styled.div`
-  height: 100%;
-  width: 15%;
-  min-width: 250px;
+type ContainerProps = {
+  expanded?: boolean;
+};
 
+export const Container = styled.div<ContainerProps>`
+  height: 100%;
+  width: 100%;
+  max-width: ${({ expanded }) => (expanded ? '160px' : '68px')};
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   flex-shrink: 0;
 
   padding: 16px 8px;
@@ -17,9 +24,7 @@ export const Container = styled.div`
   background: ${({ theme }) => theme.colors.gray[900]};
   border-right: 2px solid ${({ theme }) => theme.colors.gray[900]};
 
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  transition: all 0.2s;
 `;
 
 export const Section = styled.div`
@@ -37,12 +42,48 @@ export const BottomSection = styled(Section)`
   margin-top: auto;
 `;
 
+type ExpandButtonProps = {
+  expanded?: boolean;
+};
+
+export const ExpandButton = styled.button<ExpandButtonProps>`
+  height: 40px;
+
+  display: flex;
+  justify-content: ${({ expanded }) => (expanded ? 'flex-end' : 'flex-start')};
+  align-items: center;
+
+  margin-left: auto;
+  padding: 16px;
+
+  border-radius: 4px;
+  border: none;
+
+  color: #fff;
+  font-weight: 600;
+
+  opacity: 0.8;
+  background: none;
+
+  transition: ease-in-out 0.1s;
+
+  margin-bottom: 32px;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 export const SectionLink = styled(Link)<ISectionLinkProps>`
   width: 100%;
   height: 40px;
 
+  min-width: 0;
+
   display: flex;
+  justify-content: start;
   align-items: center;
+  gap: 16px;
 
   padding: 16px;
 
@@ -52,6 +93,8 @@ export const SectionLink = styled(Link)<ISectionLinkProps>`
   font-weight: 600;
   color: #fff;
   text-decoration: none;
+
+  overflow: hidden;
 
   background: ${({ to, current, theme }) => (to === current ? theme.colors.rose[600] : 'transparent')};
 
@@ -69,6 +112,6 @@ export const SectionLink = styled(Link)<ISectionLinkProps>`
   }
 
   > svg {
-    margin-right: 16px;
+    flex-shrink: 0;
   }
 `;
