@@ -6,6 +6,8 @@ import { useInterior } from '@/electron/renderer/features/interior';
 
 import { parseHexToString } from '@/electron/renderer/utils';
 
+import { InputWrapper, MediumInput, SmallInput } from './styles';
+
 export const InteriorRoomAudioGameDataList = (): JSX.Element => {
   const { interior } = useInterior();
 
@@ -45,19 +47,71 @@ export const InteriorRoomAudioGameDataList = (): JSX.Element => {
               <td>{interiorRoomAudioGameData.name}</td>
               <td>{parseHexToString(interiorRoomAudioGameData.flags)}</td>
               <td>{interiorRoomAudioGameData.mloRoom}</td>
-              <td>{interiorRoomAudioGameData.zone}</td>
-              <td>{interiorRoomAudioGameData.unk02}</td>
-              <td>{interiorRoomAudioGameData.unk03}</td>
-              <td>{interiorRoomAudioGameData.reverb}</td>
-              <td>{interiorRoomAudioGameData.echo}</td>
-              <td>{interiorRoomAudioGameData.sound}</td>
-              <td>{interiorRoomAudioGameData.unk07}</td>
-              <td>{interiorRoomAudioGameData.unk08}</td>
-              <td>{interiorRoomAudioGameData.unk09}</td>
-              <td>{interiorRoomAudioGameData.unk10}</td>
-              <td>{interiorRoomAudioGameData.unk11}</td>
-              <td>{interiorRoomAudioGameData.unk12}</td>
-              <td>{interiorRoomAudioGameData.unk13}</td>
+              <td>
+                <InputWrapper>
+                  <MediumInput value={interiorRoomAudioGameData.zone} type="text" />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <SmallInput value={interiorRoomAudioGameData.unk02} type="number" />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <SmallInput value={interiorRoomAudioGameData.unk03} type="number" />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <SmallInput value={interiorRoomAudioGameData.reverb} type="number" min={0} max={1} step={0.1} />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <SmallInput value={interiorRoomAudioGameData.echo} type="number" min={0} max={1} step={0.1} />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <MediumInput value={interiorRoomAudioGameData.sound} type="text" />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <SmallInput value={interiorRoomAudioGameData.unk07} type="number" />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <SmallInput value={interiorRoomAudioGameData.unk08} type="number" />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <SmallInput value={interiorRoomAudioGameData.unk09} type="number" />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <SmallInput value={interiorRoomAudioGameData.unk10} type="number" />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <SmallInput value={interiorRoomAudioGameData.unk11} type="number" />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <SmallInput value={interiorRoomAudioGameData.unk12} type="number" />
+                </InputWrapper>
+              </td>
+              <td>
+                <InputWrapper>
+                  <MediumInput value={interiorRoomAudioGameData.unk13} type="text" />
+                </InputWrapper>
+              </td>
               <td>{interiorRoomAudioGameData.soundSet}</td>
             </tr>
           ))}
