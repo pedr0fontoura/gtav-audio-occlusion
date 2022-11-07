@@ -71,4 +71,14 @@ export const GlobalStyle = createGlobalStyle`
   h1 {
     font-weight: 400;
   }
+
+  ::-webkit-scrollbar {
+    height: 2px;
+    width: 2px;
+
+    background-color: ${({ theme }) => theme.colors.gray[950]};
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.rose[600]};
+  }
 `;
