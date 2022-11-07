@@ -3,7 +3,7 @@ import React from 'react';
 import { Container, Content, Header } from '@/electron/renderer/components/Page';
 
 import { Interior } from '@/electron/renderer/features/interior';
-import { useProject } from '@/electron/renderer/features/project';
+import { useProject, NoProject } from '@/electron/renderer/features/project';
 
 import { PortalInfoEntityList } from '../PortalInfoEntityList';
 
@@ -13,7 +13,7 @@ export const Entities = (): JSX.Element => {
   const { state } = useProject();
 
   if (!state) {
-    return null;
+    return <NoProject />;
   }
 
   const headerOptionalText = `"${state.name}"`;
