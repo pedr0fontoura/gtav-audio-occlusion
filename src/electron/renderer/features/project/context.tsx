@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 
-import { isErr, isOk, unwrapResult } from '@/electron/common';
+import { isErr, unwrapResult } from '@/electron/common';
 
 import { ProjectAPI } from '@/electron/common/types/project';
 import type { SerializedProject } from '@/electron/common/types/project';
@@ -21,6 +21,7 @@ interface IProjectContext {
   setCreateModalOpen: (open: boolean) => void;
   setCreateModalName: (name: string) => void;
   setCreateModalInterior: (interior: string) => void;
+  setCreateModalPath: (path: string) => void;
   setCreateModalMapDataFile: (mapDataFile: string) => void;
   setCreateModalMapTypesFile: (mapTypesFile: string) => void;
 }
@@ -30,10 +31,10 @@ const { API } = window;
 const createModalinitialState: CreateProjectModalState = {
   open: false,
   name: '',
-  path: '',
+  path: '...',
   interior: '',
-  mapDataFilePath: 'C:/User/Documents/filename.ymap.xml',
-  mapTypesFilePath: 'C:/User/Documents/filename.ytyp.xml',
+  mapDataFilePath: '...',
+  mapTypesFilePath: '...',
 };
 
 const projectContext = createContext<IProjectContext>({} as IProjectContext);
@@ -75,7 +76,7 @@ const useProjectProvider = (): IProjectContext => {
 
     await fetchProject();
 
-    setCreateModalState(state => createModalinitialState);
+    setCreateModalState(() => createModalinitialState);
   };
 
   const closeProject = async (): Promise<void> => {
@@ -100,6 +101,10 @@ const useProjectProvider = (): IProjectContext => {
     setCreateModalState(state => ({ ...state, interior }));
   };
 
+  const setCreateModalPath = (path: string): void => {
+    setCreateModalState(state => ({ ...state, path }));
+  };
+
   const setCreateModalMapDataFile = (mapDataFilePath: string): void => {
     setCreateModalState(state => ({ ...state, mapDataFilePath }));
   };
@@ -118,18 +123,19 @@ const useProjectProvider = (): IProjectContext => {
     setCreateModalOpen,
     setCreateModalName,
     setCreateModalInterior,
+    setCreateModalPath,
     setCreateModalMapDataFile,
     setCreateModalMapTypesFile,
   };
 };
 
-export const ProjectProvider = ({ children }: IProjectProvider) => {
+export const ProjectProvider = ({ children }: IProjectProvider): JSX.Element => {
   const project = useProjectProvider();
 
   return <projectContext.Provider value={project}>{children}</projectContext.Provider>;
 };
 
-export const useProject = () => {
+export const useProject = (): IProjectContext => {
   const context = useContext(projectContext);
 
   if (!context) {

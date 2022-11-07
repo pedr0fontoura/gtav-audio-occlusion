@@ -28,16 +28,27 @@ import {
 
 const { API } = window;
 
-export const CreateModal = () => {
+export const CreateModal = (): JSX.Element => {
   const {
     createProject,
     createModalState: state,
     setCreateModalOpen,
     setCreateModalName,
     setCreateModalInterior,
+    setCreateModalPath,
     setCreateModalMapDataFile,
     setCreateModalMapTypesFile,
   } = useProject();
+
+  const selectProjectPath = async (): Promise<void> => {
+    const result: Result<string, string> = await API.invoke(ProjectAPI.SELECT_PROJECT_PATH);
+
+    if (isErr(result)) {
+      return console.warn(unwrapResult(result));
+    }
+
+    setCreateModalPath(unwrapResult(result));
+  };
 
   const selectMapData = async (): Promise<void> => {
     const result: Result<string, string> = await API.invoke(ProjectAPI.SELECT_MAP_DATA_FILE);
@@ -81,6 +92,17 @@ export const CreateModal = () => {
                     value={state.name}
                     onChange={e => setCreateModalName(e.target.value)}
                   />
+                </Input>
+              </Entry>
+              <Entry>
+                <label>Project path:</label>
+                <Input>
+                  <FileInput>
+                    <FilePath>{state.path}</FilePath>
+                    <SelectFileButton type="button" onClick={selectProjectPath}>
+                      Select directory
+                    </SelectFileButton>
+                  </FileInput>
                 </Input>
               </Entry>
             </Group>

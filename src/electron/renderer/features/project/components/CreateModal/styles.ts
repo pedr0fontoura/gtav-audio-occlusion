@@ -176,6 +176,7 @@ export const SelectFileButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 
   padding: 4px;
 

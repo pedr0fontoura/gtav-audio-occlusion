@@ -13,7 +13,7 @@ import { getCMloInstanceDef } from '@/core/game';
 
 import { Project } from './project';
 
-import { selectFiles } from './files';
+import { selectDirectory, selectFiles } from './files';
 import { Interior } from './interior';
 import { Application } from './app';
 import { forwardSerializedResult } from './utils';
@@ -24,20 +24,29 @@ const MAP_TYPES_FILE_FILTERS = [{ name: '#typ files', extensions: ['ytyp.xml'] }
 export class ProjectManager {
   private application: Application;
 
-  public currentProject: Project | undefined;
+  public currentProject: Project | null;
 
   constructor(application: Application) {
     this.application = application;
 
+    this.currentProject = null;
+
     ipcMain.handle(ProjectAPI.CREATE_PROJECT, this.createProject.bind(this));
     ipcMain.handle(ProjectAPI.GET_CURRENT_PROJECT, () => forwardSerializedResult(this.getCurrentProject()));
     ipcMain.handle(ProjectAPI.CLOSE_PROJECT, this.closeProject.bind(this));
+    ipcMain.handle(ProjectAPI.SELECT_PROJECT_PATH, this.selectProjectPath.bind(this));
     ipcMain.handle(ProjectAPI.SELECT_MAP_DATA_FILE, this.selectMapDataFile.bind(this));
     ipcMain.handle(ProjectAPI.SELECT_MAP_TYPES_FILE, this.selectMapTypesFile.bind(this));
   }
 
   public getCurrentProject(): Result<string, Project> {
     return ok(this.currentProject);
+  }
+
+  public async selectProjectPath(): Promise<Result<string, string>> {
+    const [directoryPath] = await selectDirectory();
+
+    return ok(directoryPath);
   }
 
   public async selectMapDataFile(): Promise<Result<string, string>> {
