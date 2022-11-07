@@ -18,4 +18,5 @@ export type SerializedInterior = {
 
 export enum InteriorAPI {
   GET_INTERIOR = 'interior/get',
+  UPDATE_PORTAL_INFO_ENTITY = 'interior/updatePortalInfoEntity',
 }

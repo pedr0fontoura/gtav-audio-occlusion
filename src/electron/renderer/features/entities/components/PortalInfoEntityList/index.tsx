@@ -13,29 +13,33 @@ const MAX_OCCLUSION_MAX = 1;
 const MAX_OCCLUSION_STEP = 0.1;
 
 export const PortalInfoEntityList = (): JSX.Element => {
-  const updateMaxOcclusion = (portalInfoIndex: number, entityIndex: number, maxOcclusion: string): void => {
-    const parsedMaxOcclusion = Number(maxOcclusion);
-
-    if (isNaN(parsedMaxOcclusion)) return;
-
-    updatePortalEntity(portalInfoIndex, entityIndex, { maxOcclusion: parsedMaxOcclusion });
-  };
-
-  const updateIsDoor = (portalInfoIndex: number, entityIndex: number, isDoor: boolean): void => {
-    updatePortalEntity(portalInfoIndex, entityIndex, { isDoor });
-  };
-
-  const updateIsGlass = (portalInfoIndex: number, entityIndex: number, isGlass: boolean): void => {
-    updatePortalEntity(portalInfoIndex, entityIndex, { isGlass });
-  };
-
-  const { interior } = useInterior();
+  const { interior, fetchInterior } = useInterior();
 
   if (!interior) {
     return null;
   }
 
   const portalInfoList = interior.naOcclusionInteriorMetadata.portalInfoList;
+  const { identifier } = interior;
+
+  const updateMaxOcclusion = (portalInfoIndex: number, entityIndex: number, maxOcclusion: string): void => {
+    const parsedMaxOcclusion = Number(maxOcclusion);
+
+    if (isNaN(parsedMaxOcclusion)) return;
+
+    updatePortalEntity(identifier, portalInfoIndex, entityIndex, { maxOcclusion: parsedMaxOcclusion });
+    fetchInterior();
+  };
+
+  const updateIsDoor = (portalInfoIndex: number, entityIndex: number, isDoor: boolean): void => {
+    updatePortalEntity(identifier, portalInfoIndex, entityIndex, { isDoor });
+    fetchInterior();
+  };
+
+  const updateIsGlass = (portalInfoIndex: number, entityIndex: number, isGlass: boolean): void => {
+    updatePortalEntity(identifier, portalInfoIndex, entityIndex, { isGlass });
+    fetchInterior();
+  };
 
   const renderEntities = (): React.ReactNode[] => {
     const rows = [];

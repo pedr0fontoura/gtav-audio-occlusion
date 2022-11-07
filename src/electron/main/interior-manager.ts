@@ -1,8 +1,9 @@
 import { ipcMain, Event } from 'electron';
 
-import { isErr, ok, unwrapResult } from '@/electron/common';
+import { err, isErr, ok, unwrapResult } from '@/electron/common';
 
 import { InteriorAPI } from '@/electron/common/types/interior';
+import { SerializedNaOcclusionPortalEntityMetadata } from '@/electron/common/types/naOcclusionInteriorMetadata';
 
 import { forwardSerializedResult } from '@/electron/main/utils';
 
@@ -18,6 +19,16 @@ export class InteriorManager {
     ipcMain.handle(InteriorAPI.GET_INTERIOR, (event: Event, identifier: string) =>
       forwardSerializedResult(this.getInterior(identifier)),
     );
+    ipcMain.on(
+      InteriorAPI.UPDATE_PORTAL_INFO_ENTITY,
+      (
+        event: Event,
+        identifier: string,
+        portalInfoIndex: number,
+        entityIndex: number,
+        data: Partial<SerializedNaOcclusionPortalEntityMetadata>,
+      ) => this.updatePortalEntity(identifier, portalInfoIndex, entityIndex, data),
+    );
   }
 
   public getInterior(identifier: string): Result<string, Interior> {
@@ -31,6 +42,28 @@ export class InteriorManager {
 
     const interior = currentProject.interiors.find(interior => interior.identifier === identifier);
 
-    return ok(interior);
+    return ok(interior ?? null);
+  }
+
+  public updatePortalEntity(
+    identifier: string,
+    portalInfoIndex: number,
+    entityIndex: number,
+    data: Partial<SerializedNaOcclusionPortalEntityMetadata>,
+  ): void {
+    const result = this.getInterior(identifier);
+    if (isErr(result)) return;
+
+    const interior = unwrapResult(result);
+    if (!interior) return;
+
+    const { naOcclusionInteriorMetadata } = interior;
+
+    const portalInfo = naOcclusionInteriorMetadata.portalInfoList[portalInfoIndex];
+    if (!portalInfo) return;
+
+    const portalEntity = portalInfo.portalEntityList[entityIndex];
+
+    Object.assign(portalEntity, data);
   }
 }
