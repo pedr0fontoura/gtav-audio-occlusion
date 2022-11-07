@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 interface ISectionLinkProps {
@@ -40,38 +40,6 @@ export const TopSection = styled(Section)``;
 
 export const BottomSection = styled(Section)`
   margin-top: auto;
-`;
-
-type ExpandButtonProps = {
-  expanded?: boolean;
-};
-
-export const ExpandButton = styled.button<ExpandButtonProps>`
-  height: 40px;
-
-  display: flex;
-  justify-content: ${({ expanded }) => (expanded ? 'flex-end' : 'flex-start')};
-  align-items: center;
-
-  margin-left: auto;
-  padding: 16px;
-
-  border-radius: 4px;
-  border: none;
-
-  color: #fff;
-  font-weight: 600;
-
-  opacity: 0.8;
-  background: none;
-
-  transition: ease-in-out 0.1s;
-
-  margin-bottom: 32px;
-
-  &:hover {
-    opacity: 1;
-  }
 `;
 
 export const SectionLink = styled(Link)<ISectionLinkProps>`
