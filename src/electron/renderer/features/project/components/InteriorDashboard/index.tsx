@@ -1,29 +1,25 @@
 import React from 'react';
 
-import { Container, Header, Title, RemoveInteriorButton, Content } from './styles';
+import { useInterior } from '@/electron/renderer/features/interior';
 
-import { Table } from '@/electron/renderer/components/Table';
+import { TableContainer, Table } from '@/electron/renderer/components/Table';
 
-type InteriorProps = {
-  index: number;
-  identifier: string;
-  mapDataFilePath: string;
-  mapTypesFilePath: string;
-  canRemove?: boolean;
-};
+import { Container } from './styles';
 
-export const Interior = ({ index, identifier, mapDataFilePath, mapTypesFilePath, canRemove }: InteriorProps) => {
+export const InteriorDashboard = (): JSX.Element => {
+  const { interior } = useInterior();
+
+  if (!interior) {
+    return null;
+  }
+
+  const { mapDataFilePath, mapTypesFilePath } = interior;
+
   return (
     <Container>
-      <Header>
-        <Title>
-          <span>{index + 1}.</span>"{identifier}"
-        </Title>
-        {canRemove && <RemoveInteriorButton type="button">remove interior</RemoveInteriorButton>}
-      </Header>
-      <Content>
-        <div>
-          <h3>Source</h3>
+      <div>
+        <p>Source</p>
+        <TableContainer>
           <Table>
             <thead>
               <tr>
@@ -42,9 +38,11 @@ export const Interior = ({ index, identifier, mapDataFilePath, mapTypesFilePath,
               </tr>
             </tbody>
           </Table>
-        </div>
-        <div>
-          <h3>Generated</h3>
+        </TableContainer>
+      </div>
+      <div>
+        <p>Generated</p>
+        <TableContainer>
           <Table>
             <thead>
               <tr>
@@ -61,8 +59,8 @@ export const Interior = ({ index, identifier, mapDataFilePath, mapTypesFilePath,
               </tr>
             </tbody>
           </Table>
-        </div>
-      </Content>
+        </TableContainer>
+      </div>
     </Container>
   );
 };

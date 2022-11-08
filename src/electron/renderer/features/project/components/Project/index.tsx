@@ -1,18 +1,17 @@
 import React, { useEffect, useMemo } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-import { Container, Header, Content } from '../../../../components/Page';
+import { Container, Header, Content } from '@/electron/renderer/components/Page';
+
+import { Interior } from '@/electron/renderer/features/interior';
 
 import { useProject } from '../../context';
 
 import { CreateModal } from '../CreateModal';
 import { ProjectFileImporter } from '../ProjectFileImporter';
+import { InteriorDashboard } from '../InteriorDashboard';
 
-import { Interior } from './components/Interior';
-
-import { Interiors } from './styles';
-
-export const Dashboard = () => {
+export const Project = (): JSX.Element => {
   const { state, fetchProject, closeProject } = useProject();
 
   const options = useMemo(
@@ -52,18 +51,15 @@ export const Dashboard = () => {
       <Container>
         <Header title={headerTitle} optionalText={headerOptionalTitle} options={options} />
         <Content>
-          <Interiors>
-            {state.interiors.map((interior, index) => (
-              <Interior
-                key={interior.identifier}
-                index={index}
-                identifier={interior.identifier}
-                mapDataFilePath={interior.mapDataFilePath}
-                mapTypesFilePath={interior.mapTypesFilePath}
-                canRemove={state.interiors.length > 1}
-              />
-            ))}
-          </Interiors>
+          {state.interiors.map((interior, index) => {
+            const { identifier } = interior;
+
+            return (
+              <Interior key={identifier} index={index} name={identifier}>
+                <InteriorDashboard />
+              </Interior>
+            );
+          })}
         </Content>
       </Container>
     </>

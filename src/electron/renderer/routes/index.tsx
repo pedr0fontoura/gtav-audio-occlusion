@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { FaHome, FaDoorOpen, FaCubes, FaShareAlt, FaProjectDiagram, FaWrench } from 'react-icons/fa';
 
-import { Dashboard as ProjectDashboard } from '../features/project';
+import { Project } from '../features/project';
 import { Portals } from '../features/portals';
 import { Entities } from '../features/entities';
 import { Settings } from '../features/settings';
@@ -18,7 +18,7 @@ const ROUTES_CONFIG = [
     path: '/',
     label: 'Home',
     icon: FaHome,
-    element: <ProjectDashboard />,
+    element: <Project />,
     active: true,
     sidebarPosition: RouteSidebarPosition.Top,
   },
