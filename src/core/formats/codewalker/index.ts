@@ -397,7 +397,7 @@ export class CodeWalkerFormat {
   public writeDat151(filePath: string, audioGameData: AudioGameData): void {
     const dat151Object: XML.Dat151File = {
       Dat151: {
-        Version: { $: { value: '25564071' } },
+        Version: { $: { value: '35636732' } },
         Items: {
           Item: this.buildAudioGameData(audioGameData),
         },
