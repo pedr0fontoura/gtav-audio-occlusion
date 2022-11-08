@@ -4,6 +4,7 @@ import { err, isErr, ok, unwrapResult } from '@/electron/common';
 
 import { InteriorAPI } from '@/electron/common/types/interior';
 import { SerializedNaOcclusionPortalEntityMetadata } from '@/electron/common/types/naOcclusionInteriorMetadata';
+import { SerializedInteriorAudioGameData } from '@/electron/common/types/audioGameData';
 
 import { forwardSerializedResult } from '@/electron/main/utils';
 
@@ -28,6 +29,11 @@ export class InteriorManager {
         entityIndex: number,
         data: Partial<SerializedNaOcclusionPortalEntityMetadata>,
       ) => this.updatePortalEntity(identifier, portalInfoIndex, entityIndex, data),
+    );
+    ipcMain.on(
+      InteriorAPI.UPDATE_INTERIOR_ROOM_AUDIO_GAME_DATA,
+      (event: Event, identifier: string, roomIndex: number, data: Partial<SerializedInteriorAudioGameData>) =>
+        this.updateInteriorRoomAudioGameData(identifier, roomIndex, data),
     );
   }
 
@@ -65,5 +71,24 @@ export class InteriorManager {
     const portalEntity = portalInfo.portalEntityList[entityIndex];
 
     Object.assign(portalEntity, data);
+  }
+
+  public updateInteriorRoomAudioGameData(
+    identifier: string,
+    roomIndex: number,
+    data: Partial<SerializedInteriorAudioGameData>,
+  ): void {
+    const result = this.getInterior(identifier);
+    if (isErr(result)) return;
+
+    const interior = unwrapResult(result);
+    if (!interior) return;
+
+    const { interiorRoomAudioGameDataList } = interior;
+
+    const interiorRoomAudioGameData = interiorRoomAudioGameDataList[roomIndex];
+    if (!interiorRoomAudioGameData) return;
+
+    Object.assign(interiorRoomAudioGameData, data);
   }
 }
