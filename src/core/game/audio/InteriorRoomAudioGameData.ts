@@ -34,6 +34,7 @@ export class InteriorRoomAudioGameData {
     this.flags = 0xaaaaaaaa;
 
     this.mloRoom = cMloRoomDef.name;
+    this.zone = undefined;
 
     this.unk02 = 0;
     this.unk03 = 0.35;
