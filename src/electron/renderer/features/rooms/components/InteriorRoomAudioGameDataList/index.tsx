@@ -26,7 +26,8 @@ export const InteriorRoomAudioGameDataList = (): JSX.Element => {
       if (Object.prototype.hasOwnProperty.call(data, key)) {
         const value = data[key];
 
-        if (isNaN(value)) return;
+        // isNaN returns false if it receive a string
+        if (typeof value !== 'string' && isNaN(value)) return;
       }
     }
 
