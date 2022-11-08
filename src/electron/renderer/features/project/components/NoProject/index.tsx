@@ -10,7 +10,7 @@ export const NoProject = (): JSX.Element => {
     <StyledContainer>
       <Image src={CableChewingSnail} />
       <Text>
-        Oops... It seems that you don't have a project. <Link to="/">Create one</Link> before snailying around!
+        Oops... It seems that you don't have a project. <Link to="/">Create one</Link> before snailing around!
       </Text>
     </StyledContainer>
   );
