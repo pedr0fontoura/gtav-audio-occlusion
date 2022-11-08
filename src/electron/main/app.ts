@@ -31,7 +31,7 @@ export class Application {
     this.mainWindow = new BrowserWindow({
       height: 700,
       width: 1100,
-      title: 'GTA V Audio Occlusion Tool',
+      title: 'gtav-audio-occlusion',
       backgroundColor: '#212121',
       webPreferences: {
         nodeIntegration: false,
