@@ -1,7 +1,5 @@
 import { CMloInstanceDef } from './game';
-import { naOcclusionInteriorMetadata } from './game/audio';
-import { InteriorAudioGameData } from './game/audio/InteriorAudioGameData';
-import { InteriorRoomAudioGameData } from './game/audio/InteriorRoomAudioGameData';
+import { naOcclusionInteriorMetadata, InteriorAudioGameData, InteriorRoomAudioGameData } from './game/audio';
 
 export const createNaOcclusionInteriorMetadata = (interior: CMloInstanceDef): naOcclusionInteriorMetadata => {
   return new naOcclusionInteriorMetadata({ interior });

@@ -1,7 +1,6 @@
 import { CMapData, CMapTypes, CMloInstanceDef } from '@/core/game';
 import { naOcclusionInteriorMetadata } from '@/core/game/audio';
-import { InteriorAudioGameData } from '@/core/game/audio/InteriorAudioGameData';
-import { InteriorRoomAudioGameData } from '@/core/game/audio/InteriorRoomAudioGameData';
+import { InteriorAudioGameData, InteriorRoomAudioGameData } from '@/core/game/audio';
 
 import {
   createNaOcclusionInteriorMetadata,

@@ -1,6 +1,6 @@
-import { CMloArchetypeDef } from '../CMloArchetypeDef';
+import { CMloArchetypeDef } from '../../CMloArchetypeDef';
 
-import { getInteriorRoomName } from './utils';
+import { getInteriorRoomName } from '../utils';
 
 export class InteriorAudioGameData {
   public name: string;
@@ -21,3 +21,6 @@ export class InteriorAudioGameData {
     this.rooms = cMloArchetypeDef.rooms.map(room => getInteriorRoomName(this.name, room));
   }
 }
+
+export const isInteriorAudioGameData = (value: unknown): value is InteriorAudioGameData =>
+  value instanceof InteriorAudioGameData;

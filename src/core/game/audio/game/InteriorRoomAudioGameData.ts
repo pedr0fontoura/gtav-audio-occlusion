@@ -1,7 +1,7 @@
-import { CMloArchetypeDef } from '../CMloArchetypeDef';
-import { CMloRoomDef } from '../CMloRoomDef';
+import { CMloArchetypeDef } from '../../CMloArchetypeDef';
+import { CMloRoomDef } from '../../CMloRoomDef';
 
-import { getInteriorRoomName } from './utils';
+import { getInteriorRoomName } from '../utils';
 
 export class InteriorRoomAudioGameData {
   public name: string;
@@ -54,3 +54,6 @@ export class InteriorRoomAudioGameData {
     this.soundSet = 'hash_D4855127';
   }
 }
+
+export const isInteriorRoomAudioGameData = (value: unknown): value is InteriorRoomAudioGameData =>
+  value instanceof InteriorRoomAudioGameData;

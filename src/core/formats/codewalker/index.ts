@@ -13,9 +13,16 @@ import {
   CMloRoomDef,
   CMloPortalDef,
 } from '../../game';
-import { convertToInt32 } from '../../utils';
+import { convertToInt32, parseHexToString } from '../../utils';
 
-import { naOcclusionInteriorMetadata } from '../../game/audio';
+import {
+  naOcclusionInteriorMetadata,
+  AudioGameData,
+  InteriorAudioGameData,
+  InteriorRoomAudioGameData,
+  isInteriorAudioGameData,
+  isInteriorRoomAudioGameData,
+} from '../../game/audio';
 
 import {
   isXMLCEntityDef,
@@ -211,6 +218,18 @@ export class CodeWalkerFormat {
     return new CMapTypes({ archetypes });
   }
 
+  private async writeFile(filePath: string, data: any): Promise<void> {
+    if (!filePath.includes('.xml')) {
+      throw new Error('Can only write xml files');
+    }
+
+    const XMLHeader = `<?xml version="1.0" encoding="UTF-8"?>\r\n`;
+
+    const XML = this.builder.buildObject(data);
+
+    await fs.writeFile(filePath, XMLHeader + XML);
+  }
+
   public writeNaOcclusionInteriorMetadata(filePath: string, interiorMetadata: naOcclusionInteriorMetadata): void {
     const { portalInfoList, pathNodeList } = interiorMetadata;
 
@@ -303,15 +322,87 @@ export class CodeWalkerFormat {
     this.writeFile(filePath, naOcclusionInteriorMetadataObject);
   }
 
-  private async writeFile(filePath: string, data: any): Promise<void> {
-    if (!filePath.includes('.xml')) {
-      throw new Error('Can only write xml files');
-    }
+  private buildInteriorAudioGameData(interiorAudioGameData: InteriorAudioGameData): XML.InteriorAudioGameData {
+    const { name, unk0, unk1, unk2, rooms } = interiorAudioGameData;
 
-    const XMLHeader = `<?xml version="1.0" encoding="UTF-8"?>\r\n`;
+    return {
+      $: { type: 'Interior', ntOffset: 0 },
+      Name: name,
+      Unk0: { $: { value: String(unk0) } },
+      Unk1: { $: { value: String(unk1) } },
+      Unk2: { $: { value: String(unk2) } },
+      Rooms: {
+        Item: rooms.map(room => room),
+      },
+    };
+  }
 
-    const XML = this.builder.buildObject(data);
+  private buildInteriorRoomAudioGameData(
+    interiorRoomAudioGameData: InteriorRoomAudioGameData,
+  ): XML.InteriorRoomAudioGameData {
+    const {
+      name,
+      flags,
+      mloRoom,
+      zone,
+      unk02,
+      unk03,
+      reverb,
+      echo,
+      sound,
+      unk07,
+      unk08,
+      unk09,
+      unk10,
+      unk11,
+      unk12,
+      unk13,
+    } = interiorRoomAudioGameData;
 
-    await fs.writeFile(filePath, XMLHeader + XML);
+    return {
+      $: { type: 'InteriorRoom', ntOffset: 0 },
+      Name: name,
+      Flags0: { $: { value: parseHexToString(flags) } },
+      MloRoom: mloRoom,
+      Zone: zone,
+      Unk02: { $: { value: unk02 } },
+      Unk03: { $: { value: unk03 } },
+      Reverb: { $: { value: reverb } },
+      Echo: { $: { value: echo } },
+      Sound: sound,
+      Unk07: { $: { value: unk07 } },
+      Unk08: { $: { value: unk08 } },
+      Unk09: { $: { value: unk09 } },
+      Unk10: { $: { value: unk10 } },
+      Unk11: { $: { value: unk11 } },
+      Unk12: { $: { value: unk12 } },
+      Unk13: unk13,
+      Unk14: 'hash_D4855127',
+    };
+  }
+
+  private buildAudioGameData(audioGameData: AudioGameData): XML.AudioGameData {
+    return audioGameData.map(data => {
+      if (isInteriorAudioGameData(data)) {
+        return this.buildInteriorAudioGameData(data);
+      }
+
+      if (isInteriorRoomAudioGameData(data)) {
+        return this.buildInteriorRoomAudioGameData(data);
+      }
+    });
+  }
+
+  public writeDat151(filePath: string, audioGameData: AudioGameData): void {
+    const dat151Object: XML.Dat151File = {
+      Dat151: {
+        Version: { $: { value: '25564071' } },
+        Items: {
+          Item: this.buildAudioGameData(audioGameData),
+        },
+      },
+    };
+
+    this.writeFile(filePath, dat151Object);
   }
 }
