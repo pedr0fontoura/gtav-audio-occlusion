@@ -100,7 +100,7 @@ export interface InteriorRoomAudioGameData {
   Unk11: XMLDataEntry<{ value: string | number }>;
   Unk12: XMLDataEntry<{ value: string | number }>;
   Unk13: string;
-  Unk14: string;
+  SoundSet: string;
 }
 
 export type AudioGameData = Array<

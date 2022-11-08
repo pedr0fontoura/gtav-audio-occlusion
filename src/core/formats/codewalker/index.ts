@@ -328,11 +328,11 @@ export class CodeWalkerFormat {
     return {
       $: { type: 'Interior', ntOffset: 0 },
       Name: name,
-      Unk0: { $: { value: String(unk0) } },
-      Unk1: { $: { value: String(unk1) } },
-      Unk2: { $: { value: String(unk2) } },
+      Unk0: { $: { value: parseHexToString(unk0) } },
+      Unk1: { $: { value: parseHexToString(unk1) } },
+      Unk2: { $: { value: parseHexToString(unk2) } },
       Rooms: {
-        Item: rooms.map(room => room),
+        Item: rooms,
       },
     };
   }
@@ -357,6 +357,7 @@ export class CodeWalkerFormat {
       unk11,
       unk12,
       unk13,
+      soundSet,
     } = interiorRoomAudioGameData;
 
     return {
@@ -377,7 +378,7 @@ export class CodeWalkerFormat {
       Unk11: { $: { value: unk11 } },
       Unk12: { $: { value: unk12 } },
       Unk13: unk13,
-      Unk14: 'hash_D4855127',
+      SoundSet: soundSet,
     };
   }
 
