@@ -33,6 +33,7 @@ export class Application {
       width: 1100,
       title: 'gtav-audio-occlusion',
       backgroundColor: '#212121',
+      autoHideMenuBar: true,
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
