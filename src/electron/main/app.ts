@@ -26,7 +26,7 @@ export class Application {
     this.codeWalkerFormat = new CodeWalkerFormat();
 
     this.projectManager = new ProjectManager(this);
-    this.interiorManager = new InteriorManager(this.projectManager);
+    this.interiorManager = new InteriorManager(this);
 
     this.mainWindow = new BrowserWindow({
       height: 700,

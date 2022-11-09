@@ -20,4 +20,6 @@ export enum InteriorAPI {
   GET_INTERIOR = 'interior/get',
   UPDATE_PORTAL_INFO_ENTITY = 'interior/updatePortalInfoEntity',
   UPDATE_INTERIOR_ROOM_AUDIO_GAME_DATA = 'interior/updateInteriorRoomAudioGameData',
+  WRITE_NA_OCCLUSION_INTERIOR_METADATA = 'interior/writeNaOcclusionInteriorMetadata',
+  WRITE_DAT151 = 'interior/writeDat151',
 }

@@ -8,14 +8,15 @@ import { SerializedInteriorAudioGameData } from '@/electron/common/types/audioGa
 
 import { forwardSerializedResult } from '@/electron/main/utils';
 
+import { Application } from './app';
+
 import { Interior } from './interior';
-import { ProjectManager } from './project-manager';
 
 export class InteriorManager {
-  private projectManager: ProjectManager;
+  private application: Application;
 
-  constructor(projectManager: ProjectManager) {
-    this.projectManager = projectManager;
+  constructor(application: Application) {
+    this.application = application;
 
     ipcMain.handle(InteriorAPI.GET_INTERIOR, (event: Event, identifier: string) =>
       forwardSerializedResult(this.getInterior(identifier)),
@@ -35,10 +36,14 @@ export class InteriorManager {
       (event: Event, identifier: string, roomIndex: number, data: Partial<SerializedInteriorAudioGameData>) =>
         this.updateInteriorRoomAudioGameData(identifier, roomIndex, data),
     );
+    ipcMain.handle(InteriorAPI.WRITE_NA_OCCLUSION_INTERIOR_METADATA, (event, identifier: string) =>
+      this.writeNaOcclusionInteriorMetadata(identifier),
+    );
+    ipcMain.handle(InteriorAPI.WRITE_DAT151, (event, identifier: string) => this.writeDat151(identifier));
   }
 
   public getInterior(identifier: string): Result<string, Interior> {
-    const result = this.projectManager.getCurrentProject();
+    const result = this.application.projectManager.getCurrentProject();
 
     if (isErr(result)) {
       return result;
@@ -90,5 +95,64 @@ export class InteriorManager {
     if (!interiorRoomAudioGameData) return;
 
     Object.assign(interiorRoomAudioGameData, data);
+  }
+
+  public async writeNaOcclusionInteriorMetadata(identifier: string): Promise<Result<string, string>> {
+    const interiorResult = this.getInterior(identifier);
+    if (isErr(interiorResult)) return interiorResult;
+
+    const interior = unwrapResult(interiorResult);
+    if (!interior) {
+      return err('INTERIOR_NOT_FOUND');
+    }
+
+    const rootPathResult = this.application.projectManager.getProjectRoot();
+    if (isErr(rootPathResult)) return rootPathResult;
+
+    const rootPath = unwrapResult(rootPathResult);
+
+    const { naOcclusionInteriorMetadata } = interior;
+
+    let filePath: string;
+
+    try {
+      filePath = await this.application.codeWalkerFormat.writeNaOcclusionInteriorMetadata(
+        rootPath,
+        naOcclusionInteriorMetadata,
+      );
+    } catch {
+      return err('FAILED_TO_WRITE');
+    }
+
+    return ok(filePath);
+  }
+
+  public async writeDat151(identifier: string): Promise<Result<string, string>> {
+    const interiorResult = this.getInterior(identifier);
+    if (isErr(interiorResult)) return interiorResult;
+
+    const interior = unwrapResult(interiorResult);
+    if (!interior) {
+      return err('INTERIOR_NOT_FOUND');
+    }
+
+    const rootPathResult = this.application.projectManager.getProjectRoot();
+    if (isErr(rootPathResult)) return rootPathResult;
+
+    const rootPath = unwrapResult(rootPathResult);
+
+    const { interiorAudioGameData, interiorRoomAudioGameDataList } = interior;
+
+    const audioGameData = [interiorAudioGameData, ...interiorRoomAudioGameDataList];
+
+    let filePath: string;
+
+    try {
+      filePath = await this.application.codeWalkerFormat.writeDat151(rootPath, audioGameData);
+    } catch {
+      return err('FAILED_TO_WRITE');
+    }
+
+    return ok(filePath);
   }
 }
