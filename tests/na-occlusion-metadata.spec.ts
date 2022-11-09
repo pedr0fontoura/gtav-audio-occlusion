@@ -69,9 +69,9 @@ describe('Interior audio occlusion', () => {
   });
 
   it('should be able to write the interior audio occlusion metadata', async () => {
-    const filePath = path.resolve('tests', `${interiorMetadata.interiorProxyHash}.ymt.pso.xml`);
+    const targetPath = path.resolve('tests');
 
-    codeWalkerFormat.writeNaOcclusionInteriorMetadata(filePath, interiorMetadata);
+    const filePath = await codeWalkerFormat.writeNaOcclusionInteriorMetadata(targetPath, interiorMetadata);
 
     expect(await doesFileExist(filePath)).toBeTruthy();
 

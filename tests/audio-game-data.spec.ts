@@ -42,9 +42,9 @@ describe('Interior audio game data', () => {
   });
 
   it('should be able to write the interior audio game data', async () => {
-    const filePath = path.resolve('tests', 'game.dat151.rel.xml');
+    const targetPath = path.resolve('tests');
 
-    codeWalkerFormat.writeDat151(filePath, audioGameData);
+    const filePath = await codeWalkerFormat.writeDat151(targetPath, audioGameData);
 
     expect(await doesFileExist(filePath)).toBeTruthy();
 

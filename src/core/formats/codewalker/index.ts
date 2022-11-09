@@ -1,3 +1,4 @@
+import path from 'path';
 import fs from 'fs/promises';
 import { Parser, Builder } from 'xml2js';
 
@@ -230,8 +231,11 @@ export class CodeWalkerFormat {
     await fs.writeFile(filePath, XMLHeader + XML);
   }
 
-  public writeNaOcclusionInteriorMetadata(filePath: string, interiorMetadata: naOcclusionInteriorMetadata): void {
-    const { portalInfoList, pathNodeList } = interiorMetadata;
+  public async writeNaOcclusionInteriorMetadata(
+    targetPath: string,
+    interiorMetadata: naOcclusionInteriorMetadata,
+  ): Promise<string> {
+    const { portalInfoList, pathNodeList, interiorProxyHash } = interiorMetadata;
 
     const portalInfoListObject: XML.PortalInfo[] = portalInfoList.map(portalInfo => {
       const { portalEntityList } = portalInfo;
@@ -319,7 +323,11 @@ export class CodeWalkerFormat {
       },
     };
 
-    this.writeFile(filePath, naOcclusionInteriorMetadataObject);
+    const filePath = path.resolve(targetPath, `${interiorProxyHash}.ymt.pso.xml`);
+
+    await this.writeFile(filePath, naOcclusionInteriorMetadataObject);
+
+    return filePath;
   }
 
   private buildInteriorAudioGameData(interiorAudioGameData: InteriorAudioGameData): XML.InteriorAudioGameData {
@@ -394,7 +402,7 @@ export class CodeWalkerFormat {
     });
   }
 
-  public writeDat151(filePath: string, audioGameData: AudioGameData): void {
+  public async writeDat151(targetPath: string, audioGameData: AudioGameData): Promise<string> {
     const dat151Object: XML.Dat151File = {
       Dat151: {
         Version: { $: { value: '35636732' } },
@@ -404,6 +412,10 @@ export class CodeWalkerFormat {
       },
     };
 
-    this.writeFile(filePath, dat151Object);
+    const filePath = path.resolve(targetPath, 'game.dat151.rel.xml');
+
+    await this.writeFile(filePath, dat151Object);
+
+    return filePath;
   }
 }
