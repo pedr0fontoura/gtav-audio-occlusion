@@ -12,6 +12,7 @@ import { SerializedInterior } from '@/electron/common/types/interior';
 
 type InteriorConstructor = {
   identifier: string;
+  path: string;
   mapDataFilePath: string;
   mapTypesFilePath: string;
   mapData: CMapData;
@@ -21,6 +22,7 @@ type InteriorConstructor = {
 
 export class Interior {
   public identifier: string;
+  public path: string;
 
   public mapDataFilePath: string;
   public mapTypesFilePath: string;
@@ -33,8 +35,21 @@ export class Interior {
   public interiorAudioGameData: InteriorAudioGameData;
   public interiorRoomAudioGameDataList: InteriorRoomAudioGameData[];
 
-  constructor({ identifier, mapDataFilePath, mapTypesFilePath, mapData, mapTypes, mloInstance }: InteriorConstructor) {
+  public naOcclusionInteriorMetadataPath: string;
+  public audioGameDataPath: string;
+
+  constructor({
+    identifier,
+    path,
+    mapDataFilePath,
+    mapTypesFilePath,
+    mapData,
+    mapTypes,
+    mloInstance,
+  }: InteriorConstructor) {
     this.identifier = identifier;
+
+    this.path = path;
 
     this.mapDataFilePath = mapDataFilePath;
     this.mapTypesFilePath = mapTypesFilePath;
@@ -46,22 +61,29 @@ export class Interior {
     this.naOcclusionInteriorMetadata = createNaOcclusionInteriorMetadata(mloInstance);
     this.interiorAudioGameData = createInteriorAudioGameData(mloInstance);
     this.interiorRoomAudioGameDataList = createInteriorRoomAudioGameDataList(mloInstance);
+
+    this.naOcclusionInteriorMetadataPath = undefined;
+    this.audioGameDataPath = undefined;
   }
 
   public serialize(): SerializedInterior {
     const {
       identifier,
+      path,
       mapDataFilePath,
       mapTypesFilePath,
       naOcclusionInteriorMetadata,
       interiorAudioGameData,
       interiorRoomAudioGameDataList,
+      naOcclusionInteriorMetadataPath,
+      audioGameDataPath,
     } = this;
 
     const { interiorProxyHash, portalInfoList } = naOcclusionInteriorMetadata;
 
     return {
       identifier,
+      path,
       mapDataFilePath,
       mapTypesFilePath,
       naOcclusionInteriorMetadata: {
@@ -83,6 +105,8 @@ export class Interior {
       },
       interiorAudioGameData,
       interiorRoomAudioGameDataList,
+      naOcclusionInteriorMetadataPath,
+      audioGameDataPath,
     };
   }
 }

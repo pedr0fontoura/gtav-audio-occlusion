@@ -124,6 +124,8 @@ export class InteriorManager {
       return err('FAILED_TO_WRITE');
     }
 
+    interior.naOcclusionInteriorMetadataPath = filePath;
+
     return ok(filePath);
   }
 
@@ -152,6 +154,8 @@ export class InteriorManager {
     } catch {
       return err('FAILED_TO_WRITE');
     }
+
+    interior.audioGameDataPath = filePath;
 
     return ok(filePath);
   }

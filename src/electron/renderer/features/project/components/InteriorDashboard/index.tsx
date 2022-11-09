@@ -11,13 +11,20 @@ import { Container, Section, SectionHeader, Horizontal, Entry, Path, Button } fr
 const { API } = window;
 
 export const InteriorDashboard = (): JSX.Element => {
-  const { interior } = useInterior();
+  const { interior, fetchInterior } = useInterior();
 
   if (!interior) {
     return null;
   }
 
-  const { identifier, mapDataFilePath, mapTypesFilePath } = interior;
+  const {
+    identifier,
+    path,
+    mapDataFilePath,
+    mapTypesFilePath,
+    naOcclusionInteriorMetadataPath,
+    audioGameDataPath,
+  } = interior;
 
   const writeNaOcclusionInteriorMetadata = async (): Promise<void> => {
     const result: Result<string, string> = await API.invoke(
@@ -29,9 +36,7 @@ export const InteriorDashboard = (): JSX.Element => {
       console.warn(unwrapResult(result));
     }
 
-    const filePath = unwrapResult(result);
-
-    console.log(filePath);
+    fetchInterior();
   };
 
   const writeDat151 = async (): Promise<void> => {
@@ -41,9 +46,7 @@ export const InteriorDashboard = (): JSX.Element => {
       console.warn(unwrapResult(result));
     }
 
-    const filePath = unwrapResult(result);
-
-    console.log(filePath);
+    fetchInterior();
   };
 
   return (
@@ -64,7 +67,7 @@ export const InteriorDashboard = (): JSX.Element => {
         </Horizontal>
         <Entry>
           <h3>Path</h3>
-          <Path>...</Path>
+          <Path>{path}</Path>
         </Entry>
       </Section>
       <Section>
@@ -76,7 +79,7 @@ export const InteriorDashboard = (): JSX.Element => {
         </SectionHeader>
         <Entry>
           <h3>Path</h3>
-          <Path>...</Path>
+          <Path>{naOcclusionInteriorMetadataPath ?? '...'}</Path>
         </Entry>
       </Section>
       <Section>
@@ -88,7 +91,7 @@ export const InteriorDashboard = (): JSX.Element => {
         </SectionHeader>
         <Entry>
           <h3>Path</h3>
-          <Path>...</Path>
+          <Path>{audioGameDataPath ?? '...'}</Path>
         </Entry>
       </Section>
     </Container>

@@ -1,4 +1,5 @@
 import { ipcMain, Event } from 'electron';
+import path from 'path';
 
 import { err, isErr, ok, unwrapResult } from '@/electron/common';
 
@@ -16,7 +17,7 @@ import { Project } from './project';
 import { selectDirectory, selectFiles } from './files';
 import { Interior } from './interior';
 import { Application } from './app';
-import { forwardSerializedResult } from './utils';
+import { forwardSerializedResult, sanitizePath } from './utils';
 
 const MAP_DATA_FILE_FILTERS = [{ name: '#map files', extensions: ['ymap.xml'] }];
 const MAP_TYPES_FILE_FILTERS = [{ name: '#typ files', extensions: ['ytyp.xml'] }];
@@ -121,8 +122,11 @@ export class ProjectManager {
       return err('C_MLO_INSTANCE_DEF_NOT_FOUND');
     }
 
+    const interiorPath = path.resolve(project.path, sanitizePath(name));
+
     const interior = new Interior({
       identifier: name,
+      path: interiorPath,
       mapDataFilePath,
       mapTypesFilePath,
       mapData,

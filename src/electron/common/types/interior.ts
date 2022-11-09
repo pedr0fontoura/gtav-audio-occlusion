@@ -9,11 +9,14 @@ export type CreateInteriorDTO = {
 
 export type SerializedInterior = {
   identifier: string;
+  path: string;
   mapDataFilePath: string;
   mapTypesFilePath: string;
   naOcclusionInteriorMetadata: SerializedNaOcclusionInteriorMetadata;
   interiorAudioGameData: SerializedInteriorAudioGameData;
   interiorRoomAudioGameDataList: SerializedInteriorRoomAudioGameData[];
+  naOcclusionInteriorMetadataPath: string;
+  audioGameDataPath: string;
 };
 
 export enum InteriorAPI {
