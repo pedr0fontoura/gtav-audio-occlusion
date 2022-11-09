@@ -106,18 +106,13 @@ export class InteriorManager {
       return err('INTERIOR_NOT_FOUND');
     }
 
-    const rootPathResult = this.application.projectManager.getProjectRoot();
-    if (isErr(rootPathResult)) return rootPathResult;
-
-    const rootPath = unwrapResult(rootPathResult);
-
-    const { naOcclusionInteriorMetadata } = interior;
+    const { naOcclusionInteriorMetadata, path } = interior;
 
     let filePath: string;
 
     try {
       filePath = await this.application.codeWalkerFormat.writeNaOcclusionInteriorMetadata(
-        rootPath,
+        path,
         naOcclusionInteriorMetadata,
       );
     } catch {
@@ -138,19 +133,14 @@ export class InteriorManager {
       return err('INTERIOR_NOT_FOUND');
     }
 
-    const rootPathResult = this.application.projectManager.getProjectRoot();
-    if (isErr(rootPathResult)) return rootPathResult;
-
-    const rootPath = unwrapResult(rootPathResult);
-
-    const { interiorAudioGameData, interiorRoomAudioGameDataList } = interior;
+    const { interiorAudioGameData, interiorRoomAudioGameDataList, path } = interior;
 
     const audioGameData = [interiorAudioGameData, ...interiorRoomAudioGameDataList];
 
     let filePath: string;
 
     try {
-      filePath = await this.application.codeWalkerFormat.writeDat151(rootPath, audioGameData);
+      filePath = await this.application.codeWalkerFormat.writeDat151(path, audioGameData);
     } catch {
       return err('FAILED_TO_WRITE');
     }

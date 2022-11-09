@@ -1,7 +1,7 @@
 import { ipcMain, Event } from 'electron';
 import path from 'path';
 
-import { err, isErr, ok, unwrapResult } from '@/electron/common';
+import { err, isErr, ok } from '@/electron/common';
 
 import { ProjectAPI } from '@/electron/common/types/project';
 import type { CreateProjectDTO } from '@/electron/common/types/project';
@@ -42,22 +42,6 @@ export class ProjectManager {
 
   public getCurrentProject(): Result<string, Project> {
     return ok(this.currentProject);
-  }
-
-  public getProjectRoot(): Result<string, string> {
-    const result = this.getCurrentProject();
-
-    if (isErr(result)) {
-      return result;
-    }
-
-    const project = unwrapResult(result);
-
-    if (!project) {
-      return err('NO_PROJECT');
-    }
-
-    return ok(project.path);
   }
 
   public async selectProjectPath(): Promise<Result<string, string>> {

@@ -14,7 +14,7 @@ import {
   CMloRoomDef,
   CMloPortalDef,
 } from '../../game';
-import { convertToInt32, parseHexToString } from '../../utils';
+import { convertToInt32, parseHexToString, doesFileExist } from '../../utils';
 
 import {
   naOcclusionInteriorMetadata,
@@ -227,6 +227,14 @@ export class CodeWalkerFormat {
     const XMLHeader = `<?xml version="1.0" encoding="UTF-8"?>\r\n`;
 
     const XML = this.builder.buildObject(data);
+
+    const directory = path.resolve(filePath, '..');
+
+    const doesDirectoryExists = await doesFileExist(directory);
+
+    if (!doesDirectoryExists) {
+      await fs.mkdir(directory);
+    }
 
     await fs.writeFile(filePath, XMLHeader + XML);
   }
