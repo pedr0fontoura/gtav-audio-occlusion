@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Container, Left, Title, Right, Button } from './styles';
+import { Button } from '../../Button';
+
+import { Container, Left, Title, Right } from './styles';
 
 type Option = {
   icon?: React.ReactNode;
@@ -14,7 +16,7 @@ type HeaderProps = {
   options?: Option[];
 };
 
-export const Header = ({ title, optionalText, options }: HeaderProps) => {
+export const Header = ({ title, optionalText, options }: HeaderProps): JSX.Element => {
   return (
     <Container>
       <Left>

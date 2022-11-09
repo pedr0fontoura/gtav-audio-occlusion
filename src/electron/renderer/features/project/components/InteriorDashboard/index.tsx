@@ -1,12 +1,12 @@
 import React from 'react';
-import { FaFileDownload } from 'react-icons/fa';
+import { FaSave } from 'react-icons/fa';
 
 import { isErr, unwrapResult } from '@/electron/common';
 import { InteriorAPI } from '@/electron/common/types/interior';
 
 import { useInterior } from '@/electron/renderer/features/interior';
 
-import { Container, Section, SectionHeader, Horizontal, Entry, Path, Button } from './styles';
+import { Container, Section, SectionHeader, Horizontal, Entry, Path, StyledButton } from './styles';
 
 const { API } = window;
 
@@ -73,9 +73,10 @@ export const InteriorDashboard = (): JSX.Element => {
       <Section>
         <SectionHeader>
           <h2>naOcclusionInteriorMetadata</h2>
-          <Button onClick={writeNaOcclusionInteriorMetadata}>
-            <FaFileDownload size={18} />
-          </Button>
+          <StyledButton onClick={writeNaOcclusionInteriorMetadata}>
+            <FaSave size={12} />
+            Save file
+          </StyledButton>
         </SectionHeader>
         <Entry>
           <h3>Path</h3>
@@ -85,9 +86,10 @@ export const InteriorDashboard = (): JSX.Element => {
       <Section>
         <SectionHeader>
           <h2>Audio Game Data</h2>
-          <Button onClick={writeDat151}>
-            <FaFileDownload size={18} />
-          </Button>
+          <StyledButton onClick={writeDat151}>
+            <FaSave size={12} />
+            Save file
+          </StyledButton>
         </SectionHeader>
         <Entry>
           <h3>Path</h3>

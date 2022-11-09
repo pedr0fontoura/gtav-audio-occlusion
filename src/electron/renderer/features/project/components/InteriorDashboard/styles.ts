@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { lighten, darken } from 'polished';
+import { lighten } from 'polished';
+
+import { Button } from '@/electron/renderer/components/Button';
 
 export const Container = styled.div`
   display: flex;
@@ -46,27 +48,6 @@ export const SectionHeader = styled.div`
   gap: 8px;
 `;
 
-export const Button = styled.button`
-  width: 32px;
-  height: 32px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border: none;
-
-  color: #fff;
-
-  background: none;
-
-  transition: 0.2s;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.rose[600]};
-  }
-`;
-
 export const Horizontal = styled.div`
   width: 100%;
 
@@ -85,4 +66,12 @@ export const Path = styled.p`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+`;
+
+export const StyledButton = styled(Button)`
+  height: 90%;
+
+  padding: 4px;
+
+  font-size: 12px;
 `;
