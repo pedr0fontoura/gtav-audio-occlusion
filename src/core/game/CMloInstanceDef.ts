@@ -10,16 +10,18 @@ export class CMloInstanceDef extends CEntityDef {
 export const isCMloInstanceDef = (entity: CEntityDef): entity is CMloInstanceDef => entity.type === 'CMloInstanceDef';
 
 export const getCMloInstanceDef = (mapData: CMapData, mapTypes: CMapTypes): CMloInstanceDef => {
-  const archetype = mapTypes.archetypes.find(isCMloArchetypeDef);
-
-  if (!archetype) {
-    throw new Error(`Couldn't find a CMloArchetypeDef`);
-  }
-
   const instance = mapData.entities.find(isCMloInstanceDef);
 
   if (!instance) {
     throw new Error(`Couldn't find a CMloInstanceDef`);
+  }
+
+  const archetypes = mapTypes.archetypes.filter(isCMloArchetypeDef);
+
+  const archetype = archetypes.find(archetype => archetype.name === instance.archetypeName);
+
+  if (!archetype) {
+    throw new Error(`Couldn't find the CMloArchetypeDef of the CMloInstanceDef`);
   }
 
   instance.setArchetypeDef(archetype);
