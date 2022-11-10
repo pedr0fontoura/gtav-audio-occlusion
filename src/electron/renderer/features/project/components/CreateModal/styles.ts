@@ -6,17 +6,6 @@ const overlayShow = keyframes`
   100% { opacity: 1 }
 `;
 
-const contentShow = keyframes`
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -48%) scale(0.96);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-`;
-
 export const Dialog = DialogPrimitive.Root;
 
 export const Portal = styled(DialogPrimitive.Portal)`
@@ -54,10 +43,6 @@ export const Content = styled(DialogPrimitive.Content)`
   transform: translate(-50%, -50%);
 
   overflow: hidden;
-
-  @media (prefers-reduced-motion: no-preference) {
-    animation: ${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
 `;
 
 export const Header = styled.div`
@@ -181,8 +166,8 @@ export const SelectFileButton = styled.button`
   padding: 4px;
 
   font-size: 0.8em;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.gray[900]};
+  font-weight: 500;
+  color: white;
   text-transform: lowercase;
 
   border: none;
@@ -207,7 +192,7 @@ export const CreateButton = styled.button`
 
   font-size: 0.8em;
   font-weight: 500;
-  color: white;
+  color: #fff;
   text-transform: uppercase;
 
   border: none;
