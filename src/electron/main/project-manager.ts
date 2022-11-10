@@ -136,7 +136,7 @@ export class ProjectManager {
   }
 
   public closeProject(): Result<string, boolean> {
-    this.currentProject = undefined;
+    this.currentProject = null;
 
     return ok(true);
   }
