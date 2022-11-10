@@ -17,10 +17,9 @@ export const Button = styled.button<ButtonProps>`
   border-radius: 4px;
   border: none;
 
-  color: #fff;
+  color: ${({ expanded, theme }) => (expanded ? theme.colors.rose[600] : '#fff')};
   font-weight: 600;
 
-  opacity: 0.8;
   background: none;
 
   transition: ease-in-out 0.1s;
