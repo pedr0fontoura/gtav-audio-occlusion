@@ -1,7 +1,6 @@
-import { Big } from 'big.js';
 import { XMLDataEntry } from './index';
 
-interface AmbientZoneList {
+export interface AmbientZoneListAudioGameData {
   $: { type: 'AmbientZoneList'; ntOffset: string | number };
   Name: string;
   Zones: {
@@ -9,7 +8,7 @@ interface AmbientZoneList {
   };
 }
 
-interface Interior {
+export interface InteriorAudioGameData {
   $: { type: 'Interior'; ntOffset: string | number };
   Name: string;
   Unk0: XMLDataEntry<{ value: string }>;
@@ -20,14 +19,14 @@ interface Interior {
   };
 }
 
-interface AmbientZone {
+export interface AmbientZoneAudioGameData {
   $: { type: 'AmbientZone'; ntOffset: string | number };
   Name: string;
   Flags0: XMLDataEntry<{ value: string }>;
   Shape: string;
   Flags1: XMLDataEntry<{ value: string }>;
-  OuterPos: XMLDataEntry<{ x: string | Big; y: string | Big; z: string | Big }>;
-  OuterSize: XMLDataEntry<{ x: string | Big; y: string | Big; z: string | Big }>;
+  OuterPos: XMLDataEntry<{ x: string | number; y: string | number; z: string | number }>;
+  OuterSize: XMLDataEntry<{ x: string | number; y: string | number; z: string | number }>;
   OuterVec1: XMLDataEntry<{
     x: string | number;
     y: string | number;
@@ -42,8 +41,8 @@ interface AmbientZone {
   }>;
   OuterAngle: XMLDataEntry<{ value: string | number }>;
   OuterVec3: XMLDataEntry<{ x: string | number; y: string | number; z: string | number }>;
-  InnerPos: XMLDataEntry<{ x: string | Big; y: string | Big; z: string | Big }>;
-  InnerSize: XMLDataEntry<{ x: string | Big; y: string | Big; z: string | Big }>;
+  InnerPos: XMLDataEntry<{ x: string | number; y: string | number; z: string | number }>;
+  InnerSize: XMLDataEntry<{ x: string | number; y: string | number; z: string | number }>;
   InnerVec1: XMLDataEntry<{
     x: string | number;
     y: string | number;
@@ -83,17 +82,17 @@ interface AmbientZone {
   ExtParams: string;
 }
 
-export interface InteriorRoom {
+export interface InteriorRoomAudioGameData {
   $: { type: 'InteriorRoom'; ntOffset: string | number };
   Name: string;
   Flags0: XMLDataEntry<{ value: string }>;
   MloRoom: string;
-  Hash1: string;
+  Zone: string;
   Unk02: XMLDataEntry<{ value: string | number }>;
   Unk03: XMLDataEntry<{ value: string | number }>;
   Reverb: XMLDataEntry<{ value: string | number }>;
   Echo: XMLDataEntry<{ value: string | number }>;
-  Unk06: string;
+  Sound: string;
   Unk07: XMLDataEntry<{ value: string | number }>;
   Unk08: XMLDataEntry<{ value: string | number }>;
   Unk09: XMLDataEntry<{ value: string | number }>;
@@ -101,14 +100,20 @@ export interface InteriorRoom {
   Unk11: XMLDataEntry<{ value: string | number }>;
   Unk12: XMLDataEntry<{ value: string | number }>;
   Unk13: string;
-  Unk14: string;
+  SoundSet: string;
 }
 
-export interface AudioGameData {
+export type AudioGameData = Array<
+  AmbientZoneListAudioGameData | InteriorAudioGameData | AmbientZoneAudioGameData | InteriorRoomAudioGameData
+>;
+
+export interface Dat151File {
   Dat151: {
     Version: XMLDataEntry<{ value: string | number }>;
     Items: {
-      Item: (AmbientZoneList | Interior | AmbientZone | InteriorRoom)[];
+      Item: Array<
+        AmbientZoneListAudioGameData | InteriorAudioGameData | AmbientZoneAudioGameData | InteriorRoomAudioGameData
+      >;
     };
   };
 }

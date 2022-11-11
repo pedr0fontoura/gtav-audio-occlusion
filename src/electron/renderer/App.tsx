@@ -1,75 +1,46 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { MemoryRouter as Router } from 'react-router-dom';
 import styled from 'styled-components';
-import { BrowserRouter as Router } from 'react-router-dom';
 
-import { ConsoleProvider } from './hooks/useConsole';
-import Routes from './routes';
+import { GlobalStyle } from './styles/global';
 
-import { GlobalStyle } from './styles/GlobalStyles';
-import colors from './styles/colors';
+import { Sidebar } from './features/sidebar';
 
-import Sidebar from './components/Sidebar';
-import Console from './components/Console';
+import { AppProvider } from './hooks';
+import { ApplicationRoutes } from './routes';
 
 const Container = styled.div`
   height: 100vh;
+  width: 100vw;
 
   display: flex;
   flex-direction: column;
   align-items: stretch;
 
-  background: ${colors.bgColor};
+  background: ${({ theme }) => theme.colors.gray[800]};
+
+  overflow: hidden;
 `;
 
 const HorizontalContainer = styled.div`
-  flex-grow: 1;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  overflow-y: auto;
-`;
-
-const RoutesContainer = styled.div`
   height: 100%;
   width: 100%;
 
   display: flex;
-  flex-direction: column;
-
-  padding: 16px;
-
-  h1 {
-    margin-bottom: 16px;
-  }
-
-  overflow-y: auto;
 `;
 
-const App = () => {
+export const App = (): JSX.Element => {
   return (
-    <ConsoleProvider>
-      <Container>
-        <Router>
+    <AppProvider>
+      <GlobalStyle />
+      <Router>
+        <Container>
           <HorizontalContainer>
             <Sidebar />
-            <RoutesContainer>
-              <Routes />
-            </RoutesContainer>
+            <ApplicationRoutes />
           </HorizontalContainer>
-        </Router>
-        <Console />
-      </Container>
-    </ConsoleProvider>
+        </Container>
+      </Router>
+    </AppProvider>
   );
 };
-
-ReactDOM.render(
-  <React.StrictMode>
-    <GlobalStyle />
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root'),
-);

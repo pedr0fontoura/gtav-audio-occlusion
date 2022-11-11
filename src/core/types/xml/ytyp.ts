@@ -1,41 +1,48 @@
 import { XMLDataEntry, XMLEntry } from './index';
 
-interface CEntityDef {
-  $: { type: string };
-  archetypeName: string;
-}
+import { CEntityDef } from './ymap';
 
-interface CMloRoomDef {
+export type CMloRoomDef = {
   name: string;
   portalCount: XMLDataEntry<{ value: string }>;
-}
+};
 
-interface CMloPortalDef {
+export type CMloPortalDef = {
   roomFrom: XMLDataEntry<{ value: string }>;
   roomTo: XMLDataEntry<{ value: string }>;
   flags: XMLDataEntry<{ value: string }>;
   attachedObjects: string;
-}
+};
 
-interface GenericArchetypeDef {
-  $: { type: 'CBaseArchetypeDef' | 'CEntityDef' | 'CMloRoomDef' };
-}
+export type CArchetypeDef = {
+  $: { type: string };
+  name: string;
+  lodDist: XMLDataEntry<{ value: string }>;
+  flags: XMLDataEntry<{ value: string }>;
+  bbMin: XMLDataEntry<{ x: string; y: string; z: string }>;
+  bbMax: XMLDataEntry<{ x: string; y: string; z: string }>;
+  bsCentre: XMLDataEntry<{ x: string; y: string; z: string }>;
+};
 
-export interface CMloArchetypeDef {
+export type CBaseArchetypeDef = CArchetypeDef & {
+  $: { type: 'CBaseArchetypeDef' };
+};
+
+export type CMloArchetypeDef = CArchetypeDef & {
   $: { type: 'CMloArchetypeDef' };
   entities: {
-    Item: CEntityDef[];
+    Item: CEntityDef | CEntityDef[];
   };
-  rooms: XMLEntry<{ itemType: string }, CMloRoomDef[]>;
-  portals: XMLEntry<{ itemType: string }, CMloPortalDef[]>;
-}
+  rooms: XMLEntry<{ itemType: string }, CMloRoomDef | CMloRoomDef[]>;
+  portals: XMLEntry<{ itemType: string }, CMloPortalDef | CMloPortalDef[]>;
+};
 
-export type ArchetypeEntry = CMloArchetypeDef | GenericArchetypeDef;
+export type Archetype = CBaseArchetypeDef | CMloArchetypeDef;
 
 export interface Ytyp {
   CMapTypes: {
     archetypes: {
-      Item: ArchetypeEntry | ArchetypeEntry[];
+      Item: Archetype | Archetype[];
     };
   };
 }
