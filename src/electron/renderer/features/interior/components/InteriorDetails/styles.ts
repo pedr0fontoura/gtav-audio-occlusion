@@ -67,11 +67,3 @@ export const Path = styled.p`
   white-space: nowrap;
   text-overflow: ellipsis;
 `;
-
-export const StyledButton = styled(Button)`
-  height: 90%;
-
-  padding: 4px;
-
-  font-size: 12px;
-`;
