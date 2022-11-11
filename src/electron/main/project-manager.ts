@@ -12,12 +12,12 @@ import { isXMLFilePath, isMapDataFilePath, isMapTypesFilePath } from '@/electron
 import { Ymap, Ytyp } from '@/core/types/xml';
 import { getCMloInstanceDef } from '@/core/game';
 
-import { Project } from './project';
-
-import { selectDirectory, selectFiles } from './files';
-import { Interior } from './interior';
 import { Application } from './app';
-import { forwardSerializedResult, sanitizePath } from './utils';
+
+import { Project } from './project';
+import { Interior } from './interior';
+
+import { forwardSerializedResult, sanitizePath, selectDirectory, selectFiles } from './utils';
 
 const MAP_DATA_FILE_FILTERS = [{ name: '#map files', extensions: ['ymap.xml'] }];
 const MAP_TYPES_FILE_FILTERS = [{ name: '#typ files', extensions: ['ytyp.xml'] }];
