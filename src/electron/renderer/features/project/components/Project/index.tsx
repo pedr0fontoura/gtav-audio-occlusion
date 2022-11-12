@@ -1,21 +1,25 @@
 import React, { useEffect, useMemo } from 'react';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes, FaFileDownload } from 'react-icons/fa';
 
 import { Container, Header, Content } from '@/electron/renderer/components/Page';
 
-import { Interior } from '@/electron/renderer/features/interior';
+import { Interior, InteriorDetails } from '@/electron/renderer/features/interior';
 
 import { useProject } from '../../context';
 
 import { CreateModal } from '../CreateModal';
 import { ProjectFileImporter } from '../ProjectFileImporter';
-import { InteriorDashboard } from '../InteriorDashboard';
 
 export const Project = (): JSX.Element => {
-  const { state, fetchProject, closeProject } = useProject();
+  const { state, fetchProject, closeProject, writeGeneratedFiles } = useProject();
 
   const options = useMemo(
     () => [
+      {
+        icon: <FaFileDownload />,
+        label: 'Write files',
+        onClick: writeGeneratedFiles,
+      },
       {
         icon: <FaTimes />,
         label: 'Close project',
@@ -56,7 +60,7 @@ export const Project = (): JSX.Element => {
 
             return (
               <Interior key={identifier} index={index} name={identifier}>
-                <InteriorDashboard />
+                <InteriorDetails />
               </Interior>
             );
           })}

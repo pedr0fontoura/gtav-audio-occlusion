@@ -1,6 +1,6 @@
 import { ipcMain, Event } from 'electron';
 
-import { err, isErr, ok, unwrapResult } from '@/electron/common';
+import { isErr, ok, unwrapResult } from '@/electron/common';
 
 import { InteriorAPI } from '@/electron/common/types/interior';
 import { SerializedNaOcclusionPortalEntityMetadata } from '@/electron/common/types/naOcclusionInteriorMetadata';
@@ -36,10 +36,6 @@ export class InteriorManager {
       (event: Event, identifier: string, roomIndex: number, data: Partial<SerializedInteriorAudioGameData>) =>
         this.updateInteriorRoomAudioGameData(identifier, roomIndex, data),
     );
-    ipcMain.handle(InteriorAPI.WRITE_NA_OCCLUSION_INTERIOR_METADATA, (event, identifier: string) =>
-      this.writeNaOcclusionInteriorMetadata(identifier),
-    );
-    ipcMain.handle(InteriorAPI.WRITE_DAT151, (event, identifier: string) => this.writeDat151(identifier));
   }
 
   public getInterior(identifier: string): Result<string, Interior> {
@@ -95,58 +91,5 @@ export class InteriorManager {
     if (!interiorRoomAudioGameData) return;
 
     Object.assign(interiorRoomAudioGameData, data);
-  }
-
-  public async writeNaOcclusionInteriorMetadata(identifier: string): Promise<Result<string, string>> {
-    const interiorResult = this.getInterior(identifier);
-    if (isErr(interiorResult)) return interiorResult;
-
-    const interior = unwrapResult(interiorResult);
-    if (!interior) {
-      return err('INTERIOR_NOT_FOUND');
-    }
-
-    const { naOcclusionInteriorMetadata, path } = interior;
-
-    let filePath: string;
-
-    try {
-      filePath = await this.application.codeWalkerFormat.writeNaOcclusionInteriorMetadata(
-        path,
-        naOcclusionInteriorMetadata,
-      );
-    } catch {
-      return err('FAILED_TO_WRITE');
-    }
-
-    interior.naOcclusionInteriorMetadataPath = filePath;
-
-    return ok(filePath);
-  }
-
-  public async writeDat151(identifier: string): Promise<Result<string, string>> {
-    const interiorResult = this.getInterior(identifier);
-    if (isErr(interiorResult)) return interiorResult;
-
-    const interior = unwrapResult(interiorResult);
-    if (!interior) {
-      return err('INTERIOR_NOT_FOUND');
-    }
-
-    const { interiorAudioGameData, interiorRoomAudioGameDataList, path } = interior;
-
-    const audioGameData = [interiorAudioGameData, ...interiorRoomAudioGameDataList];
-
-    let filePath: string;
-
-    try {
-      filePath = await this.application.codeWalkerFormat.writeDat151(path, audioGameData);
-    } catch {
-      return err('FAILED_TO_WRITE');
-    }
-
-    interior.audioGameDataPath = filePath;
-
-    return ok(filePath);
   }
 }

@@ -1,5 +1,5 @@
 import { CMapData, CMapTypes, CMloInstanceDef } from '@/core/game';
-import { naOcclusionInteriorMetadata } from '@/core/game/audio';
+import { AudioGameData, naOcclusionInteriorMetadata } from '@/core/game/audio';
 import { InteriorAudioGameData, InteriorRoomAudioGameData } from '@/core/game/audio';
 
 import {
@@ -64,6 +64,10 @@ export class Interior {
 
     this.naOcclusionInteriorMetadataPath = undefined;
     this.audioGameDataPath = undefined;
+  }
+
+  public getAudioGameData(): AudioGameData {
+    return [this.interiorAudioGameData, ...this.interiorRoomAudioGameDataList];
   }
 
   public serialize(): SerializedInterior {

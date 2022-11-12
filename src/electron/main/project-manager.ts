@@ -1,7 +1,7 @@
 import { ipcMain, Event } from 'electron';
 import path from 'path';
 
-import { err, isErr, ok } from '@/electron/common';
+import { err, isErr, ok, unwrapResult } from '@/electron/common';
 
 import { ProjectAPI } from '@/electron/common/types/project';
 import type { CreateProjectDTO } from '@/electron/common/types/project';
@@ -38,6 +38,7 @@ export class ProjectManager {
     ipcMain.handle(ProjectAPI.SELECT_PROJECT_PATH, this.selectProjectPath.bind(this));
     ipcMain.handle(ProjectAPI.SELECT_MAP_DATA_FILE, this.selectMapDataFile.bind(this));
     ipcMain.handle(ProjectAPI.SELECT_MAP_TYPES_FILE, this.selectMapTypesFile.bind(this));
+    ipcMain.handle(ProjectAPI.WRITE_GENERATED_FILES, this.writeGeneratedFiles.bind(this));
   }
 
   public getCurrentProject(): Result<string, Project> {
@@ -137,6 +138,78 @@ export class ProjectManager {
 
   public closeProject(): Result<string, boolean> {
     this.currentProject = null;
+
+    return ok(true);
+  }
+
+  public async writeInteriorsOcclusionMetadata(): Promise<Result<string, boolean>> {
+    const projectResult = this.application.projectManager.getCurrentProject();
+
+    if (isErr(projectResult)) {
+      return projectResult;
+    }
+
+    const project = unwrapResult(projectResult);
+
+    for (const interior of project.interiors) {
+      const { naOcclusionInteriorMetadata, path } = interior;
+
+      let filePath: string;
+
+      try {
+        filePath = await this.application.codeWalkerFormat.writeNaOcclusionInteriorMetadata(
+          path,
+          naOcclusionInteriorMetadata,
+        );
+      } catch {
+        return err('FAILED_TO_WRITE_NA_OCCLUSION_INTERIOR_METADATA_FILE');
+      }
+
+      interior.naOcclusionInteriorMetadataPath = filePath;
+    }
+
+    return ok(true);
+  }
+
+  public async writeDat151(): Promise<Result<string, string>> {
+    const projectResult = this.application.projectManager.getCurrentProject();
+
+    if (isErr(projectResult)) {
+      return projectResult;
+    }
+
+    const project = unwrapResult(projectResult);
+
+    const audioGameData = project.interiors.flatMap(interior => interior.getAudioGameData());
+
+    let filePath: string;
+
+    try {
+      filePath = await this.application.codeWalkerFormat.writeDat151(project.path, audioGameData);
+    } catch {
+      return err('FAILED_TO_WRITE_DAT_151_FILE');
+    }
+
+    project.interiors.forEach(interior => {
+      interior.audioGameDataPath = filePath;
+    });
+
+    return ok(filePath);
+  }
+
+  public async writeGeneratedFiles(): Promise<Result<string, boolean>> {
+    const [interiorsMetadataResult, dat151Result] = await Promise.all([
+      this.writeInteriorsOcclusionMetadata(),
+      this.writeDat151(),
+    ]);
+
+    if (isErr(interiorsMetadataResult)) {
+      return interiorsMetadataResult;
+    }
+
+    if (isErr(dat151Result)) {
+      return dat151Result;
+    }
 
     return ok(true);
   }

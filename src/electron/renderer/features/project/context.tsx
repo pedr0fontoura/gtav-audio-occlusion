@@ -16,6 +16,7 @@ interface IProjectContext {
   fetchProject: () => Promise<void>;
   createProject: () => Promise<void>;
   closeProject: () => Promise<void>;
+  writeGeneratedFiles: () => Promise<void>;
 
   createModalState: CreateProjectModalState;
   setCreateModalOpen: (open: boolean) => void;
@@ -89,6 +90,14 @@ const useProjectProvider = (): IProjectContext => {
     setState(undefined);
   };
 
+  const writeGeneratedFiles = async (): Promise<void> => {
+    const result: Result<string, boolean> = await API.invoke(ProjectAPI.WRITE_GENERATED_FILES);
+
+    if (isErr(result)) {
+      return console.warn(unwrapResult(result));
+    }
+  };
+
   const setCreateModalOpen = (open: boolean): void => {
     setCreateModalState(state => ({ ...state, open }));
   };
@@ -118,6 +127,7 @@ const useProjectProvider = (): IProjectContext => {
     fetchProject,
     createProject,
     closeProject,
+    writeGeneratedFiles,
 
     createModalState,
     setCreateModalOpen,
