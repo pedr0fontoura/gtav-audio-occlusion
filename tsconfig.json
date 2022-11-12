@@ -12,5 +12,6 @@
     "paths": {
       "@/*": ["*"]
     }
-  }
+  },
+  "exclude": ["node_modules", ".webpack", "packages"]
 }
