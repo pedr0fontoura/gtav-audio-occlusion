@@ -7,6 +7,13 @@ type naOcclusionPortalEntityMetadataConstructor = {
   linkType: number;
 };
 
+const DOOR_SUBSTRINGS = ['door'];
+const GLASS_SUBSTRINGS = ['glass', 'window', 'win'];
+
+const doesTextIncludeSomeSubstring = (text: string, substrings: string[]): boolean => {
+  return substrings.some(substring => text.includes(substring));
+};
+
 export class naOcclusionPortalEntityMetadata {
   public entity: CEntityDef;
   public entityModelHashKey: number;
@@ -23,8 +30,8 @@ export class naOcclusionPortalEntityMetadata {
 
     this.linkType = linkType;
 
-    this.isDoor = this.entity.archetypeName.includes('door');
-    this.isGlass = this.entity.archetypeName.includes('glass') || this.entity.archetypeName.includes('window');
+    this.isDoor = doesTextIncludeSomeSubstring(this.entity.archetypeName, DOOR_SUBSTRINGS);
+    this.isGlass = doesTextIncludeSomeSubstring(this.entity.archetypeName, GLASS_SUBSTRINGS);
 
     this.maxOcclusion = 0;
 
