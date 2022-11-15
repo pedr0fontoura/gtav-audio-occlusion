@@ -8,7 +8,11 @@ export type SerializedNaOcclusionPortalEntityMetadata = {
 };
 
 export type SerializedNaOcclusionPortalInfoMetadata = {
+  enabled: boolean;
+  portalIndex: number;
+  infoIndex: number;
   interiorProxyHash: number;
+  portalIdx: number;
   roomIdx: number;
   destInteriorHash: number;
   destRoomIdx: number;

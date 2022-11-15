@@ -93,7 +93,11 @@ export class Interior {
       naOcclusionInteriorMetadata: {
         interiorProxyHash,
         portalInfoList: portalInfoList.map(portalInfo => ({
+          enabled: portalInfo.enabled,
+          portalIndex: portalInfo.portalIndex,
+          infoIndex: portalInfo.infoIndex,
           interiorProxyHash: portalInfo.interiorProxyHash,
+          portalIdx: portalInfo.portalIdx,
           roomIdx: portalInfo.roomIdx,
           destInteriorHash: portalInfo.destInteriorHash,
           destRoomIdx: portalInfo.destRoomIdx,
