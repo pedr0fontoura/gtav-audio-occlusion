@@ -55,15 +55,36 @@ export class naOcclusionInteriorMetadata {
 
     const portalInfoList: naOcclusionPortalInfoMetadata[] = [];
 
-    archetype.rooms.forEach((room, roomIndex) => {
-      const roomPortals = archetype.getRoomPortals(roomIndex);
+    for (let roomIndex = 0; roomIndex < archetype.rooms.length; roomIndex++) {
+      let portalIdx = -1; // portal index relative to room
 
-      const roomPortalInfoList = roomPortals
-        .filter(portal => !isBitSet(portal.flags, 2))
-        .map((portal, portalIdx) => new naOcclusionPortalInfoMetadata(this, portal, portalIdx));
+      for (let portalIndex = 0; portalIndex < archetype.portals.length; portalIndex++) {
+        const portal = archetype.portals[portalIndex];
 
-      portalInfoList.push(...roomPortalInfoList);
-    });
+        if (isBitSet(portal.flags, 2)) continue;
+
+        if (portal.roomFrom !== roomIndex && portal.roomTo !== roomIndex) continue;
+
+        portalIdx++;
+
+        const isPortalFromThisRoom = portal.roomFrom === roomIndex;
+
+        const roomFrom = isPortalFromThisRoom ? portal.roomFrom : portal.roomTo;
+        const roomTo = isPortalFromThisRoom ? portal.roomTo : portal.roomFrom;
+
+        portalInfoList.push(
+          new naOcclusionPortalInfoMetadata({
+            portal,
+            portalIndex,
+            infoIndex: portalInfoList.length,
+            interiorMetadata: this,
+            portalIdx,
+            roomFrom,
+            roomTo,
+          }),
+        );
+      }
+    }
 
     return portalInfoList;
   }
