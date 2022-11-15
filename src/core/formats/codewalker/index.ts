@@ -301,7 +301,7 @@ export class CodeWalkerFormat {
             },
             PortalInfoIdx: {
               $: {
-                value: interiorMetadata.findPortalInfoIdx(pathNodeChild.portalInfo),
+                value: pathNodeChild.portalInfo.infoIndex,
               },
             },
           };
