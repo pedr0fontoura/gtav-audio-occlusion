@@ -37,14 +37,53 @@ $ yarn start
 
 ## Preview
 
-![Initial screen](.github/images/initial.png 'Initial screen')
-![Empty project](.github/images/snaily.png 'Empty project')
-![Create project modal](.github/images/create-project-modal.png 'Create project modal')
-![Project screen](.github/images/project.png 'Project screen')
-![Portals screen](.github/images/portals.png 'Portals screen')
-![Entities screen](.github/images/entities.png 'Entities screen')
-![Rooms screen](.github/images/rooms.png 'Rooms screen')
-![Settings screen](.github/images/settings.png 'Settings screen')
+<details>
+  <summary><b>Initial screen<b></summary>
+  
+  ![Initial screen](.github/images/initial.png 'Initial screen')
+</details>
+
+<details>
+  <summary><b>Empty project<b></summary>
+  
+  ![Empty project](.github/images/snaily.png 'Empty project')
+</details>
+
+<details>
+  <summary><b>Create project modal<b></summary>
+  
+  ![Create project modal](.github/images/create-project-modal.png 'Create project modal')
+</details>
+
+<details>
+  <summary><b>Project<b></summary>
+  
+  ![Project screen](.github/images/project.png 'Project screen')
+</details>
+
+<details>
+  <summary><b>Portals<b></summary>
+  
+  ![Portals screen](.github/images/portals.png 'Portals screen')
+</details>
+
+<details>
+  <summary><b>Entities<b></summary>
+  
+  ![Entities screen](.github/images/entities.png 'Entities screen')
+</details>
+
+<details>
+  <summary><b>Rooms<b></summary>
+  
+  ![Rooms screen](.github/images/rooms.png 'Rooms screen')
+</details>
+
+<details>
+  <summary><b>Settings<b></summary>
+  
+  ![Settings screen](.github/images/settings.png 'Settings screen')
+</details>
 
 ## Acknowledgements
 
