@@ -242,6 +242,7 @@ export class CodeWalkerFormat {
   public async writeNaOcclusionInteriorMetadata(
     targetPath: string,
     interiorMetadata: naOcclusionInteriorMetadata,
+    isDebug?: boolean,
   ): Promise<string> {
     const { portalInfoList, pathNodeList, interiorProxyHash } = interiorMetadata;
 
@@ -297,11 +298,17 @@ export class CodeWalkerFormat {
             PathNodeKey: {
               $: {
                 value: convertToInt32(pathNodeChild.pathNode.key),
+                debug: isDebug
+                  ? `${pathNodeChild.pathNode.nodeFrom.index} -> ${pathNodeChild.pathNode.nodeTo.index}`
+                  : undefined,
               },
             },
             PortalInfoIdx: {
               $: {
                 value: pathNodeChild.portalInfo.infoIndex,
+                debug: isDebug
+                  ? `${pathNodeChild.portalInfo.roomIdx} -> ${pathNodeChild.portalInfo.destRoomIdx}`
+                  : undefined,
               },
             },
           };
@@ -312,6 +319,7 @@ export class CodeWalkerFormat {
         Key: {
           $: {
             value: convertToInt32(pathNode.key),
+            debug: isDebug ? `${pathNode.nodeFrom.index} -> ${pathNode.nodeTo.index}` : undefined,
           },
         },
         PathNodeChildList: pathNodeChildListObject,
