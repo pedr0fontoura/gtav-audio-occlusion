@@ -162,6 +162,7 @@ export class ProjectManager {
         filePath = await this.application.codeWalkerFormat.writeNaOcclusionInteriorMetadata(
           path,
           naOcclusionInteriorMetadata,
+          this.application.settings.writeDebugInfoToXML,
         );
       } catch {
         return err('FAILED_TO_WRITE_NA_OCCLUSION_INTERIOR_METADATA_FILE');
