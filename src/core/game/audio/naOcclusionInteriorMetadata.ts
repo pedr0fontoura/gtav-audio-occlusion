@@ -89,6 +89,12 @@ export class naOcclusionInteriorMetadata {
     return portalInfoList;
   }
 
+  private findNodeRelevantPortals(node: Node): naOcclusionPortalInfoMetadata[] {
+    return this.portalInfoList.filter(
+      portalInfo => portalInfo.enabled && (portalInfo.roomIdx === node.index || portalInfo.destRoomIdx || node.index),
+    );
+  }
+
   public getNodes(): Node[] {
     const { archetype } = this.interior;
 
@@ -97,13 +103,13 @@ export class naOcclusionInteriorMetadata {
     for (const node of nodes) {
       const edges = new Set<Node>();
 
-      archetype.getRoomPortals(node.index).forEach(portal => {
-        if (portal.roomFrom === node.index) {
-          return edges.add(nodes.find(node => node.index === portal.roomTo));
+      this.findNodeRelevantPortals(node).forEach(portal => {
+        if (portal.roomIdx === node.index) {
+          return edges.add(nodes.find(node => node.index === portal.destRoomIdx));
         }
 
-        if (portal.roomTo === node.index) {
-          return edges.add(nodes.find(node => node.index === portal.roomFrom));
+        if (portal.destRoomIdx === node.index) {
+          return edges.add(nodes.find(node => node.index === portal.roomIdx));
         }
       });
 
@@ -242,5 +248,10 @@ export class naOcclusionInteriorMetadata {
     this.getPathsOfType(pathNodeList, 5, 4);
 
     return pathNodeList;
+  }
+
+  public refresh(): void {
+    this.nodes = this.getNodes();
+    this.pathNodeList = this.getPathNodeList();
   }
 }

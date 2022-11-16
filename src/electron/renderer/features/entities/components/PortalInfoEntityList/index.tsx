@@ -46,9 +46,10 @@ export const PortalInfoEntityList = (): JSX.Element => {
 
     let renderedPortals = 0;
 
-    portalInfoList.forEach((portalInfo, portalInfoIndex) => {
-      const { portalEntityList } = portalInfo;
+    portalInfoList.forEach(portalInfo => {
+      const { enabled, portalEntityList } = portalInfo;
 
+      if (!enabled) return;
       if (!portalEntityList.length) return;
 
       renderedPortals++;
@@ -59,11 +60,13 @@ export const PortalInfoEntityList = (): JSX.Element => {
       portalEntityList.forEach((portalEntity, portalEntityIndex) => {
         const { maxOcclusion, entityModelName, entityModelHashKey, isDoor, isGlass } = portalEntity;
 
+        const key = `${portalInfo.infoIndex}:${portalEntityIndex}`;
+
         const isFirstEntity = portalEntityIndex === 0;
 
         rows.push(
-          <tr key={`${portalInfoIndex}:${portalEntityIndex}`} className={isEven ? 'even' : 'odd'}>
-            {isFirstEntity && <td rowSpan={rowSpan}>{portalInfoIndex}</td>}
+          <tr key={key} className={isEven ? 'even' : 'odd'}>
+            {isFirstEntity && <td rowSpan={rowSpan}>{portalInfo.portalIndex}</td>}
             <td>{entityModelName ?? entityModelHashKey}</td>
             <td>
               <SmallInput
@@ -72,17 +75,22 @@ export const PortalInfoEntityList = (): JSX.Element => {
                 min={MAX_OCCLUSION_MIN}
                 max={MAX_OCCLUSION_MAX}
                 step={MAX_OCCLUSION_STEP}
-                onChange={e => updateMaxOcclusion(portalInfoIndex, portalEntityIndex, e.target.value)}
+                onChange={e => updateMaxOcclusion(portalInfo.infoIndex, portalEntityIndex, e.target.value)}
               />
             </td>
             <td>
-              {<Checkbox checked={isDoor} onClick={() => updateIsDoor(portalInfoIndex, portalEntityIndex, !isDoor)} />}
+              {
+                <Checkbox
+                  checked={isDoor}
+                  onClick={() => updateIsDoor(portalInfo.infoIndex, portalEntityIndex, !isDoor)}
+                />
+              }
             </td>
             <td>
               {
                 <Checkbox
                   checked={isGlass}
-                  onClick={() => updateIsGlass(portalInfoIndex, portalEntityIndex, !isGlass)}
+                  onClick={() => updateIsGlass(portalInfo.infoIndex, portalEntityIndex, !isGlass)}
                 />
               }
             </td>
