@@ -2,6 +2,8 @@ import { BrowserWindow } from 'electron';
 
 import { CodeWalkerFormat } from '@/core/formats/codewalker';
 
+import { Settings } from './settings';
+
 import { ProjectManager } from './project-manager';
 import { InteriorManager } from './interior-manager';
 
@@ -12,6 +14,8 @@ export class Application {
   private mainWindow: BrowserWindow;
 
   public codeWalkerFormat: CodeWalkerFormat;
+
+  public settings: Settings;
 
   public projectManager: ProjectManager;
   public interiorManager: InteriorManager;
@@ -24,6 +28,8 @@ export class Application {
     }
 
     this.codeWalkerFormat = new CodeWalkerFormat();
+
+    this.settings = new Settings();
 
     this.projectManager = new ProjectManager(this);
     this.interiorManager = new InteriorManager(this);
