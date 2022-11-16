@@ -1,27 +1,50 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
-type Settings = {
-  bulkEditPortalEntities: boolean;
-};
+import { isErr, unwrapResult } from '@/electron/common';
+
+import { SerializedSettings, SettingsAPI } from '@/electron/common/types/settings';
 
 type SettingsProviderProps = {
   children: React.ReactNode;
 };
 
 type SettingsContext = {
-  settings: Settings;
+  settings: SerializedSettings;
+  fetchSettings: () => Promise<void>;
+  updateSettings: (data: Partial<SerializedSettings>) => Promise<void>;
 };
 
-const INITIAL_SETTINGS: Settings = {
-  bulkEditPortalEntities: true,
-};
+const { API } = window;
 
 const settingsContext = createContext<SettingsContext>({} as SettingsContext);
 
 const useSettingsProvider = (): SettingsContext => {
-  const [settings, setSettings] = useState(INITIAL_SETTINGS);
+  const [settings, setSettings] = useState<SerializedSettings>();
 
-  return { settings };
+  const fetchSettings = async (): Promise<void> => {
+    const result: Result<string, SerializedSettings | undefined> = await API.invoke(SettingsAPI.GET);
+
+    if (isErr(result)) {
+      return console.warn(unwrapResult(result));
+    }
+
+    const settings = unwrapResult(result);
+    if (!settings) return;
+
+    setSettings(settings);
+  };
+
+  const updateSettings = async (data: Partial<SerializedSettings>): Promise<void> => {
+    API.send(SettingsAPI.SET, data);
+
+    await fetchSettings();
+  };
+
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+  return { settings, fetchSettings, updateSettings };
 };
 
 export const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {

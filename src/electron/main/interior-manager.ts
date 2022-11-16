@@ -97,12 +97,22 @@ export class InteriorManager {
 
     const { naOcclusionInteriorMetadata } = interior;
 
-    const portalInfo = naOcclusionInteriorMetadata.portalInfoList[portalInfoIndex];
+    const { portalInfoList } = naOcclusionInteriorMetadata;
+
+    const portalInfo = portalInfoList[portalInfoIndex];
     if (!portalInfo) return;
 
     const portalEntity = portalInfo.portalEntityList[entityIndex];
 
-    Object.assign(portalEntity, data);
+    if (this.application.settings.bulkEditPortalEntities) {
+      const portalEntities = portalInfoList.flatMap(portalInfo => portalInfo.portalEntityList);
+
+      portalEntities.forEach(
+        entity => entity.entityModelHashKey === portalEntity.entityModelHashKey && Object.assign(entity, data),
+      );
+    } else {
+      Object.assign(portalEntity, data);
+    }
   }
 
   public updateInteriorRoomAudioGameData(
