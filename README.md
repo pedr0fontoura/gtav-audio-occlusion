@@ -38,49 +38,49 @@ $ yarn start
 ## Preview
 
 <details>
-  <summary><b>Initial screen<b></summary>
+  <summary><b>Initial screen</b></summary>
   
   ![Initial screen](.github/images/initial.png 'Initial screen')
 </details>
 
 <details>
-  <summary><b>Empty project<b></summary>
+  <summary><b>Empty project</b></summary>
   
   ![Empty project](.github/images/snaily.png 'Empty project')
 </details>
 
 <details>
-  <summary><b>Create project modal<b></summary>
+  <summary><b>Create project modal</b></summary>
   
   ![Create project modal](.github/images/create-project-modal.png 'Create project modal')
 </details>
 
 <details>
-  <summary><b>Project<b></summary>
+  <summary><b>Project</b></summary>
   
   ![Project screen](.github/images/project.png 'Project screen')
 </details>
 
 <details>
-  <summary><b>Portals<b></summary>
+  <summary><b>Portals</b></summary>
   
   ![Portals screen](.github/images/portals.png 'Portals screen')
 </details>
 
 <details>
-  <summary><b>Entities<b></summary>
+  <summary><b>Entities</b></summary>
   
   ![Entities screen](.github/images/entities.png 'Entities screen')
 </details>
 
 <details>
-  <summary><b>Rooms<b></summary>
+  <summary><b>Rooms</b></summary>
   
   ![Rooms screen](.github/images/rooms.png 'Rooms screen')
 </details>
 
 <details>
-  <summary><b>Settings<b></summary>
+  <summary><b>Settings</b></summary>
   
   ![Settings screen](.github/images/settings.png 'Settings screen')
 </details>
