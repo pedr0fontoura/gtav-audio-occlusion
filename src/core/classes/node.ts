@@ -25,7 +25,9 @@ export class Node {
     this.index = index;
     this.key = this.room.name === 'limbo' ? joaat('outside') : this.interiorProxyHash ^ joaat(this.room.name);
 
-    this.portalInfoList = interiorMetadata.portalInfoList.filter(({ roomIdx }) => roomIdx === this.index);
+    this.portalInfoList = interiorMetadata.portalInfoList.filter(
+      ({ enabled, roomIdx }) => enabled && roomIdx === this.index,
+    );
 
     this.edges = [];
   }

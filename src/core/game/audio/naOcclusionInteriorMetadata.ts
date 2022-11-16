@@ -55,17 +55,44 @@ export class naOcclusionInteriorMetadata {
 
     const portalInfoList: naOcclusionPortalInfoMetadata[] = [];
 
-    archetype.rooms.forEach((room, roomIndex) => {
-      const roomPortals = archetype.getRoomPortals(roomIndex);
+    for (let roomIndex = 0; roomIndex < archetype.rooms.length; roomIndex++) {
+      let portalIdx = -1; // portal index relative to room
 
-      const roomPortalInfoList = roomPortals
-        .filter(portal => !isBitSet(portal.flags, 2))
-        .map((portal, portalIdx) => new naOcclusionPortalInfoMetadata(this, portal, portalIdx));
+      for (let portalIndex = 0; portalIndex < archetype.portals.length; portalIndex++) {
+        const portal = archetype.portals[portalIndex];
 
-      portalInfoList.push(...roomPortalInfoList);
-    });
+        if (isBitSet(portal.flags, 2)) continue;
+
+        if (portal.roomFrom !== roomIndex && portal.roomTo !== roomIndex) continue;
+
+        portalIdx++;
+
+        const isPortalFromThisRoom = portal.roomFrom === roomIndex;
+
+        const roomFrom = isPortalFromThisRoom ? portal.roomFrom : portal.roomTo;
+        const roomTo = isPortalFromThisRoom ? portal.roomTo : portal.roomFrom;
+
+        portalInfoList.push(
+          new naOcclusionPortalInfoMetadata({
+            portal,
+            portalIndex,
+            infoIndex: portalInfoList.length,
+            interiorMetadata: this,
+            portalIdx,
+            roomFrom,
+            roomTo,
+          }),
+        );
+      }
+    }
 
     return portalInfoList;
+  }
+
+  private findNodeRelevantPortals(node: Node): naOcclusionPortalInfoMetadata[] {
+    return this.portalInfoList.filter(
+      portalInfo => portalInfo.enabled && (portalInfo.roomIdx === node.index || portalInfo.destRoomIdx || node.index),
+    );
   }
 
   public getNodes(): Node[] {
@@ -76,13 +103,13 @@ export class naOcclusionInteriorMetadata {
     for (const node of nodes) {
       const edges = new Set<Node>();
 
-      archetype.getRoomPortals(node.index).forEach(portal => {
-        if (portal.roomFrom === node.index) {
-          return edges.add(nodes.find(node => node.index === portal.roomTo));
+      this.findNodeRelevantPortals(node).forEach(portal => {
+        if (portal.roomIdx === node.index) {
+          return edges.add(nodes.find(node => node.index === portal.destRoomIdx));
         }
 
-        if (portal.roomTo === node.index) {
-          return edges.add(nodes.find(node => node.index === portal.roomFrom));
+        if (portal.destRoomIdx === node.index) {
+          return edges.add(nodes.find(node => node.index === portal.roomIdx));
         }
       });
 
@@ -223,13 +250,8 @@ export class naOcclusionInteriorMetadata {
     return pathNodeList;
   }
 
-  public findPortalInfoIdx(portalInfo: naOcclusionPortalInfoMetadata): number {
-    return this.portalInfoList.findIndex(
-      ({ interiorProxyHash, portalIdx, roomIdx, destRoomIdx }) =>
-        interiorProxyHash === portalInfo.interiorProxyHash &&
-        portalIdx === portalInfo.portalIdx &&
-        roomIdx === portalInfo.roomIdx &&
-        destRoomIdx === portalInfo.destRoomIdx,
-    );
+  public refresh(): void {
+    this.nodes = this.getNodes();
+    this.pathNodeList = this.getPathNodeList();
   }
 }

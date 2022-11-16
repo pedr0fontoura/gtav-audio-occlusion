@@ -154,6 +154,8 @@ export class ProjectManager {
     for (const interior of project.interiors) {
       const { naOcclusionInteriorMetadata, path } = interior;
 
+      naOcclusionInteriorMetadata.refresh();
+
       let filePath: string;
 
       try {
