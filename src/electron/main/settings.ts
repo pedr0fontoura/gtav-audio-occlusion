@@ -17,7 +17,7 @@ export class Settings {
   public writeDebugInfoToXML: boolean;
 
   constructor() {
-    this.bulkEditPortalEntities = true;
+    this.bulkEditPortalEntities = false;
     this.writeDebugInfoToXML = false;
 
     ipcMain.handle(SettingsAPI.GET, this.serialize.bind(this));
