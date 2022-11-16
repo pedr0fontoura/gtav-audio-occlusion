@@ -37,16 +37,16 @@ $ yarn start
 
 ## Preview
 
-![Initial screen](.github/initial.png 'Initial screen')
-![Empty project](.github/snaily.png 'Empty project')
-![Create project modal](.github/create-project-modal.png 'Create project modal')
-![Project screen](.github/project.png 'Project screen')
-![Portals screen](.github/portals.png 'Portals screen')
-![Entities screen](.github/entities.png 'Entities screen')
-![Rooms screen](.github/rooms.png 'Rooms screen')
-![Settings screen](.github/settings.png 'Settings screen')
+![Initial screen](.github/images/initial.png 'Initial screen')
+![Empty project](.github/images/snaily.png 'Empty project')
+![Create project modal](.github/images/create-project-modal.png 'Create project modal')
+![Project screen](.github/images/project.png 'Project screen')
+![Portals screen](.github/images/portals.png 'Portals screen')
+![Entities screen](.github/images/entities.png 'Entities screen')
+![Rooms screen](.github/images/rooms.png 'Rooms screen')
+![Settings screen](.github/images/settings.png 'Settings screen')
 
 ## Acknowledgements
 
-- [Nikez](https://github.com/nikez/gtav_audio_occlusion_documentation) for the initial documentation about audio occlusion.
+- [Nikez](https://github.com/nikez) for the initial documentation about audio occlusion.
 - [appricotflower821](https://github.com/tangerinenuistance5) for the rage.re research and the path nodes original algorithm.
