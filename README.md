@@ -2,19 +2,40 @@
 
 A tool for generating audio occlusion for V MLOs.
 
-If you don't know what is interior's audio occlusion or how it works on V, I suggest you read the research notes, [Nikez's documentation](https://github.com/nikez/gtav_audio_occlusion_documentation), and the [rage.re topic](https://rage.re/docs?topic=40) about it.
-
-This tool uses the CodeWalker XML format, so you need to extract/import game files with [CodeWalker](https://github.com/dexyfex/CodeWalker) before using the generated files.
+It was created as an incentive to help the community move to [FiveM](https://fivem.net/)'s native audio system.
 
 ## Disclaimer
 
-This tool was made incentivize and make the transition to using [FiveM](https://fivem.net/)'s native audio system easier for the community.
+This tool uses the CodeWalker XML format, so you need to extract/import game files with [CodeWalker](https://github.com/dexyfex/CodeWalker) before using the generated files.
 
-If you're totally unsatisfied with this tool, there is another public audio occlusion tool you can try [here](https://github.com/tangerinenuistance5/OcclusionGenerator).
+If you don't know what is audio occlusion or how it works on V, the following content will be useful to you:
+
+- [Nikez's documentation](https://github.com/nikez/gtav_audio_occlusion_documentation)
+- [gtadps audio occlusion guide on rage.re](https://rage.re/docs?topic=40)
+
+## Installation
+
+**Download**
+
+Get the latest version of the tool from the [releases](https://github.com/pedr0fontoura/gtav-audio-occlusion/releases) section.
+
+**Build (for developers)**
+
+```bash
+# Clone this repository
+$ git clone https://github.com/pedr0fontoura/gtav-audio-occlusion
+
+# Navigate to the repo directory
+$ cd gtav-audio-occlusion
+
+# Install the project dependencies
+$ yarn
+
+# Run the tool
+$ yarn start
+```
 
 ## Preview
-
-The screenshots below may **not** represent exactly how the tool look or work.
 
 ![Initial screen](.github/initial.png 'Initial screen')
 ![Empty project](.github/snaily.png 'Empty project')
@@ -24,12 +45,6 @@ The screenshots below may **not** represent exactly how the tool look or work.
 ![Entities screen](.github/entities.png 'Entities screen')
 ![Rooms screen](.github/rooms.png 'Rooms screen')
 ![Settings screen](.github/settings.png 'Settings screen')
-
-## Installation
-
-**Download**
-
-Get the latest version of the tool from the [releases](https://github.com/pedr0fontoura/gtav-audio-occlusion/releases) section.
 
 ## Acknowledgements
 
