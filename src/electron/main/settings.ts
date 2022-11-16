@@ -1,5 +1,7 @@
 import { ipcMain, Event } from 'electron';
 
+import { ok } from '@/electron/common';
+
 import { SerializedSettings, SettingsAPI } from '@/electron/common/types/settings';
 
 const hasStrangeProperty = <T>(object: T, properties: (keyof T)[]): boolean => {
@@ -30,12 +32,12 @@ export class Settings {
     Object.assign(this, data);
   }
 
-  public serialize(): SerializedSettings {
+  public serialize(): Result<string, SerializedSettings> {
     const { bulkEditPortalEntities, writeDebugInfoToXML } = this;
 
-    return {
+    return ok({
       bulkEditPortalEntities,
       writeDebugInfoToXML,
-    };
+    });
   }
 }
