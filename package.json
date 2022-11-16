@@ -1,8 +1,9 @@
 {
   "name": "gtav-audio-occlusion",
-  "version": "1.0.0",
-  "author": "https://github.com/snakewiz",
-  "main": "./.webpack/main/index.js",
+  "version": "2.0.0",
+  "author": "https://github.com/pedr0fontoura",
+  "description": "A tool for generating audio occlusion for V MLOs.",
+  "main": "./.webpack/main",
   "license": "MIT",
   "scripts": {
     "start": "electron-forge start",
@@ -14,13 +15,18 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "name": "V Audio Occlusion",
-        "executableName": "v-audio-occlusion",
+        "name": "gtav-audio-occlusion",
+        "executableName": "gtav-audio-occlusion",
         "icon": "./src/electron/renderer/assets/icon",
         "extraResource": [
           "./src/electron/renderer/assets"
         ]
       },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-zip"
+        }
+      ],
       "plugins": [
         [
           "@electron-forge/plugin-webpack",
@@ -51,6 +57,7 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
     "@electron-forge/cli": "^6.0.0-beta.67",
+    "@electron-forge/maker-zip": "^6.0.3",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.67",
     "@types/jest": "^29.0.3",
     "@types/node": "^15.0.1",
