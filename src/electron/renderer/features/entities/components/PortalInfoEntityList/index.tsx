@@ -46,58 +46,64 @@ export const PortalInfoEntityList = (): JSX.Element => {
 
     let renderedPortals = 0;
 
-    portalInfoList.forEach(portalInfo => {
-      const { enabled, portalEntityList } = portalInfo;
+    portalInfoList
+      .sort((a, b) => a.portalIndex - b.portalIndex)
+      .forEach(portalInfo => {
+        const { portalEntityList } = portalInfo;
 
-      if (!enabled) return;
-      if (!portalEntityList.length) return;
+        if (!portalEntityList.length) return;
 
-      renderedPortals++;
+        renderedPortals++;
 
-      const isEven = (renderedPortals + 1) % 2 === 0;
-      const rowSpan = portalEntityList.length;
+        const isEven = (renderedPortals + 1) % 2 === 0;
+        const rowSpan = portalEntityList.length;
 
-      portalEntityList.forEach((portalEntity, portalEntityIndex) => {
-        const { maxOcclusion, entityModelName, entityModelHashKey, isDoor, isGlass } = portalEntity;
+        portalEntityList.forEach((portalEntity, portalEntityIndex) => {
+          const { maxOcclusion, entityModelName, entityModelHashKey, isDoor, isGlass } = portalEntity;
 
-        const key = `${portalInfo.infoIndex}:${portalEntityIndex}`;
+          const key = `${portalInfo.infoIndex}:${portalEntityIndex}`;
 
-        const isFirstEntity = portalEntityIndex === 0;
+          const isFirstEntity = portalEntityIndex === 0;
 
-        rows.push(
-          <tr key={key} className={isEven ? 'even' : 'odd'}>
-            {isFirstEntity && <td rowSpan={rowSpan}>{portalInfo.portalIndex}</td>}
-            <td>{entityModelName ?? entityModelHashKey}</td>
-            <td>
-              <SmallInput
-                value={maxOcclusion}
-                type="number"
-                min={MAX_OCCLUSION_MIN}
-                max={MAX_OCCLUSION_MAX}
-                step={MAX_OCCLUSION_STEP}
-                onChange={e => updateMaxOcclusion(portalInfo.infoIndex, portalEntityIndex, e.target.value)}
-              />
-            </td>
-            <td>
-              {
-                <Checkbox
-                  checked={isDoor}
-                  onClick={() => updateIsDoor(portalInfo.infoIndex, portalEntityIndex, !isDoor)}
+          rows.push(
+            <tr key={key} className={isEven ? 'even' : 'odd'}>
+              {isFirstEntity && (
+                <>
+                  <td rowSpan={rowSpan}>{portalInfo.portalIndex}</td>
+                  <td rowSpan={rowSpan}>{`${portalInfo.roomIdx} -> ${portalInfo.destRoomIdx}`}</td>
+                </>
+              )}
+              <td>{entityModelName ?? entityModelHashKey}</td>
+              <td>
+                <SmallInput
+                  value={maxOcclusion}
+                  type="number"
+                  min={MAX_OCCLUSION_MIN}
+                  max={MAX_OCCLUSION_MAX}
+                  step={MAX_OCCLUSION_STEP}
+                  onChange={e => updateMaxOcclusion(portalInfo.infoIndex, portalEntityIndex, e.target.value)}
                 />
-              }
-            </td>
-            <td>
-              {
-                <Checkbox
-                  checked={isGlass}
-                  onClick={() => updateIsGlass(portalInfo.infoIndex, portalEntityIndex, !isGlass)}
-                />
-              }
-            </td>
-          </tr>,
-        );
+              </td>
+              <td>
+                {
+                  <Checkbox
+                    checked={isDoor}
+                    onClick={() => updateIsDoor(portalInfo.infoIndex, portalEntityIndex, !isDoor)}
+                  />
+                }
+              </td>
+              <td>
+                {
+                  <Checkbox
+                    checked={isGlass}
+                    onClick={() => updateIsGlass(portalInfo.infoIndex, portalEntityIndex, !isGlass)}
+                  />
+                }
+              </td>
+            </tr>,
+          );
+        });
       });
-    });
 
     return rows;
   };
@@ -107,7 +113,8 @@ export const PortalInfoEntityList = (): JSX.Element => {
       <Table alternatedRowColors={false}>
         <thead>
           <tr>
-            <th>Portal</th>
+            <th>Portal index</th>
+            <th>Rooms</th>
             <th>Model</th>
             <th>Max occlusion</th>
             <th>Is door</th>
