@@ -39,8 +39,8 @@ export const PortalInfoList = (): JSX.Element => {
             .map(portalInfo => (
               <tr key={portalInfo.infoIndex}>
                 <td>{portalInfo.portalIndex}</td>
-                <td>{portalInfo.roomIdx}</td>
                 <td>{portalInfo.destRoomIdx}</td>
+                <td>{portalInfo.roomIdx}</td>
                 <td>{portalInfo.interiorProxyHash}</td>
                 <td>{portalInfo.destInteriorHash}</td>
                 <td>
