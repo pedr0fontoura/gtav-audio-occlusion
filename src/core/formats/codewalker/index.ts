@@ -339,7 +339,7 @@ export class CodeWalkerFormat {
       },
     };
 
-    const filePath = path.resolve(targetPath, `${interiorProxyHash}.ymt.pso.xml`);
+    const filePath = path.resolve(targetPath, `${interiorProxyHash >>> 0}.ymt.pso.xml`);
 
     await this.writeFile(filePath, naOcclusionInteriorMetadataObject);
 
