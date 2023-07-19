@@ -46,7 +46,7 @@ interface Patch {
   ApplyFactorCurve: string;
   ApplyVariable: string;
   ApplySmoothRate: XMLDataEntry<{ value: string | number }>;
-  Pactches: {
+  Patches: {
     Item: PatchItem[];
   };
 }
