@@ -19,11 +19,11 @@ interface Scene {
 }
 
 interface PatchItem {
-  Unk01: string;
-  Unk02: XMLDataEntry<{ value: string | number }>;
+  Category: string;
+  Volume: XMLDataEntry<{ value: string | number }>;
   Unk03: XMLDataEntry<{ value: string | number }>;
-  Unk04: XMLDataEntry<{ value: string | number }>;
-  Unk05: XMLDataEntry<{ value: string | number }>;
+  LPFCutoff: XMLDataEntry<{ value: string | number }>;
+  HPFCutoff: XMLDataEntry<{ value: string | number }>;
   Unk06: XMLDataEntry<{ value: string | number }>;
   Unk07: XMLDataEntry<{ value: string | number }>;
   Unk08: XMLDataEntry<{ value: string | number }>;
@@ -39,14 +39,14 @@ interface Patch {
   };
   Name: string;
   Flags: XMLDataEntry<{ value: string | number }>;
-  Unk01: XMLDataEntry<{ value: string | number }>;
-  Unk02: XMLDataEntry<{ value: string | number }>;
-  Unk03: XMLDataEntry<{ value: string | number }>;
-  Unk04: XMLDataEntry<{ value: string | number }>;
-  Unk05: string;
-  Unk06: string;
-  Unk07: XMLDataEntry<{ value: string | number }>;
-  Items: {
+  FadeIn: XMLDataEntry<{ value: string | number }>;
+  FadeOut: XMLDataEntry<{ value: string | number }>;
+  PreDelay: XMLDataEntry<{ value: string | number }>;
+  Duration: XMLDataEntry<{ value: string | number }>;
+  ApplyFactorCurve: string;
+  ApplyVariable: string;
+  ApplySmoothRate: XMLDataEntry<{ value: string | number }>;
+  Patches: {
     Item: PatchItem[];
   };
 }
